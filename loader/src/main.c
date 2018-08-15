@@ -6,7 +6,7 @@ const TASKDIALOG_BUTTON botoes[] = {
     {102, L"Prisma Barreiro"},
 };
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow) {
   TASKDIALOGCONFIG dialogo = {0};
   
   dialogo.cbSize = sizeof(dialogo);

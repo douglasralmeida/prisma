@@ -1,4 +1,4 @@
-; Script para o instalador das Configurações de Belo Horizonte para Prisma
+﻿; Script para o instalador das Configurações de Belo Horizonte para Prisma
 
 #define MyAppName "Configurações de Belo Horizonte para Prisma"
 #define MyAppVersion "1.0.0"
