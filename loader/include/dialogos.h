@@ -1,6 +1,8 @@
 #ifndef _DIALOGOS_H_
 #define _DIALOGOS_H_
 
-void msgerro(char* msg);
+#include <wchar.h>
+
+void msgerro(wchar_t* msg);
 
 #endif
