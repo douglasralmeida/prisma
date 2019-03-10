@@ -82,7 +82,7 @@ TASKDIALOG_BUTTON* botoes_criar(maquina_t* maquinas, int quantidade) {
     int i;
     TASKDIALOG_BUTTON* botoes;
 
-    botoes = (TASKDIALOG_BUTTON*)malloc(sizeof(TASKDIALOG_BUTTON) * quantidade);
+botoes = (TASKDIALOG_BUTTON*)malloc(sizeof(TASKDIALOG_BUTTON) * quantidade);
     if (botoes) {
         for (i = 0; i < quantidade; i++) {
             botoes[i].nButtonID = 100 + i;
