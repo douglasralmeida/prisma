@@ -1,0 +1,342 @@
+﻿UXSPO511                                           ;APS Digital Porto Alegre;19001010
+UXSPO504                  ;APS Porto Alegre Centro;19001020
+UXSPO504                  ;APS Porto Alegre Partenon Desativada;19001050
+UXSPO504                  ;APS Porto Alegre Partenon;19001120
+UXSPO504                  ;APSADJ Porto Alegre;19001110
+UXSPO504                  ;APS Cachoeirinha;19021010
+UXSPO504                  ;APS Canoas;19021020
+UXSPO504                  ;APS Esteio;19021030
+UXSPO504                  ;APS Gravataí;19021040
+UXSPO504                  ;APS Guaíba;19021050
+UXSPO504                  ;APS Osório;19021060
+UXSPO504                  ;PrevCidade Tramandaí;19021066
+UXSPO504                  ;APS São Jerônimo;19021070
+UXSPO504                  ;APS Torres;19021080
+UXSPO504                  ;APS Butiá;19021090
+UXSPO504                  ;PrevMovel Canoas;19021100
+UXSPO504                  ;APS Santo Antônio da Patrulha;19021110
+UXSPO504                  ;APSADJ Canoas;19021120
+UXSPO504                  ;EADJ Canoas;19021902
+UXSPO504                  ;APS Cerro Largo;19023010
+UXSPO504                  ;APS Cruz Alta;19023020
+UXSPO504                  ;APS Palmeira das Missões;19023050
+UXSPO504                  ;APS Panambi;19023060
+UXSPO504                  ;APS Três de Maio;19023100
+UXSPO504                  ;APS Giruá;19023120
+UXSPO504                  ;APS Horizontina;19023130
+UXSPO504                  ;APS Ibirubá;19023140
+UXSPO504                  ;APS Porto Lucena;19023160
+UXSPO504                  ;APS Campo Bom;19024010
+UXSPO504                  ;APS Dois Irmãos;19024020
+UXSPO504                  ;APS Encantado;19024030
+UXSPO504                  ;APS Estrela;19024040
+UXSPO504                  ;PrevCidade Teutônia;19024046
+UXSPO504                  ;PrevCidade Ivoti;19024076
+UXSPO504                  ;PrevCidade Portão;19024086
+UXSPO504                  ;APS São Sebastião do Caí;19024090
+UXSPO504                  ;APS Sapiranga;19024100
+UXSPO504                  ;APS Taquara;19024110
+UXSPO504                  ;PrevCidade Parobé;19024116
+UXSPO504                  ;PrevCidade São Francisco de Paula;19024118
+UXSPO504                  ;APS Taquari;19024120
+UXSPO504                  ;PrevMóvel Novo Hamburgo;19024140
+UXSPO504                  ;APS Teutônia;19024150
+UXSPO504                  ;APSADJ Novo Hamburgo;19024160
+UXSPO504                  ;APS Portão;19024170
+UXSPO511                                           ;APS Igrejinha;19024180
+UXSPO511;APS Três Coroas;19024190
+UXSPO504                  ;APS Passo Fundo;19025050
+UXSPO504                  ;PrevMovel Passo Fundo;19025100
+UXSPO504                  ;APS Espumoso;19025120
+UXSPO504                  ;APS ADJ Passo Fundo;19025130
+UXSPO504                  ;APS Sarandi;19025140
+UXSPO504                  ;EADJ Passo Fundo;19025902
+UXSPO504                  ;APS Camaquã;19026020
+UXSPO504                  ;APS Jaguarão;19026030
+UXSPO504                  ;APS São Lourenço do Sul;19026060
+UXSPO504                  ;APS Canguçu;19026070
+UXSPO504                  ;APS Santa Vitória do Palmar;19026090
+UXSPO504                  ;APS Tapes;19026100
+UXSPO504                  ;APSADJ Pelotas;19026110
+UXSPO504                  ;APS Capão do Leão;19026120
+UXSPO504                  ;APS São José do Norte;19026130
+UXSPO504                  ;APS Piratini;19026140
+UXSPO504                  ;APS Uruguaiana;19028050
+UXSPO504                  ;PrevMovel Uruguaiana;19028080
+UXSPO504                  ;EADJ Uruguaiana;19028902
+UXSPO508                                ;APS Porto Alegre Norte;19001040
+UXSPO508                                ;APS Frederico Westphalen;19023030
+UXSPO508                                ;APS Ijuí;19023040
+UXSPO508                                ;APS Santa Rosa;19023070
+UXSPO508                                ;APS Santo Angelo;19023080
+UXSPO508                                ;APS São Luiz Gonzaga;19023090
+UXSPO508                                ;APS Três Passos;19023110
+UXSPO508                                ;PrevMovel Ijuí;19023150
+UXSPO508                                ;APSADJ Ijuí;19023170
+UXSPO508                                ;EADJ Ijuí;19023902
+UXSPO508                                ;APS Carazinho;19025010
+UXSPO508                                ;APS Erechim;19025020
+UXSPO508                                ;APS Bagé;19026010
+UXSPO508                                ;APS Pelotas;19026040
+UXSPO508                                ;PrevCidade Piratini;19026046
+UXSPO508                                ;APS Rio Grande;19026050
+UXSPO508                                ;PrevMovel Pelotas;19026080
+UXSPO508                                ;EADJ Pelotas;19026902
+UXSPO508                                ;APS Cachoeira do Sul;19027020
+UXSPO508                                ;APS Santa Cruz do Sul;19027050
+UXSPO508                                ;APS Santa Maria;19027060
+UXSPO508                                ;APS Venâncio Aires;19027080
+UXSPO508                                ;APS Móvel Santa Maria;19027110
+UXSPO508                                ;APSADJ Santa Maria;19027140
+UXSPO508                                ;APS Encruzilhada do Sul;19027150
+UXSPO508                                ;EADJ Santa Maria;19027902
+UXSPO511                                           ;APS Porto Alegre Petrópolis;19001060
+UXSPO511                                           ;APS Porto Alegre Sul;19001070
+UXSPO511                                           ;APS Viamão;19001080
+UXSPO511                                           ;APS Alvorada;19001090
+UXSPO511                                           ;APS Bento Gonçalves;19022010
+UXSPO511                                           ;APS Canela;19022020
+UXSPO511                                           ;APS Caxias do Sul;19022030
+UXSPO511                                           ;APS Farroupilha;19022040
+UXSPO511                                           ;APS Garibaldi;19022050
+UXSPO511                                           ;APS Vacaria;19022060
+UXSPO511                                           ;APS Veranópolis;19022070
+UXSPO511                                           ;APS Nova Prata;19022080
+UXSPO511                                           ;APSADJ Caxias do Sul;19022090
+UXSPO511                                           ;APS Carlos Barbosa;19022100
+UXSPO511                                           ;APS Flores da Cunha;19022110
+UXSPO511                                           ;EADJ Caxias do Sul;19022902
+UXSPO511                                           ;APS Lajeado;19024050
+UXSPO511                                           ;APS Montenegro;19024060
+UXSPO511                                           ;APS Novo Hamburgo;19024070
+UXSPO511                                           ;APS São Leopoldo;19024080
+UXSPO511                                           ;Unidade Itinerante Novo Hamburgo;19024820
+UXSPO511                                           ;EADJ Novo Hamburgo;19024902
+UXSPO511                                           ;APS Guaporé;19025030
+UXSPO511                                           ;APS Lagoa Vermelha;19025040
+UXSPO511                                           ;APS Soledade;19025060
+UXSPO511                                           ;APS Casca;19025070
+UXSPO511                                           ;APS Getúlio Vargas;19025080
+UXSPO511                                           ;APS Marau;19025090
+UXSPO511                                           ;APS Serafina Correa;19025110
+UXSPO511                                           ;APS Caçapava do Sul;19027010
+UXSPO511                                           ;APS Candelária;19027030
+UXSPO511                                           ;APS Rio Pardo;19027040
+UXSPO511                                           ;PrevCidade Encruzilhada do Sul;19027046
+UXSPO511                                           ;PrevCidade Faxinal do Soturno;19027066
+UXSPO511                                           ;PrevCidade São Sepé;19027067
+UXSPO511                                           ;APS Santiago;19027070
+UXSPO511                                           ;APS Cacequi;19027090
+UXSPO511                                           ;APS Júlio de Castilhos;19027100
+UXSPO511                                           ;APS Sobradinho;19027120
+UXSPO511                                           ;APS Tupancireta;19027130
+UXSPO511                                           ;Setor ADJ Uruguaiana;19028003
+UXSPO511                                           ;APS Alegrete;19028010
+UXSPO511                                           ;APS Santana do Livramento;19028020
+UXSPO511                                           ;APS São Borja;19028030
+UXSPO511                                           ;APS São Gabriel;19028040
+UXSPO511                                           ;APS Dom Pedrito;19028060
+UXSPO511                                           ;APS Itaqui;19028070
+UXSPO511                                           ;Aps Quaraí;19028100
+UXSPO511                                           ;APS Rosário do Sul;19028090
+UXSPO503                 ;APS Imbituba;20001050
+UXSPO503                 ;APS Lages;20001060
+UXSPO503                 ;APS Tijucas;20001090
+UXSPO503                 ;APSADJ Florianópolis;20001120
+UXSPO503                 ;APS Blumenau;20021010
+UXSPO503                 ;PrevCidade Gaspar;20021016
+UXSPO503                 ;APS Brusque;20021020
+UXSPO503                 ;PrevCidade Taio;20021066
+UXSPO503                 ;PrevCidade Ituporanga;20021067
+UXSPO503                 ;Prevmovel Blumenau;20021090
+UXSPO503                 ;APSADJ Blumenau;20021100
+UXSPO503                 ;APS Penha;20021110
+UXSPO503                 ;APS Pomerode;20021120
+UXSPO503                 ;EADJ Blumenau;20021902
+UXSPO503                 ;APS Caçador;20022010
+UXSPO503                 ;APS Chapecó;20022020
+UXSPO503                 ;APS Concórdia;20022030
+UXSPO503                 ;APS Joaçaba;20022040
+UXSPO503                 ;APS São Miguel do Oeste;20022070
+UXSPO503                 ;APS Videira;20022080
+UXSPO503                 ;APS Xanxerê;20022090
+UXSPO503                 ;APS Campos Novos;20022100
+UXSPO503                 ;APS Capinzal;20022110
+UXSPO503                 ;APS Pinhalzinho;20022140
+UXSPO503                 ;APS Porto União;20022150
+UXSPO503                 ;APS Xaxim;20022160
+UXSPO503                 ;APSADJ Chapecó;20022170
+UXSPO503                 ;APS Dionísio Cerqueira;20022180
+UXSPO503                 ;EADJ Chapecó;20022902
+UXSPO503                 ;APS Araranguá;20023010
+UXSPO503                 ;APS Orleans;20023050
+UXSPO503                 ;APS Urussanga;20023070
+UXSPO503                 ;APS Içara;20023080
+UXSPO503                 ;APS Lauro Muller;20023090
+UXSPO503                 ;APSADJ Joinville;20023120
+UXSPO507                       ;APS Capivari de Baixo;20023140
+UXSPO503                 ;APS Jaraguá do Sul;20024020
+UXSPO503                 ;APS São Bento do Sul;20024050
+UXSPO503                 ;EADJ Joinville;20024902
+UXSPO507                       ;APS Biguaçu;20001010
+UXSPO507                       ;APS Curitibanos;20001020
+UXSPO507                       ;APS Florianópolis Centro;20001030
+UXSPO507                       ;APS Florianópolis Continente;20001040
+UXSPO507                       ;APS Palhoça;20001070
+UXSPO507                       ;APS São José;20001080
+UXSPO507                       ;APS Alfredo Wagner;20001100
+UXSPO507                       ;APS São Joaquim;20001110
+UXSPO507                       ;APS AAI Florianópolis;20001130
+UXSPO507                       ;APS Itapema;20001140
+UXSPO507                       ;APS Digital Florianópolis;20001150
+NAOCADASTRADO;APS CEAB RD SRIII;20001800
+NAOCADASTRADO;APS CEAB ADJ SRIII;20001820
+NAOCADASTRADO;APS CEAB Manutenção SRIII;20001860
+UXSPO507                       ;APS Ibirama;20021030
+UXSPO507                       ;APS Indaial;20021040
+UXSPO507                       ;APS Itajaí;20021050
+UXSPO507                       ;APS Rio do Sul;20021060
+UXSPO507                       ;APS Timbó;20021070
+UXSPO507                       ;APS Balneário Camboriú;20021080
+UXSPO507                       ;APS Maravilha;20022050
+UXSPO507                       ;APS São Lourenço do Oeste;20022060
+UXSPO507                       ;APS Fraiburgo;20022120
+UXSPO507                       ;APS Braço do Norte;20023020
+UXSPO507                       ;APS Criciúma;20023030
+UXSPO507                       ;APS Laguna;20023040
+UXSPO507                       ;APS Tubarão;20023060
+UXSPO507                       ;PrevMovel Criciúma;20023100
+UXSPO507                       ;APS Sombrio;20023110
+UXSPO507                       ;PREVCIDADE PRAIA GRANDE;20023116
+UXSPO507                       ;APS Forquilhinha;20023130
+UXSPO507                       ;EADJ Criciúma;20023902
+UXSPO507                       ;APS Canoinhas;20024010
+UXSPO507                       ;APS Joinville;20024030
+UXSPO507                       ;APS Mafra;20024040
+UXSPO507                       ;PrevCidade Rio Negrinho;20024056
+UXSPO507                       ;PrevMovel Joinville;20024060
+UXSPO507                       ;APS São Francisco do Sul;20024070
+UXSPO507                       ;APS Joinville - Guanabara;20024080
+UXSPO507                       ;APS ADJ Joinville;20024090
+UXSPO507                       ;APS Guaramirim;20024100
+UXSPO507                       ;APS Rio Negro;20024110
+UXSPO505                           ;APS Curitiba – Cândido Lopes;14001010
+UXSPO505                           ;APS Curitiba – Hauer;14001020
+UXSPO505                           ;APS AAI Curitiba;14001030
+UXSPO505                           ;APS Curitiba – Visconde de Guarapuava;14001060
+UXSPO505                           ;APS Digital Curitiba;14001070
+UXSPO505                           ;APS Paranaguá;14001080
+UXSPO505                           ;APS Araucária;14001090
+UXSPO505                           ;PrevCidade Lapa;14001096
+UXSPO505                           ;APS São José dos Pinhais;14001100
+UXSPO505                           ;APS Colombo;14001110
+UXSPO505                           ;APS Fazenda Rio Grande;14001120
+UXSPO505                           ;APS Campo Largo;14001130
+UXSPO505                           ;APSADJ Curitiba;14001140
+UXSPO505                           ;APS Pinhais;14001150
+UXSPO505                           ;APS Campina Grande so Sul;14001160
+UXSPO505                           ;APS Lapa;14001170
+UXSPO505                           ;APS Mandirituba;14001180
+UXSPO505                           ;APS Itaperuçu;14001190
+UXSPO509                                 ;APS Apucarana;14022010
+UXSPO509                                 ;PrevCidade Faxinal    ;14022016
+UXSPO509                                 ;APS Arapongas;14022020
+UXSPO509                                 ;APS Cornélio Procópio;14022030
+UXSPO509                                 ;APS Ivaiporã;14022040
+UXSPO509                                 ;APS Jacarezinho;14022050
+UXSPO509                                 ;APS Londrina – Centro;14022060
+UXSPO509                                 ;PrevCidade Assai;14022066
+UXSPO509                                 ;APS Londrina – Shangrilá;14022070
+UXSPO509                                 ;APS Rolândia;14022080
+UXSPO509                                 ;APS Bandeirantes;14022090
+UXSPO509                                 ;APS Cambé;14022100
+UXSPO509                                 ;PrevCidade Alvorada do Sul;14022106
+UXSPO509                                 ;PrevMóvel de Londrina;14022110
+UXSPO509                                 ;PrevMovel Cascavel;14022120
+UXSPO509                                 ;APS Andirá;14022130
+UXSPO509                                 ;APS Cambará;14022140
+UXSPO509                                 ;APS Mandaguari;14022150
+UXSPO509                                 ;APS Santo Antonio da Platina;14022160
+UXSPO509                                 ;APS Campo Mourão;14023010
+UXSPO509                                 ;PrevCidade Roncador;14023016
+UXSPO509                                 ;PrevCidade Barbosa Ferraz;14023017
+UXSPO509                                 ;PrevCidade Boa Esperança;14023018
+UXSPO509                                 ;PrevCidade Ubiratã;14023019
+UXSPO509                                 ;APS Cianorte;14023020
+UXSPO509                                 ;APS Goioerê;14023030
+UXSPO509                                 ;APS Loanda;14023040
+UXSPO509                                 ;APS Maringá;14023050
+UXSPO509                                 ;PrevCidade Marialva;14023056
+UXSPO509                                 ;PrevCidade Astorga;14023057
+UXSPO509                                 ;PrevCidade Paisandu;14023058
+UXSPO509                                 ;APS Paranavaí;14023060
+UXSPO509                                 ;PrevCidade Nova Esperança;14023066
+UXSPO509                                 ;APS Umuarama;14023070
+UXSPO509                                 ;APS Colorado;14023080
+UXSPO509                                 ;PrevMovel Maringa;14023090
+UXSPO509                                 ;APS Paiçandu;14023100
+UXSPO509                                 ;APS Astorga;14023110
+UXSPO509                                 ;APSADJ Maringa;14023120
+UXSPO509                                 ;APS Cruzeiro do Oeste;14023130
+UXSPO509                                 ;APS Nova Esperança;14023140
+UXSPO509                                 ;APS Mandaguari;14023150
+UXSPO509                                 ;EADJ Maringa;14023902
+UXSPO525;APS Assis Chateaubriand;14021010
+UXSPO525;PrevCidade Palotina;14021016
+UXSPO525;APS Cascavel;14021020
+UXSPO525;Prevcidade Guaraniaçu;14021026
+UXSPO525;PrevCidade Cafelandia;14021027
+UXSPO525;APS Foz do Iguaçu;14021030
+UXSPO525;APS Francisco Beltrão;14021040
+UXSPO525;APS Medianeira;14021050
+UXSPO525;APS Pato Branco;14021060
+UXSPO525;Prevcidade Clevelandia;14021065
+UXSPO525;PrevCidade Chopinzinho;14021066
+UXSPO525;PrevCidade São João;14021067
+UXSPO525;PrevCidade Coronel Vivida;14021068
+UXSPO525;APS Realeza;14021070
+UXSPO525;Prevcidade Capanema;14021076
+UXSPO525;APS Toledo;14021080
+UXSPO525;Prevcidade Santa Helena;14021086
+UXSPO525;APS Guaíra;14021090
+UXSPO525;APS Mangueirinha;14021100
+UXSPO525;APS Marechal Cândido Rondon;14021110
+UXSPO525;APS Palmas;14021130
+UXSPO525;APS Santo Antônio do Sudoeste;14021140
+UXSPO525;APS Dois Vizinhos;14021150
+UXSPO525;APSADJ Cascavel;14021160
+UXSPO525;APS Palotina;14021170
+UXSPO525;APS Coronel Vivida;14021180
+UXSPO525;APS São Miguel do Iguaçu;14021190
+UXSPO525;APS Quedas do Iguaçu;14021200
+UXSPO525;EADJ Cascavel;14021902
+UXSPO526;APS Guarapuava;14024010
+UXSPO526;PrevCidade Candoi;14024016
+UXSPO526;PrevCidade Pinhão;14024017
+UXSPO526;PrevCidade Turvo;14024018
+UXSPO526;PrevCidade Prudentópolis;14024019
+UXSPO526;APS Irati;14024020
+UXSPO526;APS Jaguariaiva;14024030
+UXSPO526;APS Laranjeiras do Sul;14024040
+UXSPO526;APS Ponta Grossa;14024050
+UXSPO526;PrevcCidade Ivaí;14024056
+UXSPO526;PrevCidade Palmeira;14024057
+UXSPO526;PrevCidade Reserva;14024058
+UXSPO526;APS Telêmaco Borba;14024060
+UXSPO526;PrevCidade Tibagi;14024066
+UXSPO526;Prevcidade Ortigueira;14024067
+UXSPO526;APS União da Vitória;14024070
+UXSPO526;PrevCidade São Mateus do Sul;14024076
+UXSPO526;APS Castro;14024080
+UXSPO526;APS Ibaiti;14024090
+UXSPO526;PrevMovel Ponta Grossa;14024100
+UXSPO526;APS Pitanga;14024110
+UXSPO526;APS Arapoti;14024120
+UXSPO526;APS IMBITUVA;14024130
+UXSPO526;Prevcidade Ivai;14024136
+UXSPO526;APS Prudentópolis;14024140
+UXSPO526;APSADJ Ponta Grossa;14024150
+UXSPO526;APS Pinhão;14024160
+UXSPO526;APS Palmeira;14024170
+UXSPO526;APS São Mateus do Sul;14024180
+UXSPO526;ADJ Ponta Grossa;14024902
