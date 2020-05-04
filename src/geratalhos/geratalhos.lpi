@@ -43,7 +43,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="7">
       <Unit0>
         <Filename Value="geratalhos.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -70,6 +70,15 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidUtils"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="unidtemas.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="unidzip.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unidZip"/>
+      </Unit6>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -83,6 +92,9 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf2"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>

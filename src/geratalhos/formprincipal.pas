@@ -6,18 +6,21 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  ComCtrls, Buttons, ListViewFilterEdit, FGL, unidOL, EditBtn;
+  ComCtrls, Buttons, ListViewFilterEdit, FGL, unidOL, unidTemas, EditBtn;
 
 type
 
-  { TJanelaPrincipal }
+  { TGrupoOrgaosLocais }
+  TGrupoOrgaosLocais = specialize TFPGObjectList<TOrgaosLocais>;
 
+  { TJanelaPrincipal }
   TJanelaPrincipal = class(TForm)
     BotaoGerar: TButton;
     BotaoMudar: TButton;
     ComboOLs: TComboBox;
     EditFiltro: TListViewFilterEdit;
     Image1: TImage;
+    ListaImagens: TImageList;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -40,23 +43,27 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
+    PastaApp: String;
+    GruposOLs: TGrupoOrgaosLocais;
+    Temas: TTemas;
     function CarregarGrupos: Boolean;
     function CarregarOLs: Boolean;
+    function CarregarTemas: Boolean;
   public
 
   protected
 
   end;
 
-  TCategorias = specialize TFPGObjectList<TOrgaosLocais>;
-
 const
-  PastaDados = 'dados\';
+  DESC_ARQUIVO = 'DESC.TXT';
+  PASTA_DADOS = 'dados\';
+  PASTA_TEMAS = 'temas\';
 
 var
   JanelaPrincipal: TJanelaPrincipal;
-  PastaApp: String;
-  ListaCategorias: TCategorias;
+  TemaSelecionado: TTema;
+  MaqinaPrismaSelecionada: string;
 
 implementation
 
@@ -69,6 +76,12 @@ uses
 
 procedure TJanelaPrincipal.BotaoGerarClick(Sender: TObject);
 begin
+  if ListaTemas.ItemIndex < 0 then
+  begin
+    ExibirMensagemErro('Selecione um tema da lista antes de gerar.');
+    Exit;
+  end;
+  TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
   ExibirMensagemErro('Recurso não implementado.');
 end;
 
@@ -86,19 +99,14 @@ procedure TJanelaPrincipal.ComboOLsChange(Sender: TObject);
   end;
 
 var
-  I: Integer;
+  OL: TOrgaoLocal;
 begin
   if ComboOLs.ItemIndex > - 1 then
   begin
     EditFiltro.Items.Clear;
     EditFiltro.BeginUpdateBounds;
-    for I := 0 to ListaCategorias[ComboOLs.ItemIndex].Lista.Count - 1 do
-    begin
-      AdicionarFiltro(EditFiltro.Items, [
-        ListaCategorias[ComboOLs.ItemIndex].Lista[I].NomeExibicao,
-        ListaCategorias[ComboOLs.ItemIndex].Lista[I].Codigo
-      ]);
-    end;
+    for OL in GruposOLs[ComboOLs.ItemIndex].Lista do
+      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo]);
     EditFiltro.EndUpdateBounds;
   end;
   EditFiltro.InvalidateFilter;
@@ -113,6 +121,7 @@ begin
       ExibirMensagemErro('Selecione uma APS da lista antes de avançar.');
       Exit;
     end;
+    MaqinaPrismaSelecionada := ListaMaquinas.Selected.SubItems[0];
 
     Caderno.PageIndex := 1;
     BotaoMudar.Caption := '&Voltar';
@@ -142,24 +151,20 @@ begin
 end;
 
 function TJanelaPrincipal.CarregarGrupos: Boolean;
-const
-  DESCARQUIVO = 'DESC.TXT';
 var
-  I: Integer;
   Dados: TStringList;
-  Categoria: TOrgaosLocais;
   Nome: String;
   Arquivo: String;
+  Grupo: String;
 begin
+  Dados := TStringList.Create;
   try
-    Dados := TStringList.Create;
-    Dados.LoadFromFile(PastaApp + PastaDados + DESCARQUIVO);
-    for I := 0 to Dados.Count - 1 do
+    Dados.LoadFromFile(PastaApp + PASTA_DADOS + DESC_ARQUIVO);
+    for Grupo in Dados do
     begin
-      Nome := LeftStr(Dados[I], Pos(',', Dados[I]) - 1);
-      Arquivo := RightStr(Dados[I], Dados[I].Length - Pos(',', Dados[I]));
-      Categoria := TOrgaosLocais.Create(PastaApp + PastaDados + Arquivo, Nome);
-      ListaCategorias.Add(Categoria);
+      Nome := LeftStr(Grupo, Pos(',', Grupo) - 1);
+      Arquivo := RightStr(Grupo, Grupo.Length - Pos(',', Grupo));
+      GruposOLs.Add(TOrgaosLocais.Create(PastaApp + PASTA_DADOS + Arquivo, Nome));
       ComboOLs.Items.Add(Nome);
     end;
     Result := true;
@@ -170,35 +175,42 @@ end;
 
 function TJanelaPrincipal.CarregarOLs: Boolean;
 var
-  I: Integer;
+  Resultado: Boolean;
+  Grupo: TOrgaosLocais;
 begin
-  try
-    for I := 0 to ListaCategorias.Count - 1 do
-    begin
-      ListaCategorias[I].Carregar;
-    end;
-    Result := true;
-  finally
+  Resultado := false;
+  for Grupo in GruposOLs do
+    Resultado := Grupo.Carregar or Resultado;
+  Result := Resultado;
+end;
 
-  end;
+function TJanelaPrincipal.CarregarTemas: Boolean;
+var
+  Item: TListItem;
+  Tema: TTema;
+begin
+  Temas := TTemas.Create(PastaApp + PASTA_TEMAS);
+  Result := Temas.Carregar;
+  if Result then
+    for Tema in Temas.Lista do
+    begin
+      Item := ListaTemas.Items.Add;
+      Item.Caption := Tema.Nome;
+    end;
 end;
 
 procedure TJanelaPrincipal.FormCreate(Sender: TObject);
 begin
   Caderno.PageIndex := 0;
-  ListaCategorias := TCategorias.Create;
+  GruposOLs := TGrupoOrgaosLocais.Create;
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
-var
-  I: Integer;
 begin
-  if Assigned(ListaCategorias) then
-  begin
-    for I := 0 to ListaCategorias.Count - 1 do
-      ListaCategorias[I].Free;
-//    ListaCategorias.Free;
-  end;
+  if Assigned(GruposOLs) then
+    GruposOLs.Free;
+  if Assigned(Temas) then
+    Temas.Free;
 end;
 
 procedure TJanelaPrincipal.FormShow(Sender: TObject);
@@ -208,9 +220,10 @@ begin
     Exit;
   if not CarregarOLs then
     Exit;
+  if not CarregarTemas then
+    Exit;
   if ComboOLs.CanFocus then
      ComboOLs.SetFocus;
-
 end;
 
 end.

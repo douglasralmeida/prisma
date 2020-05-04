@@ -109,9 +109,9 @@ destructor TOrgaosLocais.Destroy;
 var
   I: Integer;
 begin
-  for I := 0 to FLista.Count - 1 do
-    FLista[I].Free;
-  FLista.Free;
+  if Assigned(FLista) then
+    FLista.Free;
+
   inherited;
 end;
 
