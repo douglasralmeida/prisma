@@ -15,12 +15,12 @@ type
 
   { TJanelaPrincipal }
   TJanelaPrincipal = class(TForm)
-    BotaoGerar: TButton;
-    BotaoMudar: TButton;
+    BotaoVoltar: TButton;
+    BotaoAvancar: TButton;
+    Caderno: TNotebook;
     ComboOLs: TComboBox;
     EditFiltro: TListViewFilterEdit;
-    Image1: TImage;
-    ListaImagens: TImageList;
+    ImagemLateral: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -31,18 +31,20 @@ type
     Label8: TLabel;
     ListaMaquinas: TListView;
     ListaTemas: TListView;
-    Caderno: TNotebook;
     PaginaDois: TPage;
+    PaginaSplash: TPage;
     PaginaUm: TPage;
+    PainelConteudo: TPanel;
+    ListaImagens: TImageList;
+    PainelRodape: TPanel;
+    RotuloCarregando: TLabel;
     SpeedButton1: TSpeedButton;
-    procedure BotaoFecharClick(Sender: TObject);
-    procedure BotaoMudarClick(Sender: TObject);
-    procedure BotaoGerarClick(Sender: TObject);
+    procedure BotaoVoltarClick(Sender: TObject);
+    procedure BotaoAvancarClick(Sender: TObject);
     procedure ComboOLsChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     ProgramaIniciado: Boolean;
     GruposOLs: TGrupoOrgaosLocais;
@@ -55,6 +57,9 @@ type
   protected
 
   end;
+
+const
+  VersaoBeta = true;
 
 var
   JanelaPrincipal: TJanelaPrincipal;
@@ -70,15 +75,41 @@ uses
 
 { TJanelaPrincipal }
 
-procedure TJanelaPrincipal.BotaoGerarClick(Sender: TObject);
+procedure TJanelaPrincipal.BotaoAvancarClick(Sender: TObject);
 begin
-  if ListaTemas.ItemIndex < 0 then
+  if Caderno.PageIndex = 0 then
   begin
-    ExibirMensagemErro('Selecione um tema da lista antes de gerar.');
-    Exit;
+    if ListaMaquinas.ItemIndex < 0 then
+    begin
+      ExibirMensagemErro('Selecione uma APS da lista antes de avançar.');
+      Exit;
+    end;
+    MaqinaPrismaSelecionada := ListaMaquinas.Selected.SubItems[1];
+    BotaoVoltar.Enabled := true;
+    BotaoAvancar.Caption := '&Gerar';
+    Caderno.PageIndex := 1;
+    if ListaTemas.CanFocus then
+       ListaTemas.SetFocus;
+  end
+  else
+  begin
+    if ListaTemas.ItemIndex < 0 then
+    begin
+      ExibirMensagemErro('Selecione um tema da lista antes de gerar.');
+      Exit;
+    end;
+    TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
+    ExibirMensagemErro('Recurso não implementado.');
   end;
-  TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
-  ExibirMensagemErro('Recurso não implementado.');
+end;
+
+procedure TJanelaPrincipal.BotaoVoltarClick(Sender: TObject);
+begin
+  BotaoVoltar.Enabled := false;
+  BotaoAvancar.Caption := '&Avançar';
+  Caderno.PageIndex := 0;
+  if ComboOLs.CanFocus then
+     ComboOLs.SetFocus;
 end;
 
 procedure TJanelaPrincipal.ComboOLsChange(Sender: TObject);
@@ -88,9 +119,10 @@ procedure TJanelaPrincipal.ComboOLsChange(Sender: TObject);
     Dado: TListViewDataItem;
   begin
     Dado.Data := nil;
-    SetLength(Dado.StringArray, 2);
+    SetLength(Dado.StringArray, 3);
     Dado.StringArray[0] := Rotulos[0];
     Dado.StringArray[1] := Rotulos[1];
+    Dado.StringArray[2] := Rotulos[2];
     Lista.Add(Dado);
   end;
 
@@ -102,57 +134,10 @@ begin
     EditFiltro.Items.Clear;
     EditFiltro.BeginUpdateBounds;
     for OL in GruposOLs[ComboOLs.ItemIndex].Lista do
-      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo]);
+      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo, OL.MaquinaPrisma]);
     EditFiltro.EndUpdateBounds;
   end;
   EditFiltro.InvalidateFilter;
-end;
-
-procedure TJanelaPrincipal.FormActivate(Sender: TObject);
-begin
-  if not ProgramaIniciado then
-  begin
-    ProgramaIniciado := true;
-
-  end;
-end;
-
-procedure TJanelaPrincipal.BotaoMudarClick(Sender: TObject);
-begin
-  if Caderno.PageIndex = 0 then
-  begin
-    if ListaMaquinas.ItemIndex < 0 then
-    begin
-      ExibirMensagemErro('Selecione uma APS da lista antes de avançar.');
-      Exit;
-    end;
-    MaqinaPrismaSelecionada := ListaMaquinas.Selected.SubItems[0];
-
-    Caderno.PageIndex := 1;
-    BotaoMudar.Caption := '&Voltar';
-    BotaoMudar.Default := false;
-    BotaoGerar.Caption := '&Gerar';
-    BotaoGerar.Enabled := true;
-    BotaoGerar.Default := true;
-    if ListaTemas.CanFocus then
-       ListaTemas.SetFocus;
-  end
-  else
-  begin
-    Caderno.PageIndex := 0;
-    BotaoMudar.Caption := '&Avançar';
-    BotaoMudar.Default := true;
-    BotaoGerar.Caption := 'Cancelar';
-    BotaoGerar.Enabled := false;
-    BotaoGerar.Default := false;
-    if ComboOLs.CanFocus then
-       ComboOLs.SetFocus;
-  end;
-end;
-
-procedure TJanelaPrincipal.BotaoFecharClick(Sender: TObject);
-begin
-  close;
 end;
 
 function TJanelaPrincipal.CarregarGrupos: Boolean;
@@ -208,11 +193,48 @@ begin
     end;
 end;
 
+procedure TJanelaPrincipal.FormActivate(Sender: TObject);
+begin
+  if not ProgramaIniciado then
+  begin
+    ProgramaIniciado := true;
+    Application.ProcessMessages;
+    Variaveis := TVariaveis.Create;
+    try
+      Configuracoes := TConfiguracoes.Create;
+    except
+      on E: Exception do
+      begin
+        ExibirMensagemErro(E.Message, E.HelpContext);
+        Close;
+      end;
+    end;
+    if not CarregarGrupos then
+      Exit;
+    if not CarregarOLs then
+      Exit;
+    if not CarregarTemas then
+      Exit;
+    if VersaoBeta then
+       Sleep(1000);
+    Caderno.PageIndex := 0;
+    ImagemLateral.Show;
+    PainelRodape.Show;
+    if ComboOLs.CanFocus then
+       ComboOLs.SetFocus;
+  end;
+end;
+
 procedure TJanelaPrincipal.FormCreate(Sender: TObject);
 begin
   ProgramaIniciado := false;
-  Caderno.PageIndex := 0;
+  Caderno.PageIndex := 2;
+  RotuloCarregando.Left := Width div 2 - RotuloCarregando.Width div 2;
   GruposOLs := TGrupoOrgaosLocais.Create;
+  if VersaoBeta then
+  begin
+    Caption := Caption + ' *** VERSÃO DE TESTES ***'
+  end;
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
@@ -225,28 +247,6 @@ begin
     GruposOLs.Free;
   if Assigned(Temas) then
     Temas.Free;
-end;
-
-procedure TJanelaPrincipal.FormShow(Sender: TObject);
-begin
-  Variaveis := TVariaveis.Create;
-  try
-    Configuracoes := TConfiguracoes.Create;
-  except
-    on E: Exception do
-    begin
-      ExibirMensagemErro(E.Message, E.HelpContext);
-      Close;
-    end;
-  end;
-  if not CarregarGrupos then
-    Exit;
-  if not CarregarOLs then
-    Exit;
-  if not CarregarTemas then
-    Exit;
-  if ComboOLs.CanFocus then
-     ComboOLs.SetFocus;
 end;
 
 end.

@@ -19,10 +19,12 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
+      <RevisionNr Value="150"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
+      <Attributes pvaPreRelease="True"/>
+      <StringTable CompanyName="Douglas R. Almeida" FileDescription="Gerador de Atalhos do Prisma" InternalName="GERATALHOS" LegalCopyright="Programa sem direitos autorais. Uso livre." OriginalFilename="geratalhos.exe" ProductName="Cliente Prisma" ProductVersion="1.0"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

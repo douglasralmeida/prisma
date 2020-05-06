@@ -2,12 +2,12 @@ object JanelaPrincipal: TJanelaPrincipal
   Left = 413
   Height = 459
   Top = 173
-  Width = 795
+  Width = 798
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Gerador de Atalhos do Prisma'
   ClientHeight = 459
-  ClientWidth = 795
+  ClientWidth = 798
   Color = clWhite
   Font.Color = clBlack
   Font.Height = -12
@@ -2132,20 +2132,9 @@ object JanelaPrincipal: TJanelaPrincipal
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
-  object BotaoGerar: TButton
-    Left = 712
-    Height = 25
-    Top = 424
-    Width = 75
-    Caption = '&Gerar'
-    Enabled = False
-    OnClick = BotaoGerarClick
-    TabOrder = 2
-  end
-  object Image1: TImage
+  object ImagemLateral: TImage
     Left = 0
     Height = 459
     Top = 0
@@ -2646,172 +2635,225 @@ object JanelaPrincipal: TJanelaPrincipal
       E410863211914318CA44440E612813113984A14C44E410863211913380FF0F34
       2B592E21E4138C0000000049454E44AE426082
     }
+    Visible = False
   end
-  object BotaoMudar: TButton
-    Left = 624
-    Height = 25
-    Top = 424
-    Width = 75
-    Caption = '&Avançar'
-    Default = True
-    OnClick = BotaoMudarClick
-    TabOrder = 1
-  end
-  object Caderno: TNotebook
+  object PainelConteudo: TPanel
     Left = 344
-    Height = 416
+    Height = 459
     Top = 0
-    Width = 461
-    PageIndex = 0
+    Width = 454
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 459
+    ClientWidth = 454
     TabOrder = 0
-    object PaginaUm: TPage
-      object Label1: TLabel
-        Left = 16
-        Height = 37
-        Top = 8
-        Width = 174
-        Caption = 'Escolha um OL'
-        Font.Color = clBlack
-        Font.Height = -27
-        Font.Name = 'Segoe UI'
-        ParentColor = False
-        ParentFont = False
+    object Caderno: TNotebook
+      Left = 0
+      Height = 416
+      Top = 0
+      Width = 461
+      PageIndex = 1
+      TabOrder = 0
+      object PaginaUm: TPage
+        object Label1: TLabel
+          Left = 16
+          Height = 37
+          Top = 8
+          Width = 174
+          Caption = 'Escolha um OL'
+          Font.Color = clBlack
+          Font.Height = -27
+          Font.Name = 'Segoe UI'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label2: TLabel
+          Left = 16
+          Height = 32
+          Top = 56
+          Width = 413
+          AutoSize = False
+          Caption = 'Este aplicativo irá te ajudar a gerar atalhos para acesso ao servidor Prisma na área de trabalho.'
+          ParentColor = False
+          WordWrap = True
+        end
+        object Label3: TLabel
+          Left = 16
+          Height = 32
+          Top = 96
+          Width = 413
+          AutoSize = False
+          Caption = 'Escolha um grupo e selecione sua APS da lista abaixo e clique em Avançar.'
+          ParentColor = False
+          WordWrap = True
+        end
+        object Label4: TLabel
+          Left = 16
+          Height = 15
+          Top = 140
+          Width = 75
+          Caption = '&Grupo de OLs:'
+          FocusControl = ComboOLs
+          ParentColor = False
+        end
+        object ComboOLs: TComboBox
+          Left = 16
+          Height = 23
+          Top = 160
+          Width = 426
+          ItemHeight = 15
+          OnChange = ComboOLsChange
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object Label5: TLabel
+          Left = 16
+          Height = 15
+          Top = 196
+          Width = 18
+          Caption = '&OL:'
+          FocusControl = EditFiltro
+          ParentColor = False
+        end
+        object ListaMaquinas: TListView
+          Left = 16
+          Height = 176
+          Top = 240
+          Width = 426
+          AutoSortIndicator = True
+          Columns = <          
+            item
+              Caption = 'Nome da APS'
+              Width = 304
+            end          
+            item
+              Caption = 'Código do OL'
+              Width = 96
+            end>
+          ColumnClick = False
+          ReadOnly = True
+          RowSelect = True
+          TabOrder = 2
+          ViewStyle = vsReport
+        end
+        object SpeedButton1: TSpeedButton
+          Left = 776
+          Height = 22
+          Top = 8
+          Width = 23
+          Caption = ''
+          Flat = True
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Segoe MDL2 Assets'
+          ParentFont = False
+        end
+        object EditFiltro: TListViewFilterEdit
+          Left = 16
+          Height = 23
+          Top = 214
+          Width = 427
+          ButtonHint = 'Apagar filtro'
+          ButtonWidth = 23
+          NumGlyphs = 1
+          MaxLength = 0
+          TabOrder = 1
+          TextHint = '(digite o nome da APS ou seu OL para filtrar)'
+          FilteredListview = ListaMaquinas
+          ByAllFields = True
+        end
       end
-      object Label2: TLabel
-        Left = 16
-        Height = 32
-        Top = 56
-        Width = 413
-        AutoSize = False
-        Caption = 'Este aplicativo irá te ajudar a gerar atalhos para acesso ao servidor Prisma na área de trabalho.'
-        ParentColor = False
-        WordWrap = True
+      object PaginaDois: TPage
+        object Label6: TLabel
+          Left = 16
+          Height = 32
+          Top = 56
+          Width = 413
+          AutoSize = False
+          Caption = 'Tema são um conjunto de cores e fontes no qual o texto do Prisma será exibido.'
+          ParentColor = False
+          WordWrap = True
+        end
+        object Label7: TLabel
+          Left = 16
+          Height = 37
+          Top = 8
+          Width = 201
+          Caption = 'Escolha um tema'
+          Font.Color = clBlack
+          Font.Height = -27
+          Font.Name = 'Segoe UI'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label8: TLabel
+          Left = 16
+          Height = 32
+          Top = 101
+          Width = 413
+          AutoSize = False
+          Caption = '&Escolha uma tema abaixo e clique em Gerar.'
+          FocusControl = ListaTemas
+          ParentColor = False
+          WordWrap = True
+        end
+        object ListaTemas: TListView
+          Left = 16
+          Height = 296
+          Top = 120
+          Width = 426
+          Columns = <>
+          LargeImages = ListaImagens
+          TabOrder = 0
+          ViewStyle = vsIcon
+        end
       end
-      object Label3: TLabel
-        Left = 16
-        Height = 32
-        Top = 96
-        Width = 413
-        AutoSize = False
-        Caption = 'Escolha uma categoria e selecione sua APS da lista abaixo e clique em Avançar.'
-        ParentColor = False
-        WordWrap = True
-      end
-      object Label4: TLabel
-        Left = 16
-        Height = 15
-        Top = 140
-        Width = 88
-        Caption = 'Categoria de OL:'
-        ParentColor = False
-      end
-      object ComboOLs: TComboBox
-        Left = 16
-        Height = 23
-        Top = 160
-        Width = 426
-        ItemHeight = 15
-        OnChange = ComboOLsChange
-        Style = csDropDownList
-        TabOrder = 0
-      end
-      object Label5: TLabel
-        Left = 16
-        Height = 15
-        Top = 196
-        Width = 18
-        Caption = 'OL:'
-        ParentColor = False
-      end
-      object ListaMaquinas: TListView
-        Left = 16
-        Height = 176
-        Top = 240
-        Width = 426
-        Columns = <        
-          item
-            Caption = 'Nome da APS'
-            Width = 304
-          end        
-          item
-            Caption = 'Código do OL'
-            Width = 96
-          end>
-        ColumnClick = False
-        ReadOnly = True
-        RowSelect = True
-        TabOrder = 2
-        ViewStyle = vsReport
-      end
-      object SpeedButton1: TSpeedButton
-        Left = 776
-        Height = 22
-        Top = 8
-        Width = 23
-        Caption = ''
-        Flat = True
-        Font.Color = clBlack
-        Font.Height = -12
-        Font.Name = 'Segoe MDL2 Assets'
-        ParentFont = False
-      end
-      object EditFiltro: TListViewFilterEdit
-        Left = 16
-        Height = 23
-        Top = 214
-        Width = 427
-        ButtonHint = 'Apagar filtro'
-        ButtonWidth = 23
-        NumGlyphs = 1
-        MaxLength = 0
-        TabOrder = 1
-        TextHint = '(digite o nome da APS ou seu OL para filtrar)'
-        FilteredListview = ListaMaquinas
-        ByAllFields = True
+      object PaginaSplash: TPage
+        object RotuloCarregando: TLabel
+          Left = 170
+          Height = 21
+          Top = 215
+          Width = 91
+          Anchors = []
+          Caption = 'Carregando...'
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          ParentColor = False
+          ParentFont = False
+        end
       end
     end
-    object PaginaDois: TPage
-      object Label6: TLabel
-        Left = 16
-        Height = 32
-        Top = 56
-        Width = 413
-        AutoSize = False
-        Caption = 'Tema são um conjunto de cores e fontes no qual o texto do Prisma será exibido.'
-        ParentColor = False
-        WordWrap = True
-      end
-      object Label7: TLabel
-        Left = 16
-        Height = 37
+    object PainelRodape: TPanel
+      Left = 0
+      Height = 41
+      Top = 418
+      Width = 454
+      Align = alBottom
+      BevelOuter = bvNone
+      ClientHeight = 41
+      ClientWidth = 454
+      TabOrder = 1
+      Visible = False
+      object BotaoAvancar: TButton
+        Left = 368
+        Height = 25
         Top = 8
-        Width = 201
-        Caption = 'Escolha um tema'
-        Font.Color = clBlack
-        Font.Height = -27
-        Font.Name = 'Segoe UI'
-        ParentColor = False
-        ParentFont = False
-      end
-      object Label8: TLabel
-        Left = 16
-        Height = 32
-        Top = 96
-        Width = 413
-        AutoSize = False
-        Caption = 'Escolha uma tema e clique em Concluir.'
-        ParentColor = False
-        WordWrap = True
-      end
-      object ListaTemas: TListView
-        Left = 16
-        Height = 264
-        Top = 120
-        Width = 410
-        Columns = <>
-        LargeImages = ListaImagens
+        Width = 75
+        Caption = '&Avançar'
+        Default = True
+        OnClick = BotaoAvancarClick
         TabOrder = 0
-        ViewStyle = vsIcon
+      end
+      object BotaoVoltar: TButton
+        Left = 282
+        Height = 25
+        Top = 8
+        Width = 75
+        Caption = '&Voltar'
+        Enabled = False
+        OnClick = BotaoVoltarClick
+        TabOrder = 1
       end
     end
   end
