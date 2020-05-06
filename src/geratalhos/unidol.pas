@@ -115,22 +115,14 @@ begin
   inherited;
 end;
 
-{ function PrepararNome(Nome: String): String;
-type
-  USAscii20127 = type AnsiString(20127);
-var
-  NovoNome: String;
-begin
-  NovoNome := Nome.ToLower;
-  Result := string(USAscii20127(NovoNome));
-end; }
-
 function TOrgaosLocais.Carregar: Boolean;
 var
   i: Integer;
   DocumentoCSV: TCSVDocument;
   OL: TOrgaoLocal;
 begin
+  if not FileExists(FArquivo) then
+    Exit(false);
   DocumentoCSV := TCSVDocument.Create;
   try
     DocumentoCSV.Delimiter := ';';

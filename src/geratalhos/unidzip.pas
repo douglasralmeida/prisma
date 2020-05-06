@@ -48,31 +48,27 @@ end;
 
 function TZipFile.ExtractFile(AFileName: String): TMemoryStream;
 var
-  buffer: Pointer;
-  buffersize: longint;
-  res: longint;
-  info: unz_file_info;
   data: TMemoryStream;
+  info: unz_file_info;
 begin
-  res := unzLocateFile(FFile, PChar(AFileName), 2);
-  if res = UNZ_OK then
-  begin
-    if not unzGetCurrentFileInfo(FFile, @info, nil, 0, nil, 0, nil, 0) = UNZ_OK then
-      exit(nil);
-    if unzOpenCurrentFile(FFile) = UNZ_OK then
+  if unzLocateFile(FFile, PChar(AFileName), 2) <> UNZ_OK then
+    Exit(nil);
+  if unzGetCurrentFileInfo(FFile, @info, nil, 0, nil, 0, nil, 0) <> UNZ_OK then
+    Exit(nil);
+  if unzOpenCurrentFile(FFile) <> UNZ_OK then
+    Exit(nil);
+  try
+    data := TMemoryStream.Create;
+    data.Size := info.uncompressed_size;
+    if unzReadCurrentFile(FFile, data.Memory, data.Size) < 0 then
     begin
-      data := TMemoryStream.Create;
-      data.Size := info.uncompressed_size;
-      //buffer := AllocMem(buffersize);
-      unzReadCurrentFile(FFile, data.Memory, data.Size);
-      unzCloseCurrentFile(FFile);
-      Result := data;
-    end
-    else
+      data.Free;
       Result := nil;
-  end
-  else
-    Result := nil;
+    end;
+    Result := data;
+  finally
+    unzCloseCurrentFile(FFile);
+  end;
 end;
 
 function TZipFile.ExtractFileToString(AFileName: String): String;
@@ -80,8 +76,13 @@ var
   stream: TMemoryStream;
 begin
   stream := ExtractFile(AFileName);
-  SetString(Result, PChar(stream.Memory), stream.Size);
-  stream.Free;
+  if stream = nil then
+    Exit('');
+  try
+    SetString(Result, PChar(stream.Memory), stream.Size);
+  finally
+    stream.Free;
+  end;
 end;
 
 function TZipFile.GetFileName: String;

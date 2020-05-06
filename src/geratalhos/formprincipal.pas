@@ -39,11 +39,12 @@ type
     procedure BotaoMudarClick(Sender: TObject);
     procedure BotaoGerarClick(Sender: TObject);
     procedure ComboOLsChange(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
-    PastaApp: String;
+    ProgramaIniciado: Boolean;
     GruposOLs: TGrupoOrgaosLocais;
     Temas: TTemas;
     function CarregarGrupos: Boolean;
@@ -55,11 +56,6 @@ type
 
   end;
 
-const
-  DESC_ARQUIVO = 'DESC.TXT';
-  PASTA_DADOS = 'dados\';
-  PASTA_TEMAS = 'temas\';
-
 var
   JanelaPrincipal: TJanelaPrincipal;
   TemaSelecionado: TTema;
@@ -68,7 +64,7 @@ var
 implementation
 
 uses
-  UxTheme, unidUtils;
+  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils;
 
 {$R *.lfm}
 
@@ -110,6 +106,15 @@ begin
     EditFiltro.EndUpdateBounds;
   end;
   EditFiltro.InvalidateFilter;
+end;
+
+procedure TJanelaPrincipal.FormActivate(Sender: TObject);
+begin
+  if not ProgramaIniciado then
+  begin
+    ProgramaIniciado := true;
+
+  end;
 end;
 
 procedure TJanelaPrincipal.BotaoMudarClick(Sender: TObject);
@@ -156,15 +161,19 @@ var
   Nome: String;
   Arquivo: String;
   Grupo: String;
+  ArquivoDescricao: String;
 begin
+  ArquivoDescricao := Variaveis.PastaDados + Variaveis.ArquivoDescricao;
+  if not FileExists(ArquivoDescricao) then
+    Exit(false);
   Dados := TStringList.Create;
   try
-    Dados.LoadFromFile(PastaApp + PASTA_DADOS + DESC_ARQUIVO);
+    Dados.LoadFromFile(ArquivoDescricao);
     for Grupo in Dados do
     begin
       Nome := LeftStr(Grupo, Pos(',', Grupo) - 1);
       Arquivo := RightStr(Grupo, Grupo.Length - Pos(',', Grupo));
-      GruposOLs.Add(TOrgaosLocais.Create(PastaApp + PASTA_DADOS + Arquivo, Nome));
+      GruposOLs.Add(TOrgaosLocais.Create(Variaveis.PastaDados + Arquivo, Nome));
       ComboOLs.Items.Add(Nome);
     end;
     Result := true;
@@ -189,7 +198,7 @@ var
   Item: TListItem;
   Tema: TTema;
 begin
-  Temas := TTemas.Create(PastaApp + PASTA_TEMAS);
+  Temas := TTemas.Create;
   Result := Temas.Carregar;
   if Result then
     for Tema in Temas.Lista do
@@ -201,12 +210,17 @@ end;
 
 procedure TJanelaPrincipal.FormCreate(Sender: TObject);
 begin
+  ProgramaIniciado := false;
   Caderno.PageIndex := 0;
   GruposOLs := TGrupoOrgaosLocais.Create;
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
 begin
+  if Assigned(Configuracoes) then
+    Configuracoes.Free;
+  if Assigned(Variaveis) then
+    Variaveis.Free;
   if Assigned(GruposOLs) then
     GruposOLs.Free;
   if Assigned(Temas) then
@@ -215,7 +229,16 @@ end;
 
 procedure TJanelaPrincipal.FormShow(Sender: TObject);
 begin
-  PastaApp := ExtractFilePath(Application.ExeName);
+  Variaveis := TVariaveis.Create;
+  try
+    Configuracoes := TConfiguracoes.Create;
+  except
+    on E: Exception do
+    begin
+      ExibirMensagemErro(E.Message, E.HelpContext);
+      Close;
+    end;
+  end;
   if not CarregarGrupos then
     Exit;
   if not CarregarOLs then

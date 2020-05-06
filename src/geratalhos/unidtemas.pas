@@ -52,7 +52,7 @@ type
     FLista: TListaTemas;
     FPasta: String;
   public
-    constructor Create(APasta: String);
+    constructor Create;
     destructor Destroy; override;
     function Carregar: Boolean;
     property Lista: TListaTemas read FLista;
@@ -62,10 +62,7 @@ implementation
 
 //uses ZipFile;
 
-uses Dialogs, IniFiles, unidZip;
-
-const
-  DESC_ARQUIVO = 'DESC.TXT';
+uses Dialogs, IniFiles, unidVariaveis, unidZip;
 
 constructor TTema.Create(AArquivo: String; ANome: String);
 begin
@@ -81,27 +78,32 @@ var
   ZipFile: TZipFile;
   Texto: String;
 begin
+  Result := false;
+  if not FileExists(FArquivo) then
+    Exit(false);
   ZipFile := TZipFile.Create;
   try
     if ZipFile.Open(FArquivo) then
     begin
       Texto := ZipFile.ExtractFileToString('themedata.ini');
-      IniFile := TIniFile.Create(TStringStream.Create(Texto));
-      FCorFundo := IniFile.ReadString('CONTEUDO', 'CorFundo', '');
-      FFonteCor := IniFile.ReadString('CONTEUDO', 'CorFonte', '');
-      FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
-      FFonteNome := IniFile.ReadString('CONTEUDO', 'NomeFonte', '');
-      FFonteTamanho := IniFile.ReadString('CONTEUDO', 'Tamanho', '');
-      FImagemFundo := IniFile.ReadString('CONTEUDO', 'ImagemFundo', '');
-      FImagemTransparencia := IniFile.ReadString('CONTEUDO', 'ImagemTransparencia', '');
-      FImagemArquivo := IniFile.ReadString('CONTEUDO', 'ImagemArquivo', '');
-      IniFile.Free;
       ZipFile.Close;
-      Result := true;
-    end
-    else
-      Result := false;
+      if Texto.Length > 0 then
+      begin
+        IniFile := TIniFile.Create(TStringStream.Create(Texto));
+        FCorFundo := IniFile.ReadString('CONTEUDO', 'CorFundo', '');
+        FFonteCor := IniFile.ReadString('CONTEUDO', 'CorFonte', '');
+        FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
+        FFonteNome := IniFile.ReadString('CONTEUDO', 'NomeFonte', '');
+        FFonteTamanho := IniFile.ReadString('CONTEUDO', 'Tamanho', '');
+        FImagemFundo := IniFile.ReadString('CONTEUDO', 'ImagemFundo', '');
+        FImagemTransparencia := IniFile.ReadString('CONTEUDO', 'ImagemTransparencia', '');
+        FImagemArquivo := IniFile.ReadString('CONTEUDO', 'ImagemArquivo', '');
+        Result := true;
+      end;
+    end;
   finally
+    if Assigned(IniFile) then
+      IniFile.Free;
     ZipFile.Free;
   end;
 end;
@@ -158,12 +160,12 @@ end;
 
 { TTemas }
 
-constructor TTemas.Create(APasta: String);
+constructor TTemas.Create;
 begin
-  inherited Create();
+  inherited;
 
   FLista := TListaTemas.Create;
-  FPasta := APasta;
+  FPasta := Variaveis.PastaTemas;
 end;
 
 destructor TTemas.Destroy;
@@ -181,12 +183,14 @@ var
   Nome: String;
   NovoTema: TTema;
   Tema: String;
+  NomeArquivoTemas: String;
 begin
+  NomeArquivoTemas := FPasta + Variaveis.ArquivoDescricao;
+  if not FileExists(NomeArquivoTemas) then
+    Exit(False);
   ArquivoTemas := TStringList.Create;
   try
-    ArquivoTemas.LoadFromFile(FPasta + DESC_ARQUIVO);
-    if ArquivoTemas.Count = 0 then
-      Exit(False);
+    ArquivoTemas.LoadFromFile(NomeArquivoTemas);
     for Tema in ArquivoTemas do
     begin
       Nome := LeftStr(Tema, Pos(',', Tema) - 1);
