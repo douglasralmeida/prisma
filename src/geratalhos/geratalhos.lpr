@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, lazcontrols, formPrincipal, unidsombras, unidOL, unidutils, unidtemas,
+  Forms, lazcontrols, formPrincipal, unidOL, unidutils, unidtemas,
   unidZip, unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista
   { you can add units after this };
 
