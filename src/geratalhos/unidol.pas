@@ -80,7 +80,7 @@ end;
 procedure TOrgaoLocal.SetMaquinaPrisma(Value: String);
 begin
   if Value <> FMaquinaPrisma then
-    FCodigo := Value;
+    FMaquinaPrisma := Value;
 end;
 
 procedure TOrgaoLocal.SetNomeExibicao(Value: String);

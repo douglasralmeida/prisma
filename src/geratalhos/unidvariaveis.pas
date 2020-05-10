@@ -11,30 +11,45 @@ type
   TVariaveis = class(TObject)
   private
     FArquivoConfig: String;
+    FArquivoPrisma: String;
     FArquivoDescricao: String;
     FModeloConfig: String;
     FPastaApp: String;
+    FPastaAreaTrabalho: String;
+    FPastaArqProgx86: String;
     FPastaConfig: String;
     FPastaDados: String;
     FPastaModelos: String;
+    FPastaPlanosFundo: String;
+    FPastaPrisma: String;
     FPastaTemas: String;
     function GetArquivoConfig: String;
+    function GetArquivoPrisma: String;
     function GetArquivoDescricao: String;
     function GetModeloConfig: String;
     function GetPastaApp: String;
+    function GetPastaAreaTrabalho: String;
+    function GetPastaArqProgx86: String;
     function GetPastaConfig: String;
     function GetPastaDados: String;
     function GetPastaModelos: String;
+    function GetPastaPlanosFundo: String;
+    function GetPastaPrisma: String;
     function GetPastaTemas: String;
   public
     constructor Create;
     property ArquivoConfig: String read GetArquivoConfig;
     property ArquivoDescricao: String read GetArquivoDescricao;
+    property ArquivoPrisma: String read GetArquivoPrisma;
     property ModeloConfig: String read GetModeloConfig;
     property PastaApp: String read GetPastaApp;
+    property PastaAreaTrabalho: String read GetPastaAreaTrabalho;
+    property PastaArqProgx86: String read GetPastaArqProgx86;
     property PastaConfig: String read GetPastaConfig;
     property PastaDados: String read GetPastaDados;
     property PastaModelos: String read GetPastaModelos;
+    property PastaPlanosFundos: String read GetPastaPlanosFundo;
+    property PastaPrisma: String read GetPastaPrisma;
     property PastaTemas: String read GetPastaTemas;
   end;
 
@@ -49,19 +64,26 @@ constructor TVariaveis.Create;
 const
   LOCAL_CONFIG = '\Aplicações do INSS\Gerador de Atalhos do Prisma\';
 var
-  AppData: Array[0..MaxPathLen] of Char;
+  Pasta: Array[0..MaxPathLen] of Char;
 begin
   inherited;
 
-  AppData := '';
-  SHGetSpecialFolderPath(0, AppData, CSIDL_LOCAL_APPDATA, false);
+  Pasta := '';
   FArquivoConfig := 'CONFIG.INI';
   FArquivoDescricao := 'DESC.INFO';
+  FArquivoPrisma := 'PRISMA.PRM';
   FModeloConfig := 'CONFIG.PRC';
   FPastaApp := ExtractFilePath(Application.ExeName);
-  FPastaConfig := AppData + LOCAL_CONFIG;
+  SHGetSpecialFolderPath(0, Pasta, CSIDL_LOCAL_APPDATA, false);
+  FPastaConfig := Pasta + LOCAL_CONFIG;
+  FPastaPlanosFundo := Pasta + 'planosfundo\';
+  SHGetSpecialFolderPath(0, Pasta, CSIDL_DESKTOP, false);
+  FPastaAreaTrabalho := Pasta + '\';
+  SHGetSpecialFolderPath(0, Pasta, CSIDL_PROGRAM_FILESX86, false);
+  FPastaArqProgx86 := Pasta + '\';
   FPastaDados := FPastaApp + 'dados\';
   FPastaModelos := FPastaApp + 'modelos\';
+  FPastaPrisma := FPastaConfig + 'maquinas\';
   FPastaTemas := FPastaApp + 'temas\';
 end;
 
@@ -75,6 +97,11 @@ begin
   Result := FArquivoDescricao;
 end;
 
+function TVariaveis.GetArquivoPrisma: String;
+begin
+  Result := FArquivoPrisma;
+end;
+
 function TVariaveis.GetModeloConfig: String;
 begin
   Result := FModeloConfig;
@@ -83,6 +110,16 @@ end;
 function TVariaveis.GetPastaApp: String;
 begin
   Result := FPastaApp;
+end;
+
+function TVariaveis.GetPastaAreaTrabalho: String;
+begin
+  Result := FPastaAreaTrabalho;
+end;
+
+function TVariaveis.GetPastaArqProgx86: String;
+begin
+  Result := FPastaArqProgx86;
 end;
 
 function TVariaveis.GetPastaConfig: String;
@@ -100,11 +137,20 @@ begin
   Result := FPastaModelos;
 end;
 
+function TVariaveis.GetPastaPlanosFundo: String;
+begin
+  Result := FPastaPlanosFundo;
+end;
+
+function TVariaveis.GetPastaPrisma: String;
+begin
+  Result := FPastaPrisma;
+end;
+
 function TVariaveis.GetPastaTemas: String;
 begin
   Result := FPastaTemas;
 end;
-
 
 end.
 

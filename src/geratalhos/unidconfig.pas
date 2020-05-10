@@ -57,7 +57,7 @@ var
   resultado: Boolean;
   valor: String;
 begin
-  valor := FArquivoIni.ReadString('CABECALHO', 'MensagemVersaoBeta', 'True');
+  valor := FArquivoIni.ReadString('DADOS', 'MensagemVersaoBeta', 'True');
   try
     resultado := StrToBool(valor);
   except
@@ -71,7 +71,7 @@ var
   resultado: Cardinal;
   valor: String;
 begin
-  valor := FArquivoIni.ReadString('CABECALHO', 'ProximoID', '1');
+  valor := FArquivoIni.ReadString('DADOS', 'ProximoID', '1');
   try
     resultado := StrToDWord(valor);
   except
@@ -82,13 +82,13 @@ begin
     resultado := 1
   else
     resultado := resultado + 1;
-  FArquivoIni.WriteString('CABECALHO', 'ProximoID', Format('%u', [resultado]));
+  FArquivoIni.WriteString('DADOS', 'ProximoID', Format('%u', [resultado]));
   FArquivoIni.UpdateFile;
 end;
 
 procedure TConfiguracoes.SetExibirMsgBeta(Value: Boolean);
 begin
-  FArquivoIni.WriteBool('CABECALHO', 'MensagemVersaoBeta', Value);
+  FArquivoIni.WriteBool('DADOS', 'MensagemVersaoBeta', Value);
   FArquivoIni.UpdateFile;
 end;
 

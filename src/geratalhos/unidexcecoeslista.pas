@@ -16,6 +16,14 @@ const
     Mensagem: 'Não foi possível gerar as configurações padrão do Gerador de Atalhos. Impossível copiar configurações padrão.';
     AjudaID: 102);
 
+  excecaoCriarDirPrisma: TExcecaoDados = (
+    Mensagem: 'Não foi possível gerar as configurações de acesso a máquina Prisma. Impossível criar a pasta de configurações de acesso.';
+    AjudaID: 110);
+
+  excecaoObterModeloPrisma: TExcecaoDados = (
+    Mensagem: 'Não foi possível gerar as configurações de acesso a máquina Prisma. Impossível obter o arquivo modelo das configurações de acesso.';
+    AjudaID: 111);
+
 implementation
 
 end.

@@ -65,6 +65,7 @@ var
   JanelaPrincipal: TJanelaPrincipal;
   TemaSelecionado: TTema;
   MaqinaPrismaSelecionada: string;
+  SetorSelecionado: String;
 
 implementation
 
@@ -76,6 +77,8 @@ uses
 { TJanelaPrincipal }
 
 procedure TJanelaPrincipal.BotaoAvancarClick(Sender: TObject);
+var
+  AtalhoPrisma: TAtalhoPrisma;
 begin
   if Caderno.PageIndex = 0 then
   begin
@@ -84,7 +87,8 @@ begin
       ExibirMensagemErro('Selecione uma APS da lista antes de avançar.');
       Exit;
     end;
-    MaqinaPrismaSelecionada := ListaMaquinas.Selected.SubItems[1];
+    MaqinaPrismaSelecionada := ListaMaquinas.Selected. SubItems[1];
+    SetorSelecionado := ListaMaquinas.Selected.Caption;
     BotaoVoltar.Enabled := true;
     BotaoAvancar.Caption := '&Gerar';
     Caderno.PageIndex := 1;
@@ -99,7 +103,23 @@ begin
       Exit;
     end;
     TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
-    ExibirMensagemErro('Recurso não implementado.');
+    try
+      AtalhoPrisma := TAtalhoPrisma.Create(SetorSelecionado);
+      AtalhoPrisma.NomeMaquinaPrisma := MaqinaPrismaSelecionada;
+      AtalhoPrisma.Tema := TemaSelecionado;
+    except
+      on E: Exception do
+      begin
+        ExibirMensagemErro(E.Message, E.HelpContext);
+        AtalhoPrisma.Free;
+        Exit;
+      end;
+    end;
+    try
+      AtalhoPrisma.Gerar;
+    finally
+      AtalhoPrisma.Free;
+    end;
   end;
 end;
 
@@ -194,6 +214,9 @@ begin
 end;
 
 procedure TJanelaPrincipal.FormActivate(Sender: TObject);
+const
+  MSG_BETA = 'Esta é uma versão de pré-lançamento de um programa de computador que ainda não foi totalmente testado.';
+  DESC_BETA = 'Este programa deve ser utilizado para fins de teste e avaliação. Falhas e erros inesperados poderão ocorrer sem que haja uma forma de você contornar.';
 begin
   if not ProgramaIniciado then
   begin
@@ -217,6 +240,11 @@ begin
       Exit;
     if VersaoBeta then
        Sleep(1000);
+    if VersaoBeta and Configuracoes.ExibirMsgBeta then
+    begin
+      Caption := Caption + ' *** VERSÃO DE TESTES ***';
+      ExibirMensagemInfo(MSG_BETA, DESC_BETA);
+    end;
     Caderno.PageIndex := 0;
     ImagemLateral.Show;
     PainelRodape.Show;
@@ -231,10 +259,6 @@ begin
   Caderno.PageIndex := 2;
   RotuloCarregando.Left := Width div 2 - RotuloCarregando.Width div 2;
   GruposOLs := TGrupoOrgaosLocais.Create;
-  if VersaoBeta then
-  begin
-    Caption := Caption + ' *** VERSÃO DE TESTES ***'
-  end;
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
@@ -250,4 +274,3 @@ begin
 end;
 
 end.
-

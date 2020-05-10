@@ -197,7 +197,9 @@ begin
       Arquivo := RightStr(Tema, Tema.Length - Pos(',', Tema));
       NovoTema := TTema.Create(FPasta + Arquivo, Nome);
       if NovoTema.Carregar then
-        FLista.Add(NovoTema);
+        FLista.Add(NovoTema)
+      else
+        NovoTema.Free;
     end;
     Result := true;
   finally

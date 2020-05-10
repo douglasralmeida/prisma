@@ -1,7 +1,7 @@
 object JanelaPrincipal: TJanelaPrincipal
-  Left = 413
+  Left = 407
   Height = 459
-  Top = 173
+  Top = 180
   Width = 798
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -2652,7 +2652,7 @@ object JanelaPrincipal: TJanelaPrincipal
       Height = 416
       Top = 0
       Width = 461
-      PageIndex = 1
+      PageIndex = 0
       TabOrder = 0
       object PaginaUm: TPage
         object Label1: TLabel
