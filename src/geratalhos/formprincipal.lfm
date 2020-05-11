@@ -1,7 +1,7 @@
 object JanelaPrincipal: TJanelaPrincipal
   Left = 407
   Height = 459
-  Top = 184
+  Top = 186
   Width = 798
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -2799,13 +2799,21 @@ object JanelaPrincipal: TJanelaPrincipal
         end
         object ListaTemas: TListView
           Left = 16
-          Height = 296
+          Height = 264
           Top = 120
           Width = 426
           Columns = <>
           LargeImages = ListaImagens
           TabOrder = 0
           ViewStyle = vsIcon
+        end
+        object checExecutar: TCheckBox
+          Left = 16
+          Height = 19
+          Top = 392
+          Width = 200
+          Caption = 'E&xecutar o Prisma imediatamente.'
+          TabOrder = 1
         end
       end
       object PaginaSplash: TPage
@@ -2860,8 +2868,8 @@ object JanelaPrincipal: TJanelaPrincipal
   object ListaImagens: TImageList
     Height = 32
     Width = 32
-    left = 376
-    top = 400
+    left = 280
+    top = 408
     Bitmap = {
       4C69010000002000000020000000000000000000000000000000000000000000
       0000000000000000000000000000000000000003115500041A6000041A600004

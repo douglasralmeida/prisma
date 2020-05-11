@@ -18,6 +18,7 @@ type
     BotaoVoltar: TButton;
     BotaoAvancar: TButton;
     Caderno: TNotebook;
+    checExecutar: TCheckBox;
     ComboOLs: TComboBox;
     EditFiltro: TListViewFilterEdit;
     ImagemLateral: TImage;
@@ -117,10 +118,12 @@ begin
     end;
     try
       AtalhoPrisma.Gerar;
+      if checExecutar.Checked then
+        AtalhoPrisma.AbrirEmulador;
     finally
       AtalhoPrisma.Free;
     end;
-    ModalResult := mrOK;
+    Close;
   end;
 end;
 

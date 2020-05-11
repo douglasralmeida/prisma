@@ -29,6 +29,7 @@ type
   public
     constructor Create(ASetor: String);
     destructor Destroy; override;
+    procedure AbrirEmulador;
     procedure Gerar;
     property NomeMaquinaPrisma: String read GetNomeMaquinaPrisma write SetNomeMaquinaPrisma;
     property Tema: TTema read GetTema write SetTema;
@@ -37,12 +38,13 @@ type
 implementation
 
 uses
-  ActiveX, ComObj, LConvEncoding, ShlObj, unidConfig, unidExcecoes, unidExcecoesLista,
-  unidVariaveis;
+  ActiveX, ComObj, LClIntf, LConvEncoding, ShlObj, unidConfig,
+  unidExcecoes, unidExcecoesLista, unidVariaveis;
 
 const
   ARQUIVO_NOME = 'prisma%u.atcf';
   PLANOFUNDO_NOME = 'planofundo%u.jpg';
+  LOCAL_ACCUTERM = 'Atwin71\atwin71.exe';
 
 constructor TAtalhoPrisma.Create(ASetor: String);
 begin
@@ -64,6 +66,11 @@ destructor TAtalhoPrisma.Destroy;
 begin
   if Assigned(FArquivoIni) then
     FArquivoIni.Free;
+end;
+
+procedure TAtalhoPrisma.AbrirEmulador;
+begin
+  OpenDocument(FArquivoNome);
 end;
 
 procedure TAtalhoPrisma.Gerar;
@@ -95,7 +102,7 @@ begin
     Setor := FNomeSetor;
   Atalho := WideString(Variaveis.PastaAreaTrabalho + 'Prisma ' + Setor + '.lnk');
   ArquivoNome := WideString(FArquivoNome);
-  CaminhoAccuterm := WideString(Variaveis.PastaArqProgx86) + 'Atwin71\atwin71.exe';
+  CaminhoAccuterm := WideString(Variaveis.PastaArqProgx86) + LOCAL_ACCUTERM;
   with ISLink do begin
     SetIconLocation(PWideChar(CaminhoAccuterm), 0);
     SetPath(PWideChar(ArquivoNome));
@@ -103,7 +110,7 @@ begin
     SetWorkingDirectory(PWideChar(ArquivoNome));
   end;
   if FileExists(Atalho) then
-    DeleteFile(Atalho);
+    SysUtils.DeleteFile(Atalho);
   Result := IPFile.Save(PWideChar(Atalho), false) <> S_OK;
 end;
 
@@ -140,6 +147,8 @@ begin
   FArquivoIni.WriteString('Accuterm', 'ScaleFont', FTema.FonteEscala);
   FArquivoIni.WriteString('Palette', 'Color0', FTema.CorFundo);
   FArquivoIni.WriteString('Palette', 'Color1', FTema.FonteCor);
+  FArquivoIni.WriteString('Palette', 'Color2', FTema.CorFundo);
+  FArquivoIni.WriteString('Palette', 'Color3', FTema.FonteCor);
 end;
 
 procedure TAtalhoPrisma.SalvarArquivo;
