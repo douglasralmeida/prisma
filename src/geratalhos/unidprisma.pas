@@ -38,7 +38,7 @@ implementation
 
 uses
   ActiveX, ComObj, LConvEncoding, ShlObj, unidConfig, unidExcecoes, unidExcecoesLista,
-  unidUtils, unidVariaveis;
+  unidVariaveis;
 
 const
   ARQUIVO_NOME = 'prisma%u.atcf';

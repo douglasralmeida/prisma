@@ -25,9 +25,6 @@ type
 
 implementation
 
-const
-  BUFFER_SIZE = 8192;
-
 { TZipFile }
 constructor TZipFile.Create;
 begin

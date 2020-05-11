@@ -120,6 +120,7 @@ begin
     finally
       AtalhoPrisma.Free;
     end;
+    ModalResult := mrOK;
   end;
 end;
 
@@ -210,6 +211,7 @@ begin
     begin
       Item := ListaTemas.Items.Add;
       Item.Caption := Tema.Nome;
+      Item.ImageIndex := 0;
     end;
 end;
 

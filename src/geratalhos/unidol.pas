@@ -106,8 +106,6 @@ begin
 end;
 
 destructor TOrgaosLocais.Destroy;
-var
-  I: Integer;
 begin
   if Assigned(FLista) then
     FLista.Free;
