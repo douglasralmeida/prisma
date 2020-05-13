@@ -31,9 +31,15 @@ uses
   FileUtil, unidExcecoes, unidExcecoesLista, unidVariaveis;
 
 constructor TConfiguracoes.Create;
+var
+  PastaConfigPai: String;
 begin
   inherited;
 
+  PastaConfigPai := ExtractFilePath(ExcludeTrailingPathDelimiter(Variaveis.PastaConfig));
+  if not DirectoryExists(PastaConfigPai) then
+    if not CreateDir(PastaConfigPai) then
+      raise EProgramaErro.Create(excecaoCriarDirConfig);
   if not DirectoryExists(Variaveis.PastaConfig) then
     if not CreateDir(Variaveis.PastaConfig) then
       raise EProgramaErro.Create(excecaoCriarDirConfig);

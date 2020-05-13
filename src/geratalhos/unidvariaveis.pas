@@ -38,6 +38,8 @@ type
     function GetPastaTemas: String;
   public
     constructor Create;
+    function GetGrupoNome: String;
+    function GetAppNome: String;
     property ArquivoConfig: String read GetArquivoConfig;
     property ArquivoDescricao: String read GetArquivoDescricao;
     property ArquivoPrisma: String read GetArquivoPrisma;
@@ -60,9 +62,11 @@ implementation
 
 uses Forms, ShlObj;
 
-constructor TVariaveis.Create;
 const
-  LOCAL_CONFIG = '\Aplicações do INSS\Gerador de Atalhos do Prisma\';
+  APP_NOME = 'Gerador de Atalhos do Prisma';
+  GRUPO_NOME = 'Aplicações do INSS';
+
+constructor TVariaveis.Create;
 var
   Pasta: Array[0..MaxPathLen] of Char;
 begin
@@ -75,7 +79,7 @@ begin
   FModeloConfig := 'CONFIG.PRC';
   FPastaApp := ExtractFilePath(Application.ExeName);
   SHGetSpecialFolderPath(0, Pasta, CSIDL_LOCAL_APPDATA, false);
-  FPastaConfig := Pasta + LOCAL_CONFIG;
+  FPastaConfig := Pasta + '\' + GetGrupoNome + '\' + GetAppNome + '\';
   FPastaPlanosFundo := Pasta + 'planosfundo\';
   SHGetSpecialFolderPath(0, Pasta, CSIDL_DESKTOP, false);
   FPastaAreaTrabalho := Pasta + '\';
@@ -85,6 +89,16 @@ begin
   FPastaModelos := FPastaApp + 'modelos\';
   FPastaPrisma := FPastaConfig + 'maquinas\';
   FPastaTemas := FPastaApp + 'temas\';
+end;
+
+function TVariaveis.GetGrupoNome: String;
+begin
+  Result := GRUPO_NOME;
+end;
+
+function TVariaveis.GetAppNome: String;
+begin
+  Result := APP_NOME;
 end;
 
 function TVariaveis.GetArquivoConfig: String;

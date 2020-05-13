@@ -1,7 +1,7 @@
 object JanelaPrincipal: TJanelaPrincipal
-  Left = 407
+  Left = 304
   Height = 459
-  Top = 186
+  Top = 110
   Width = 798
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -2652,7 +2652,7 @@ object JanelaPrincipal: TJanelaPrincipal
       Height = 416
       Top = 0
       Width = 461
-      PageIndex = 1
+      PageIndex = 0
       TabOrder = 0
       object PaginaUm: TPage
         object Label1: TLabel
@@ -2673,7 +2673,7 @@ object JanelaPrincipal: TJanelaPrincipal
           Top = 56
           Width = 413
           AutoSize = False
-          Caption = 'Este aplicativo irá te ajudar a gerar atalhos para acesso ao servidor Prisma na área de trabalho.'
+          Caption = 'Este aplicativo irá te ajudar a gerar atalhos para acesso aos servidores Prisma a partir da área de trabalho.'
           ParentColor = False
           WordWrap = True
         end
@@ -2869,7 +2869,7 @@ object JanelaPrincipal: TJanelaPrincipal
     Height = 32
     Width = 32
     left = 280
-    top = 408
+    top = 400
     Bitmap = {
       4C69010000002000000020000000000000000000000000000000000000000000
       0000000000000000000000000000000000000003115500041A6000041A600004
