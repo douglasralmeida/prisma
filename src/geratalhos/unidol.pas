@@ -30,6 +30,20 @@ type
   end;
 
   TListaOrgaosLocais = specialize TFPGObjectList<TOrgaoLocal>;
+  TListaSimplesOrgaosLocais = specialize TFPGList<TOrgaoLocal>;
+
+  TOrgaosLocaisEnumerador = class
+  private
+    FLista: TListaOrgaosLocais;
+    FCurrentID: Integer;
+    FCurrent: TOrgaoLocal;
+    function GetCurrent: TOrgaoLocal;
+    procedure Reset;
+  public
+    constructor Create(ATree: TListaOrgaosLocais);
+    function MoveNext: Boolean;
+    property Current: TOrgaoLocal read GetCurrent;
+  end;
 
   TOrgaosLocais = class(TObject)
   private
@@ -42,6 +56,7 @@ type
     constructor Create(AArquivo: String; ANome: String);
     destructor Destroy; override;
     function Carregar: Boolean;
+    function GetEnumerator: TOrgaosLocaisEnumerador;
     property Arquivo: String read GetArquivo;
     property Lista: TListaOrgaosLocais read FLista;
     property Nome: String read GetNome;
@@ -49,7 +64,7 @@ type
 
 implementation
 
-uses CSVDocument;
+uses CSVDocument, unidVariaveis;
 
 function TOrgaoLocal.GetCodigo: String;
 begin
@@ -95,13 +110,55 @@ begin
     FNomeInterno := Value;
 end;
 
+{ TORGAOSLOCAISENUMERADOR }
+constructor TOrgaosLocaisEnumerador.Create(ATree: TListaOrgaosLocais);
+begin
+  inherited Create;
+
+  FLista := ATree;
+  FCurrent := nil;
+  FCurrentID := -1;
+end;
+
+function TOrgaosLocaisEnumerador.GetCurrent: TOrgaoLocal;
+begin
+  Result := FCurrent;
+end;
+
+function TOrgaosLocaisEnumerador.MoveNext: Boolean;
+begin
+  if FCurrent = nil then
+  begin
+    FCurrent := FLista.First;
+    FCurrentID := 0;
+  end
+  else
+    if FCurrent <> FLista.Last then
+    begin
+      FCurrent := FLista.Items[FCurrentID + 1];
+      Inc(FCurrentID);
+    end
+    else
+    begin
+      FCurrent := nil;
+      FCurrentID := -1;
+    end;
+  Result := FCurrent <> nil;
+end;
+
+procedure TOrgaosLocaisEnumerador.Reset;
+begin
+  FCurrent := nil;
+  FCurrentID := -1;
+end;
+
 { TORGAOSLOCAIS }
 
 constructor TOrgaosLocais.Create(AArquivo: String; ANome: String);
 begin
   inherited Create;
   FLista := TListaOrgaosLocais.Create;
-  FArquivo := AArquivo;
+  FArquivo := Variaveis.PastaApp + AArquivo;
   FNome := ANome;
 end;
 
@@ -142,6 +199,11 @@ end;
 function TOrgaosLocais.GetArquivo: String;
 begin
   Result := FArquivo;
+end;
+
+function TOrgaosLocais.GetEnumerator: TOrgaosLocaisEnumerador;
+begin
+  Result := TOrgaosLocaisEnumerador.Create(FLista);
 end;
 
 function TOrgaosLocais.GetNome: String;

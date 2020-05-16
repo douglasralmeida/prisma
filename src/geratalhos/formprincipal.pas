@@ -6,51 +6,83 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  ComCtrls, Buttons, ListViewFilterEdit, FGL, unidOL, unidTemas, EditBtn;
+  ComCtrls, Buttons, ListViewFilterEdit, FGL, unidOL, unidTemas, EditBtn, Menus,
+  ActnList;
 
 type
-
-  { TGrupoOrgaosLocais }
-  TGrupoOrgaosLocais = specialize TFPGObjectList<TOrgaosLocais>;
-
   { TJanelaPrincipal }
   TJanelaPrincipal = class(TForm)
+    AcaoOLAdicionar: TAction;
+    AcaoOLSelecionarTudo: TAction;
+    AcaoOLInverterSelecao: TAction;
+    AcaoOLRemover: TAction;
+    AcaoOLRemoverTudo: TAction;
+    ListaImagens16: TImageList;
+    ListaAcoes: TActionList;
     BotaoVoltar: TButton;
     BotaoAvancar: TButton;
+    BotaoAdicionar: TButton;
+    BotaoRemover: TButton;
+    BotaoRemoverTudo: TButton;
     Caderno: TNotebook;
     checExecutar: TCheckBox;
-    ComboOLs: TComboBox;
     EditFiltro: TListViewFilterEdit;
-    ImagemLateral: TImage;
     Label1: TLabel;
     Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     ListaMaquinas: TListView;
     ListaTemas: TListView;
+    ListaAdicionadas: TListView;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    N2: TMenuItem;
+    N1: TMenuItem;
+    MenuListaAdicionadas: TPopupMenu;
     PaginaDois: TPage;
     PaginaSplash: TPage;
     PaginaUm: TPage;
     PainelConteudo: TPanel;
-    ListaImagens: TImageList;
+    ListaImagens32: TImageList;
     PainelRodape: TPanel;
+    MenuListaOLs: TPopupMenu;
     RotuloCarregando: TLabel;
-    SpeedButton1: TSpeedButton;
+    procedure AcaoOLAdicionarExecute(Sender: TObject);
+    procedure AcaoOLInverterSelecaoExecute(Sender: TObject);
+    procedure AcaoOLRemoverExecute(Sender: TObject);
+    procedure AcaoOLRemoverTudoExecute(Sender: TObject);
+    procedure AcaoOLSelecionarTudoExecute(Sender: TObject);
     procedure BotaoVoltarClick(Sender: TObject);
     procedure BotaoAvancarClick(Sender: TObject);
-    procedure ComboOLsChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ListaAdicionadasDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure ListaAdicionadasDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure ListaAdicionadasSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure ListaMaquinasDblClick(Sender: TObject);
+    procedure ListaMaquinasDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure ListaMaquinasDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure ListaMaquinasSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure PaginaUmBeforeShow(ASender: TObject; ANewPage: TPage;
+      ANewIndex: Integer);
   private
+    ListaOLs: TOrgaosLocais;
+    ListaOLAdicionadas: TListaSimplesOrgaosLocais;
     ProgramaIniciado: Boolean;
-    GruposOLs: TGrupoOrgaosLocais;
     Temas: TTemas;
-    function CarregarGrupos: Boolean;
     function CarregarOLs: Boolean;
     function CarregarTemas: Boolean;
   public
@@ -65,17 +97,110 @@ const
 var
   JanelaPrincipal: TJanelaPrincipal;
   TemaSelecionado: TTema;
-  MaqinaPrismaSelecionada: string;
-  SetorSelecionado: String;
 
 implementation
 
 uses
-  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils;
+  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils, unidVetorInt;
 
 {$R *.lfm}
 
+const
+  ARQUIVO_OLS = 'LISTAOL.CSV';
+
 { TJanelaPrincipal }
+
+procedure TJanelaPrincipal.AcaoOLAdicionarExecute(Sender: TObject);
+var
+  OL: TOrgaoLocal;
+  Item: TListItem;
+  NovoItem: TListItem;
+begin
+  Item := ListaMaquinas.Selected;
+  ListaAdicionadas.BeginUpdate;
+  try
+    while Item <> nil do
+    begin
+      OL := TOrgaoLocal(Item.Data);
+      if ListaOLAdicionadas.IndexOf(OL) = -1 then
+      begin
+        ListaOLAdicionadas.Add(OL);
+        NovoItem := ListaAdicionadas.Items.Add;
+        NovoItem.Caption := OL.NomeExibicao;
+        NovoItem.Data := OL;
+      end;
+      Item := ListaMaquinas.GetNextItem(Item, sdBelow, [lisSelected]);
+    end;
+  finally
+    ListaAdicionadas.EndUpdate;
+  end;
+end;
+
+procedure TJanelaPrincipal.AcaoOLInverterSelecaoExecute(Sender: TObject);
+var
+  Lista: TListView;
+  Item: TListItem;
+begin
+  if ListaMaquinas.Focused then
+    Lista := ListaMaquinas
+  else if ListaAdicionadas.Focused then
+    Lista := ListaAdicionadas
+  else
+    Exit;
+  for Item in Lista.Items do
+    Item.Selected := not Item.Selected;
+end;
+
+procedure TJanelaPrincipal.AcaoOLRemoverExecute(Sender: TObject);
+var
+  I: Integer;
+  Item: TListItem;
+begin
+  if ListaAdicionadas.SelCount > 0 then
+  begin
+    ListaAdicionadas.BeginUpdate;
+    try
+      I := ListaAdicionadas.Items.Count - 1;
+      repeat
+        Item := ListaAdicionadas.Items[I];
+        if Item.Selected then
+        begin
+          ListaOLAdicionadas.Delete(I);
+          ListaAdicionadas.Items.Delete(I);
+        end;
+        Dec(I);
+      until I = -1;
+    finally
+      ListaAdicionadas.EndUpdate;
+    end;
+    ListaAdicionadasSelectItem(Sender, nil, false);
+  end;
+end;
+
+procedure TJanelaPrincipal.AcaoOLRemoverTudoExecute(Sender: TObject);
+begin
+  ListaAdicionadas.BeginUpdate;
+  try
+    ListaOLAdicionadas.Clear;
+    ListaAdicionadas.Clear;
+  finally
+    ListaAdicionadas.EndUpdate;
+  end;
+  ListaAdicionadasSelectItem(Sender, nil, false);
+end;
+
+procedure TJanelaPrincipal.AcaoOLSelecionarTudoExecute(Sender: TObject);
+var
+  Lista: TListView;
+begin
+  if ListaMaquinas.Focused then
+    Lista := ListaMaquinas
+  else if ListaAdicionadas.Focused then
+    Lista := ListaAdicionadas
+  else
+    Exit;
+  Lista.SelectAll;
+end;
 
 procedure TJanelaPrincipal.BotaoAvancarClick(Sender: TObject);
 var
@@ -83,13 +208,11 @@ var
 begin
   if Caderno.PageIndex = 0 then
   begin
-    if ListaMaquinas.ItemIndex < 0 then
+    if ListaAdicionadas.Items.Count = 0 then
     begin
-      ExibirMensagemErro('Selecione uma APS da lista antes de avançar.');
+      ExibirMensagemErro('Adicione, pelo menos, uma APS na lista antes de avançar.');
       Exit;
     end;
-    MaqinaPrismaSelecionada := ListaMaquinas.Selected. SubItems[1];
-    SetorSelecionado := ListaMaquinas.Selected.Caption;
     BotaoVoltar.Enabled := true;
     BotaoAvancar.Caption := '&Gerar';
     Caderno.PageIndex := 1;
@@ -104,9 +227,9 @@ begin
       Exit;
     end;
     TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
+    AtalhoPrisma := TAtalhoPrisma.Create;
     try
-      AtalhoPrisma := TAtalhoPrisma.Create(SetorSelecionado);
-      AtalhoPrisma.NomeMaquinaPrisma := MaqinaPrismaSelecionada;
+      AtalhoPrisma.Maquinas := ListaOLAdicionadas;
       AtalhoPrisma.Tema := TemaSelecionado;
     except
       on E: Exception do
@@ -132,74 +255,35 @@ begin
   BotaoVoltar.Enabled := false;
   BotaoAvancar.Caption := '&Avançar';
   Caderno.PageIndex := 0;
-  if ComboOLs.CanFocus then
-     ComboOLs.SetFocus;
+  if EditFiltro.CanFocus then
+     EditFiltro.SetFocus;
 end;
 
-procedure TJanelaPrincipal.ComboOLsChange(Sender: TObject);
+function TJanelaPrincipal.CarregarOLs: Boolean;
 
-  procedure AdicionarFiltro(Lista: TListViewDataList; Rotulos: Array of String);
+  procedure AdicionarFiltro(Lista: TListViewDataList; Rotulos: Array of String; Valor: TOrgaoLocal);
   var
     Dado: TListViewDataItem;
   begin
-    Dado.Data := nil;
     SetLength(Dado.StringArray, 3);
     Dado.StringArray[0] := Rotulos[0];
     Dado.StringArray[1] := Rotulos[1];
     Dado.StringArray[2] := Rotulos[2];
+    Dado.Data := Valor;
     Lista.Add(Dado);
   end;
 
 var
   OL: TOrgaoLocal;
 begin
-  if ComboOLs.ItemIndex > - 1 then
-  begin
-    EditFiltro.Items.Clear;
-    EditFiltro.BeginUpdateBounds;
-    for OL in GruposOLs[ComboOLs.ItemIndex].Lista do
-      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo, OL.MaquinaPrisma]);
-    EditFiltro.EndUpdateBounds;
-  end;
+  Result := false;
+  ListaOLs := TOrgaosLocais.Create(ARQUIVO_OLS, 'Todos os OLs');
+  ListaOLAdicionadas := TListaSimplesOrgaosLocais.Create;
+  Result := ListaOLs.Carregar;
+  if Result then
+    for OL in ListaOLs do
+      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo, OL.MaquinaPrisma], OL);
   EditFiltro.InvalidateFilter;
-end;
-
-function TJanelaPrincipal.CarregarGrupos: Boolean;
-var
-  Dados: TStringList;
-  Nome: String;
-  Arquivo: String;
-  Grupo: String;
-  ArquivoDescricao: String;
-begin
-  ArquivoDescricao := Variaveis.PastaDados + Variaveis.ArquivoDescricao;
-  if not FileExists(ArquivoDescricao) then
-    Exit(false);
-  Dados := TStringList.Create;
-  try
-    Dados.LoadFromFile(ArquivoDescricao);
-    for Grupo in Dados do
-    begin
-      Nome := LeftStr(Grupo, Pos(',', Grupo) - 1);
-      Arquivo := RightStr(Grupo, Grupo.Length - Pos(',', Grupo));
-      GruposOLs.Add(TOrgaosLocais.Create(Variaveis.PastaDados + Arquivo, Nome));
-      ComboOLs.Items.Add(Nome);
-    end;
-    Result := true;
-  finally
-    Dados.Free;
-  end;
-end;
-
-function TJanelaPrincipal.CarregarOLs: Boolean;
-var
-  Resultado: Boolean;
-  Grupo: TOrgaosLocais;
-begin
-  Resultado := false;
-  for Grupo in GruposOLs do
-    Resultado := Grupo.Carregar or Resultado;
-  Result := Resultado;
 end;
 
 function TJanelaPrincipal.CarregarTemas: Boolean;
@@ -237,8 +321,6 @@ begin
         Close;
       end;
     end;
-    if not CarregarGrupos then
-      Exit;
     if not CarregarOLs then
       Exit;
     if not CarregarTemas then
@@ -251,10 +333,9 @@ begin
       ExibirMensagemInfo(MSG_BETA, DESC_BETA);
     end;
     Caderno.PageIndex := 0;
-    ImagemLateral.Show;
     PainelRodape.Show;
-    if ComboOLs.CanFocus then
-       ComboOLs.SetFocus;
+    if EditFiltro.CanFocus then
+       EditFiltro.SetFocus;
   end;
 end;
 
@@ -263,7 +344,6 @@ begin
   ProgramaIniciado := false;
   Caderno.PageIndex := 2;
   RotuloCarregando.Left := Width div 2 - RotuloCarregando.Width div 2;
-  GruposOLs := TGrupoOrgaosLocais.Create;
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
@@ -272,10 +352,60 @@ begin
     Configuracoes.Free;
   if Assigned(Variaveis) then
     Variaveis.Free;
-  if Assigned(GruposOLs) then
-    GruposOLs.Free;
   if Assigned(Temas) then
     Temas.Free;
+  if Assigned(ListaOLAdicionadas) then
+    ListaOLAdicionadas.Free;
+  if Assigned(ListaOLs) then
+    ListaOLs.Free;
+end;
+
+procedure TJanelaPrincipal.ListaAdicionadasDragDrop(Sender, Source: TObject; X,
+  Y: Integer);
+begin
+  AcaoOLAdicionar.Execute;
+end;
+
+procedure TJanelaPrincipal.ListaAdicionadasDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := Source = ListaMaquinas;
+end;
+
+procedure TJanelaPrincipal.ListaAdicionadasSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+begin
+  AcaoOLRemover.Enabled := ListaAdicionadas.SelCount > 0;
+end;
+
+procedure TJanelaPrincipal.ListaMaquinasDblClick(Sender: TObject);
+begin
+  if ListaMaquinas.SelCount > 0 then
+    AcaoOLAdicionar.Execute;
+end;
+
+procedure TJanelaPrincipal.ListaMaquinasDragDrop(Sender, Source: TObject; X,
+  Y: Integer);
+begin
+  AcaoOLRemover.Execute;
+end;
+
+procedure TJanelaPrincipal.ListaMaquinasDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := Source = ListaAdicionadas;
+end;
+
+procedure TJanelaPrincipal.ListaMaquinasSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+begin
+  AcaoOLAdicionar.Enabled := ListaMaquinas.SelCount > 0;
+end;
+
+procedure TJanelaPrincipal.PaginaUmBeforeShow(ASender: TObject;
+  ANewPage: TPage; ANewIndex: Integer);
+begin
+
 end;
 
 end.

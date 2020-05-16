@@ -5,33 +5,32 @@ unit unidPrisma;
 interface
 
 uses
-  Classes, IniFiles, SysUtils, unidTemas;
+  Classes, IniFiles, SysUtils, unidOL, unidTemas;
 
 type
   TAtalhoPrisma = class(TObject)
   private
+    Arquivo: String;
     FArquivoIni: TMemIniFile;
-    FArquivoNome: String;
     FID: Cardinal;
-    FNomeMaquinaPrisma: String;
-    FNomeSetor: String;
+    FMaquinas: TListaSimplesOrgaosLocais;
     FModeloPrisma: String;
     FTema: TTema;
-    function GerarAtalho: Boolean;
-    function GetNomeMaquinaPrisma: String;
+    function GerarAtalho(Setor: String): Boolean;
+    function GetMaquinas: TListaSimplesOrgaosLocais;
     function GetTema: TTema;
-    procedure ProcessarMaquinaPrisma;
+    procedure ProcessarMaquinaPrisma(Maquina, Setor: String);
     procedure ProcessarPlanoFundo;
     procedure ProcessarTema;
-    procedure SalvarArquivo;
-    procedure SetNomeMaquinaPrisma(Value: String);
+    function SalvarArquivo(Codigo: String): Boolean;
     procedure SetTema(Value: TTema);
+    procedure SetMaquinas(Value: TListaSimplesOrgaosLocais);
   public
-    constructor Create(ASetor: String);
+    constructor Create;
     destructor Destroy; override;
     procedure AbrirEmulador;
     procedure Gerar;
-    property NomeMaquinaPrisma: String read GetNomeMaquinaPrisma write SetNomeMaquinaPrisma;
+    property Maquinas: TListaSimplesOrgaosLocais read GetMaquinas write SetMaquinas;
     property Tema: TTema read GetTema write SetTema;
   end;
 
@@ -42,11 +41,11 @@ uses
   unidExcecoes, unidExcecoesLista, unidVariaveis;
 
 const
-  ARQUIVO_NOME = 'prisma%u.atcf';
+  ARQUIVO_NOME = 'prisma.%s.atcf';
   PLANOFUNDO_NOME = 'planofundo%u.jpg';
   LOCAL_ACCUTERM = 'Atwin71\atwin71.exe';
 
-constructor TAtalhoPrisma.Create(ASetor: String);
+constructor TAtalhoPrisma.Create;
 begin
   inherited Create;
 
@@ -56,7 +55,7 @@ begin
   FModeloPrisma := Variaveis.PastaModelos + Variaveis.ArquivoPrisma;
   if not FileExists(FModeloPrisma) then
     raise EProgramaErro.Create(excecaoObterModeloPrisma);
-  FNomeSetor := ASetor;
+  FMaquinas := nil;
   FArquivoIni := TMemIniFile.Create(FModeloPrisma);
   FArquivoIni.CacheUpdates := true;
   FID := Configuracoes.ProximoID;
@@ -70,19 +69,24 @@ end;
 
 procedure TAtalhoPrisma.AbrirEmulador;
 begin
-  OpenDocument(FArquivoNome);
+  OpenDocument(Arquivo);
 end;
 
 procedure TAtalhoPrisma.Gerar;
+var
+  OL: TOrgaoLocal;
 begin
-  ProcessarMaquinaPrisma;
   ProcessarTema;
   ProcessarPlanoFundo;
-  SalvarArquivo;
-  GerarAtalho;
+  for OL in FMaquinas do
+  begin
+    ProcessarMaquinaPrisma(OL.MaquinaPrisma, OL.NomeExibicao);
+    if SalvarArquivo(OL.Codigo) then
+      GerarAtalho(OL.NomeExibicao);
+  end;
 end;
 
-function TAtalhoPrisma.GerarAtalho: Boolean;
+function TAtalhoPrisma.GerarAtalho(Setor: String): Boolean;
 var
   ArquivoNome: WideString;
   Atalho: WideString;
@@ -91,22 +95,20 @@ var
   IObject: IUnknown;
   ISLink: IShellLinkW;
   IPFile: IPersistFile;
-  Setor: String;
 begin
   IObject := CreateComObject(CLSID_ShellLink);
   ISLink := IObject as IShellLinkW;
   IPFile := IObject as IPersistFile;
-  if FNomeSetor.StartsWith('APS', true) then
-    Setor := FNomeSetor.Substring(3)
-  else
-    Setor := FNomeSetor;
+  if Setor.StartsWith('APS', true) then
+    Setor := Setor.Substring(3);
   Atalho := WideString(Variaveis.PastaAreaTrabalho + 'Prisma ' + Setor + '.lnk');
-  ArquivoNome := WideString(FArquivoNome);
+  ArquivoNome := WideString(Arquivo);
   CaminhoAccuterm := WideString(Variaveis.PastaArqProgx86) + LOCAL_ACCUTERM;
   with ISLink do begin
+    SetDescription(PWideChar('Abre o Prisma'));
     SetIconLocation(PWideChar(CaminhoAccuterm), 0);
     SetPath(PWideChar(ArquivoNome));
-    ArquivoNome := WideString(ExtractFilePath(FArquivoNome));
+    ArquivoNome := WideString(ExtractFilePath(Arquivo));
     SetWorkingDirectory(PWideChar(ArquivoNome));
   end;
   if FileExists(Atalho) then
@@ -114,9 +116,9 @@ begin
   Result := IPFile.Save(PWideChar(Atalho), false) <> S_OK;
 end;
 
-function TAtalhoPrisma.GetNomeMaquinaPrisma: String;
+function TAtalhoPrisma.GetMaquinas: TListaSimplesOrgaosLocais;
 begin
-  Result := FNomeMaquinaPrisma;
+  Result := FMaquinas;
 end;
 
 function TAtalhoPrisma.GetTema: TTema;
@@ -124,10 +126,10 @@ begin
   Result := FTema;
 end;
 
-procedure TAtalhoPrisma.ProcessarMaquinaPrisma;
+procedure TAtalhoPrisma.ProcessarMaquinaPrisma(Maquina, Setor: String);
 begin
-  FArquivoIni.WriteString('Accuterm', 'HostName', FNomeMaquinaPrisma);
-  FArquivoIni.WriteString('Accuterm', 'SessionTitle', FNomeSetor);
+  FArquivoIni.WriteString('Accuterm', 'HostName', Maquina);
+  FArquivoIni.WriteString('Accuterm', 'SessionTitle', Setor);
 end;
 
 procedure TAtalhoPrisma.ProcessarPlanoFundo;
@@ -151,27 +153,29 @@ begin
   FArquivoIni.WriteString('Palette', 'Color3', FTema.FonteCor);
 end;
 
-procedure TAtalhoPrisma.SalvarArquivo;
+function TAtalhoPrisma.SalvarArquivo(Codigo: String): Boolean;
 var
   NovoArquivo: TStringList;
   TextoConvertido: String;
 begin
-  FArquivoNome := Variaveis.PastaPrisma + Format(ARQUIVO_NOME, [FID]);
+  Arquivo := Variaveis.PastaPrisma + Format(ARQUIVO_NOME, [Codigo]);
   NovoArquivo := TStringList.Create;
   try
     FArquivoIni.GetStrings(NovoArquivo);
     TextoConvertido := ConvertEncoding(NovoArquivo.Text, EncodingUTF8, EncodingAnsi);
     NovoArquivo.Text := TextoConvertido;
-    NovoArquivo.SaveToFile(FArquivoNome);
+    if FileExists(Arquivo) then
+      DeleteFile(Arquivo);
+    NovoArquivo.SaveToFile(Arquivo);
+    Result := FileExists(Arquivo);
   finally
     NovoArquivo.Free;
   end;
 end;
 
-procedure TAtalhoPrisma.SetNomeMaquinaPrisma(Value: String);
+procedure TAtalhoPrisma.SetMaquinas(Value: TListaSimplesOrgaosLocais);
 begin
-  if Value <> FNomeMaquinaPrisma then
-    FNomeMaquinaPrisma := Value;
+  FMaquinas := Value;
 end;
 
 procedure TAtalhoPrisma.SetTema(Value: TTema);

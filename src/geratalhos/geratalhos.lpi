@@ -20,7 +20,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <RevisionNr Value="170"/>
+      <RevisionNr Value="200"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
       <Attributes pvaPreRelease="True"/>
@@ -75,7 +75,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="geratalhos.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -136,6 +136,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidExcecoesLista"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="unidvetorint.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
