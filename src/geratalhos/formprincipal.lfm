@@ -2149,12 +2149,10 @@ object JanelaPrincipal: TJanelaPrincipal
       Height = 407
       Top = 0
       Width = 804
-      PageIndex = 1
+      PageIndex = 0
       Align = alClient
-      OnChangeBounds = CadernoChangeBounds
       TabOrder = 0
       object PaginaUm: TPage
-        OnBeforeShow = PaginaUmBeforeShow
         object Label1: TLabel
           Left = 16
           Height = 32
@@ -2257,6 +2255,7 @@ object JanelaPrincipal: TJanelaPrincipal
           PopupMenu = MenuListaAdicionadas
           ReadOnly = True
           RowSelect = True
+          SmallImages = ListaImagens16
           TabOrder = 5
           ViewStyle = vsReport
           OnDragDrop = ListaAdicionadasDragDrop
@@ -2341,6 +2340,7 @@ object JanelaPrincipal: TJanelaPrincipal
           LargeImages = ListaImagens32
           TabOrder = 0
           ViewStyle = vsIcon
+          OnSelectItem = ListaTemasSelectItem
         end
         object checExecutar: TCheckBox
           Left = 16
@@ -2359,7 +2359,7 @@ object JanelaPrincipal: TJanelaPrincipal
           Caption = 'INSS - DIRAT/DTI'
           ParentColor = False
         end
-        object Image1: TImage
+        object ImagemTema: TImage
           Left = 552
           Height = 240
           Top = 132
@@ -2408,7 +2408,6 @@ object JanelaPrincipal: TJanelaPrincipal
       ParentColor = False
       TabOrder = 1
       Visible = False
-      OnClick = PainelRodapeClick
       object BotaoAvancar: TButton
         Left = 704
         Height = 25

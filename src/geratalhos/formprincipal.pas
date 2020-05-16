@@ -17,7 +17,7 @@ type
     AcaoOLInverterSelecao: TAction;
     AcaoOLRemover: TAction;
     AcaoOLRemoverTudo: TAction;
-    Image1: TImage;
+    ImagemTema: TImage;
     Label10: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -66,7 +66,6 @@ type
     procedure AcaoOLSelecionarTudoExecute(Sender: TObject);
     procedure BotaoVoltarClick(Sender: TObject);
     procedure BotaoAvancarClick(Sender: TObject);
-    procedure CadernoChangeBounds(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -81,9 +80,8 @@ type
       State: TDragState; var Accept: Boolean);
     procedure ListaMaquinasSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-    procedure PaginaUmBeforeShow(ASender: TObject; ANewPage: TPage;
-      ANewIndex: Integer);
-    procedure PainelRodapeClick(Sender: TObject);
+    procedure ListaTemasSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     ListaOLs: TOrgaosLocais;
     ListaOLAdicionadas: TListaSimplesOrgaosLocais;
@@ -134,6 +132,7 @@ begin
         NovoItem := ListaAdicionadas.Items.Add;
         NovoItem.Caption := OL.NomeExibicao;
         NovoItem.Data := OL;
+        NovoItem.ImageIndex := 0;
       end;
       Item := ListaMaquinas.GetNextItem(Item, sdBelow, [lisSelected]);
     end;
@@ -256,11 +255,6 @@ begin
   end;
 end;
 
-procedure TJanelaPrincipal.CadernoChangeBounds(Sender: TObject);
-begin
-
-end;
-
 procedure TJanelaPrincipal.BotaoVoltarClick(Sender: TObject);
 begin
   BotaoVoltar.Enabled := false;
@@ -281,6 +275,7 @@ function TJanelaPrincipal.CarregarOLs: Boolean;
     Dado.StringArray[1] := Rotulos[1];
     Dado.StringArray[2] := Rotulos[2];
     Dado.Data := Valor;
+    Dado.ImageIndex := 0;
     Lista.Add(Dado);
   end;
 
@@ -413,15 +408,14 @@ begin
   AcaoOLAdicionar.Enabled := ListaMaquinas.SelCount > 0;
 end;
 
-procedure TJanelaPrincipal.PaginaUmBeforeShow(ASender: TObject;
-  ANewPage: TPage; ANewIndex: Integer);
+procedure TJanelaPrincipal.ListaTemasSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
 begin
+  ImagemTema.Picture.Clear;
+  if ListaTemas.SelCount > 0 then
+  begin
 
-end;
-
-procedure TJanelaPrincipal.PainelRodapeClick(Sender: TObject);
-begin
-
+  end;
 end;
 
 end.
