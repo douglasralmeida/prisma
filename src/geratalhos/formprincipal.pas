@@ -17,6 +17,10 @@ type
     AcaoOLInverterSelecao: TAction;
     AcaoOLRemover: TAction;
     AcaoOLRemoverTudo: TAction;
+    Image1: TImage;
+    Label10: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     ListaImagens16: TImageList;
     ListaAcoes: TActionList;
     BotaoVoltar: TButton;
@@ -62,6 +66,7 @@ type
     procedure AcaoOLSelecionarTudoExecute(Sender: TObject);
     procedure BotaoVoltarClick(Sender: TObject);
     procedure BotaoAvancarClick(Sender: TObject);
+    procedure CadernoChangeBounds(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -78,6 +83,7 @@ type
       Selected: Boolean);
     procedure PaginaUmBeforeShow(ASender: TObject; ANewPage: TPage;
       ANewIndex: Integer);
+    procedure PainelRodapeClick(Sender: TObject);
   private
     ListaOLs: TOrgaosLocais;
     ListaOLAdicionadas: TListaSimplesOrgaosLocais;
@@ -250,6 +256,11 @@ begin
   end;
 end;
 
+procedure TJanelaPrincipal.CadernoChangeBounds(Sender: TObject);
+begin
+
+end;
+
 procedure TJanelaPrincipal.BotaoVoltarClick(Sender: TObject);
 begin
   BotaoVoltar.Enabled := false;
@@ -330,7 +341,7 @@ begin
     if VersaoBeta and Configuracoes.ExibirMsgBeta then
     begin
       Caption := Caption + ' *** VERSÃO DE TESTES ***';
-      ExibirMensagemInfo(MSG_BETA, DESC_BETA);
+      Configuracoes.ExibirMsgBeta := ExibirMensagemInfo(MSG_BETA, DESC_BETA, true);
     end;
     Caderno.PageIndex := 0;
     PainelRodape.Show;
@@ -404,6 +415,11 @@ end;
 
 procedure TJanelaPrincipal.PaginaUmBeforeShow(ASender: TObject;
   ANewPage: TPage; ANewIndex: Integer);
+begin
+
+end;
+
+procedure TJanelaPrincipal.PainelRodapeClick(Sender: TObject);
 begin
 
 end;

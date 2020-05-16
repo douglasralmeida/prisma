@@ -8,7 +8,7 @@ uses
   Classes, SysUtils;
 
 procedure ExibirMensagemErro(const Mensagem: String; const AjudaID: Integer=0);
-procedure ExibirMensagemInfo(const Mensagem: String; const Desc: String);
+function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
 
 implementation
 
@@ -39,7 +39,7 @@ begin
     end
 end;
 
-procedure ExibirMensagemInfo(const Mensagem: String; const Desc: String);
+function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
 begin
   with TTaskDialog.Create(nil) do
     try
@@ -55,7 +55,13 @@ begin
         ModalResult := mrOK;
       end;
       MainIcon := tdiInformation;
+      if ExibirNaoMostrarNovamente then
+      begin
+        VerificationText := 'Não exibir esta mensagem novamente.';
+        Flags := Flags + [tfVerificationFlagChecked];
+      end;
       Execute;
+      Result := ExibirNaoMostrarNovamente and (tfVerificationFlagChecked in Flags);
     finally
       Free;
     end

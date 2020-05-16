@@ -2149,8 +2149,9 @@ object JanelaPrincipal: TJanelaPrincipal
       Height = 407
       Top = 0
       Width = 804
-      PageIndex = 0
+      PageIndex = 1
       Align = alClient
+      OnChangeBounds = CadernoChangeBounds
       TabOrder = 0
       object PaginaUm: TPage
         OnBeforeShow = PaginaUmBeforeShow
@@ -2287,6 +2288,15 @@ object JanelaPrincipal: TJanelaPrincipal
           FocusControl = ListaAdicionadas
           ParentColor = False
         end
+        object Label4: TLabel
+          Left = 712
+          Height = 15
+          Top = 0
+          Width = 87
+          Alignment = taRightJustify
+          Caption = 'INSS - DIRAT/DTI'
+          ParentColor = False
+        end
       end
       object PaginaDois: TPage
         object Label6: TLabel
@@ -2340,6 +2350,21 @@ object JanelaPrincipal: TJanelaPrincipal
           Caption = 'E&xecutar o Prisma imediatamente.'
           TabOrder = 1
         end
+        object Label10: TLabel
+          Left = 712
+          Height = 15
+          Top = 0
+          Width = 87
+          Alignment = taRightJustify
+          Caption = 'INSS - DIRAT/DTI'
+          ParentColor = False
+        end
+        object Image1: TImage
+          Left = 552
+          Height = 240
+          Top = 132
+          Width = 234
+        end
       end
       object PaginaSplash: TPage
         object RotuloCarregando: TLabel
@@ -2351,6 +2376,19 @@ object JanelaPrincipal: TJanelaPrincipal
           Caption = 'Carregando...'
           Font.Color = clBlack
           Font.Height = -16
+          Font.Name = 'Segoe UI'
+          ParentColor = False
+          ParentFont = False
+        end
+        object Label3: TLabel
+          Left = 289
+          Height = 51
+          Top = 392
+          Width = 226
+          Alignment = taCenter
+          Caption = 'Instituto Nacional do Seguro Social'#13#10'Diretoria de Atendimento'#13#10'Diretoria de Tecnologia da Informação'
+          Font.Color = clBlack
+          Font.Height = -13
           Font.Name = 'Segoe UI'
           ParentColor = False
           ParentFont = False
@@ -2370,6 +2408,7 @@ object JanelaPrincipal: TJanelaPrincipal
       ParentColor = False
       TabOrder = 1
       Visible = False
+      OnClick = PainelRodapeClick
       object BotaoAvancar: TButton
         Left = 704
         Height = 25
