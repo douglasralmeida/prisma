@@ -328,15 +328,21 @@ begin
       end;
     end;
     if not CarregarOLs then
-      Exit;
+    begin
+      ExibirMensagemErro('Erro ao carregar o banco de dados de órgãos locais.', 0);
+      Close;
+    end;
     if not CarregarTemas then
-      Exit;
+    begin
+      ExibirMensagemErro('Erro ao carregar o conjunto de temas disponíveis.', 0);
+      Close;
+    end;
     if VersaoBeta then
        Sleep(1000);
     if VersaoBeta and Configuracoes.ExibirMsgBeta then
     begin
       Caption := Caption + ' *** VERSÃO DE TESTES ***';
-      Configuracoes.ExibirMsgBeta := ExibirMensagemInfo(MSG_BETA, DESC_BETA, true);
+      Configuracoes.ExibirMsgBeta := not ExibirMensagemInfo(MSG_BETA, DESC_BETA, true);
     end;
     Caderno.PageIndex := 0;
     PainelRodape.Show;

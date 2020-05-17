@@ -56,10 +56,7 @@ begin
       end;
       MainIcon := tdiInformation;
       if ExibirNaoMostrarNovamente then
-      begin
         VerificationText := 'Não exibir esta mensagem novamente.';
-        Flags := Flags + [tfVerificationFlagChecked];
-      end;
       Execute;
       Result := ExibirNaoMostrarNovamente and (tfVerificationFlagChecked in Flags);
     finally
