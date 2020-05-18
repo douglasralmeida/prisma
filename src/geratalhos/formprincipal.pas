@@ -96,7 +96,7 @@ type
   end;
 
 const
-  VersaoBeta = true;
+  VersaoBeta = False;
 
 var
   JanelaPrincipal: TJanelaPrincipal;
@@ -105,7 +105,7 @@ var
 implementation
 
 uses
-  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils, unidVetorInt;
+  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils;
 
 {$R *.lfm}
 
@@ -288,7 +288,8 @@ begin
   Result := ListaOLs.Carregar;
   if Result then
     for OL in ListaOLs do
-      AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo, OL.MaquinaPrisma], OL);
+      if OL.MaquinaPrisma <> 'NAOCADASTRADO' then
+        AdicionarFiltro(EditFiltro.Items, [OL.NomeExibicao, OL.Codigo, OL.MaquinaPrisma], OL);
   EditFiltro.InvalidateFilter;
 end;
 
