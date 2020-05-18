@@ -1,4 +1,4 @@
-﻿; Script para o instalador do Cliente do Prisma
+﻿; Script para o instalador do Cliente do Prisma x64
 
 #define MyAppName "Prisma"
 #define MyAppVersion "1.0"
@@ -16,6 +16,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 AllowNoIcons=yes
+ArchitecturesInstallIn64BitMode=x64
 ChangesAssociations=True
 ChangesEnvironment=true
 Compression=lzma
@@ -25,7 +26,7 @@ DisableDirPage=yes
 DisableReadyPage=yes
 DisableWelcomePage=no
 MinVersion=0,6.1
-OutputBaseFilename=prismainstala
+OutputBaseFilename=prismainstala.x64
 OutputDir=..\dist
 SetupIconFile=..\res\setup.icone.ico
 SolidCompression=yes
@@ -62,7 +63,7 @@ Source: "..\accuterm\setup.ini"; DestDir: "{app}\emulador"; Flags: ignoreversion
 Source: "..\accuterm\atwin71.ini"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\accuterm\menu71.ini"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\bin\atwin71.msi"; DestDir: "{app}\emulador"; Flags: ignoreversion; AfterInstall: InstalarAccuterm(); Components: accuterm;
-Source: "..\bin\geratalhos.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
+Source: "..\bin\geratalhos64.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
 Source: "..\bin\listaol.csv"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
 Source: "..\bin\modelos\*"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
 Source: "..\bin\temas\*"; DestDir: "{app}\temas"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
@@ -74,7 +75,7 @@ Source: "..\fontes\FiraCode-Retina.otf"; DestDir: "{fonts}"; FontInstall: "Fira 
 Source: "..\fontes\FiraCode-SemiBold.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code SemiBold"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 
 [Icons]
-Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"
+Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho.";
 
 [Run]
 Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Primsa imediatamente."; Flags: nowait postinstall skipifsilent
@@ -114,7 +115,7 @@ begin
   Config := ExpandConstant('"{app}\emulador\setup.ini"');
   Parametros := '/q /i "' + Caminho + '" ALLUSERS="1" LICENSEACCEPTED="YES" SETUPINI=' + Config;
   TextoStatus := WizardForm.StatusLabel.Caption;
-  WizardForm.StatusLabel.Caption:='Instalando o emulador Accuterm 7.3. Aguarde...';
+  WizardForm.StatusLabel.Caption:='Instalando e configurando o emulador Accuterm 7.3. Aguarde...';
   WizardForm.ProgressGauge.Style := npbstMarquee;
   try
     if not Exec('msiexec', Parametros, '', SW_SHOW, ewWaitUntilTerminated, Resultado) then

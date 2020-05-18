@@ -8,8 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, formPrincipal, unidOL, unidutils, unidtemas, unidZip,
-  unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista, unidvetorint
-  { you can add units after this };
+  unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista;
 
 {$R *.res}
 
