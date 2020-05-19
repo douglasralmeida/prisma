@@ -61,6 +61,8 @@ Name: "geratalhos"; Description: "Gerador de Atalhos do Prisma"; Types: compact 
 Source: "..\accuterm\setup.ini"; DestDir: "{app}\emulador"; Flags: ignoreversion; Components: accuterm;
 Source: "..\accuterm\atwin71.ini"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\accuterm\menu71.ini"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
+Source: "..\scripts\AtalhosSistemas.bas"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
+Source: "..\scripts\ScriptManCola.bas"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\bin\atwin71.msi"; DestDir: "{app}\emulador"; Flags: ignoreversion; AfterInstall: InstalarAccuterm(); Components: accuterm;
 Source: "..\bin\geratalhos32.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
 Source: "..\bin\listaol.csv"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
