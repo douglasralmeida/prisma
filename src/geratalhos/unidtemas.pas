@@ -5,41 +5,45 @@ unit unidtemas;
 interface
 
 uses
-  Classes, SysUtils, FGL;
+  Classes, Graphics, SysUtils, FGL;
 
 type
   TTema = class(TObject)
   private
     FArquivo: String;
     FCorFundo: String;
+    FDemonstracao: TPortableNetworkGraphic;
     FFonteCor: String;
     FFonteEscala: String;
     FFonteNome: String;
     FFonteTamanho: String;
-    FImagemFundo: String;
+    FImagemFundo: Boolean;
     FImagemTransparencia: String;
     FImagemArquivo: String;
     FNome: String;
     function GetArquivo: String;
     function GetCorFundo: String;
+    function GetDemonstracao: TPortableNetworkGraphic;
     function GetFonteCor: String;
     function GetFonteEscala: String;
     function GetFonteNome: String;
     function GetFonteTamanho: String;
-    function GetImagemFundo: String;
+    function GetImagemFundo: Boolean;
     function GetImagemTransparencia: String;
     function GetImagemArquivo: String;
     function GetNome: String;
   public
     constructor Create(AArquivo: String; ANome: String);
+    destructor Destroy; override;
     function Carregar: Boolean;
     property Arquivo: String read GetArquivo;
     property CorFundo: String read GetCorFundo;
+    property Demonstracao: TPortableNetworkGraphic read GetDemonstracao;
     property FonteCor: String read GetFonteCor;
     property FonteEscala: String read GetFonteEscala;
     property FonteNome: String read GetFonteNome;
     property FonteTamanho: String read GetFonteTamanho;
-    property ImagemFundo: String read GetImagemFundo;
+    property ImagemFundo: Boolean read GetImagemFundo;
     property ImagemTransparencia: String read GetImagemTransparencia;
     property ImagemArquivo: String read GetImagemArquivo;
     property Nome: String read GetNome;
@@ -69,7 +73,14 @@ begin
   inherited Create;
 
   FArquivo := AArquivo;
+  FDemonstracao := TPortableNetworkGraphic.Create;
   FNome := ANome;
+end;
+
+destructor TTema.Destroy;
+begin
+  if Assigned(FDemonstracao) then
+    FDemonstracao.Free;
 end;
 
 function TTema.Carregar: Boolean;
@@ -77,6 +88,7 @@ var
   IniFile: TIniFile;
   ZipFile: TZipFile;
   Texto: String;
+  ImgFundo: TMemoryStream;
 begin
   Result := false;
   if not FileExists(FArquivo) then
@@ -86,7 +98,12 @@ begin
     if ZipFile.Open(FArquivo) then
     begin
       Texto := ZipFile.ExtractFileToString('themedata.ini');
+      ImgFundo := ZipFile.ExtractFile('exemplo.png');
       ZipFile.Close;
+      if Assigned(ImgFundo) then
+      begin
+        FDemonstracao.LoadFromStream(ImgFundo);
+      end;
       if Texto.Length > 0 then
       begin
         IniFile := TIniFile.Create(TStringStream.Create(Texto));
@@ -95,7 +112,7 @@ begin
         FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
         FFonteNome := IniFile.ReadString('CONTEUDO', 'NomeFonte', '');
         FFonteTamanho := IniFile.ReadString('CONTEUDO', 'Tamanho', '');
-        FImagemFundo := IniFile.ReadString('CONTEUDO', 'ImagemFundo', '');
+        FImagemFundo := IniFile.ReadBool('CONTEUDO', 'ImagemFundo', false);
         FImagemTransparencia := IniFile.ReadString('CONTEUDO', 'ImagemTransparencia', '');
         FImagemArquivo := IniFile.ReadString('CONTEUDO', 'ImagemArquivo', '');
         Result := true;
@@ -104,6 +121,8 @@ begin
   finally
     if Assigned(IniFile) then
       IniFile.Free;
+    if Assigned(ImgFundo) then
+      ImgFundo.Free;
     ZipFile.Free;
   end;
 end;
@@ -116,6 +135,11 @@ end;
 function TTema.GetCorFundo: String;
 begin
   Result := FCorFundo;
+end;
+
+function TTema.GetDemonstracao: TPortableNetworkGraphic;
+begin
+  Result := FDemonstracao;
 end;
 
 function TTema.GetFonteCor: String;
@@ -138,7 +162,7 @@ begin
   Result := FFonteTamanho;
 end;
 
-function TTema.GetImagemFundo: String;
+function TTema.GetImagemFundo: Boolean;
 begin
   Result := FImagemFundo;
 end;

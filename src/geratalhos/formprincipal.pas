@@ -82,6 +82,8 @@ type
       Selected: Boolean);
     procedure ListaTemasSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
+    procedure PaginaDoisBeforeShow(ASender: TObject; ANewPage: TPage;
+      ANewIndex: Integer);
   private
     ListaOLs: TOrgaosLocais;
     ListaOLAdicionadas: TListaSimplesOrgaosLocais;
@@ -320,6 +322,7 @@ begin
     begin
       Item := ListaTemas.Items.Add;
       Item.Caption := Tema.Nome;
+      Item.Data :=  Tema;
       Item.ImageIndex := 0;
     end;
 end;
@@ -434,12 +437,21 @@ end;
 
 procedure TJanelaPrincipal.ListaTemasSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
+var
+  Tema: TTema;
 begin
   ImagemTema.Picture.Clear;
   if ListaTemas.SelCount > 0 then
   begin
-
+    Tema := TTema(Item.Data);
+    ImagemTema.Picture.PNG.Assign(Tema.Demonstracao);
   end;
+end;
+
+procedure TJanelaPrincipal.PaginaDoisBeforeShow(ASender: TObject;
+  ANewPage: TPage; ANewIndex: Integer);
+begin
+
 end;
 
 end.

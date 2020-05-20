@@ -20,7 +20,7 @@ type
     function GetMaquinas: TListaSimplesOrgaosLocais;
     function GetTema: TTema;
     procedure ProcessarMaquinaPrisma(Maquina, Setor: String);
-    procedure ProcessarPlanoFundo;
+    procedure ProcessarPlanoFundo(Codigo: String);
     procedure ProcessarTema;
     function SalvarArquivo(Codigo: String): Boolean;
     procedure SetTema(Value: TTema);
@@ -38,12 +38,12 @@ implementation
 
 uses
   ActiveX, ComObj, LClIntf, LConvEncoding, ShlObj, unidConfig,
-  unidExcecoes, unidExcecoesLista, unidVariaveis;
+  unidExcecoes, unidExcecoesLista, unidVariaveis, unidZip;
 
 const
   ARQUIVO_NOME = 'prisma.%s.atcf';
-  PLANOFUNDO_NOME = 'planofundo%u.jpg';
-  LOCAL_ACCUTERM = 'Atwin71\atwin71.exe';
+  PLANOFUNDO_NOME = 'planofundo.%s.png';
+//  LOCAL_ACCUTERM = 'Atwin71\atwin71.exe';
 
 constructor TAtalhoPrisma.Create;
 begin
@@ -52,6 +52,9 @@ begin
   if not DirectoryExists(Variaveis.PastaPrisma) then
     if not CreateDir(Variaveis.PastaPrisma) then
       raise EProgramaErro.Create(excecaoCriarDirPrisma);
+  if not DirectoryExists(Variaveis.PastaPlanosFundos) then
+    if not CreateDir(Variaveis.PastaPlanosFundos) then
+      raise EProgramaErro.Create(excecaoCriarDirPlanoFundo);
   FModeloPrisma := Variaveis.PastaModelos + Variaveis.ArquivoPrisma;
   if not FileExists(FModeloPrisma) then
     raise EProgramaErro.Create(excecaoObterModeloPrisma);
@@ -77,9 +80,9 @@ var
   OL: TOrgaoLocal;
 begin
   ProcessarTema;
-  ProcessarPlanoFundo;
   for OL in FMaquinas do
   begin
+    ProcessarPlanoFundo(OL.Codigo);
     ProcessarMaquinaPrisma(OL.MaquinaPrisma, OL.NomeExibicao);
     if SalvarArquivo(OL.Codigo) then
       GerarAtalho(OL.NomeExibicao);
@@ -90,7 +93,6 @@ function TAtalhoPrisma.GerarAtalho(Setor: String): Boolean;
 var
   ArquivoNome: WideString;
   Atalho: WideString;
-  CaminhoAccuterm: WideString;
 
   IObject: IUnknown;
   ISLink: IShellLinkW;
@@ -103,10 +105,9 @@ begin
     Setor := Setor.Substring(3);
   Atalho := WideString(Variaveis.PastaAreaTrabalho + 'Prisma ' + Setor + '.lnk');
   ArquivoNome := WideString(Arquivo);
-  CaminhoAccuterm := WideString(Variaveis.PastaArqProgx86) + LOCAL_ACCUTERM;
   with ISLink do begin
     SetDescription(PWideChar('Abre o Prisma'));
-    SetIconLocation(PWideChar(ParamStr(0)), 1);
+    SetIconLocation(PWideChar(WideString(ParamStr(0))), 2);
     SetPath(PWideChar(ArquivoNome));
     ArquivoNome := WideString(ExtractFilePath(Arquivo));
     SetWorkingDirectory(PWideChar(ArquivoNome));
@@ -132,14 +133,29 @@ begin
   FArquivoIni.WriteString('Accuterm', 'SessionTitle', Setor);
 end;
 
-procedure TAtalhoPrisma.ProcessarPlanoFundo;
+procedure TAtalhoPrisma.ProcessarPlanoFundo(Codigo: String);
 var
   ArquivoImagemFundo: String;
+  ZipFile: TZipFile;
 begin
-  ArquivoImagemFundo := Variaveis.PastaPlanosFundos + Format(PLANOFUNDO_NOME, [FID]);
+  ArquivoImagemFundo := Variaveis.PastaPlanosFundos + Format(PLANOFUNDO_NOME, [Codigo]);
   FArquivoIni.WriteString('Accuterm', 'BackgroundTransparency', FTema.ImagemTransparencia);
-  FArquivoIni.WriteString('Accuterm', 'BackgroundPictureMode', FTema.ImagemFundo);
-  FArquivoIni.WriteString('Accuterm', 'BackgroundPictureFile', ArquivoImagemFundo);
+  if FArquivoIni.ValueExists('Accuterm', 'BackgroundPictureFile') then
+    FArquivoIni.DeleteKey('Accuterm', 'BackgroundPictureFile');
+  if FTema.ImagemFundo then
+  begin
+    FArquivoIni.WriteString('Accuterm', 'BackgroundPictureFile', ArquivoImagemFundo);
+    ZipFile := TZipFile.Create;
+    try
+      if ZipFile.Open(FTema.Arquivo) then
+      begin
+        ZipFile.ExtractFileToDisk('planofundo.png', ArquivoImagemFundo);
+        ZipFile.Close;
+      end;
+    finally
+      ZipFile.Free;
+    end;
+  end;
 end;
 
 procedure TAtalhoPrisma.ProcessarTema;

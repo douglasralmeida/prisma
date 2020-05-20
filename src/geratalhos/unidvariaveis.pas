@@ -80,7 +80,6 @@ begin
   FPastaApp := ExtractFilePath(Application.ExeName);
   SHGetSpecialFolderPath(0, Pasta, CSIDL_LOCAL_APPDATA, false);
   FPastaConfig := Pasta + '\' + GetGrupoNome + '\' + GetAppNome + '\';
-  FPastaPlanosFundo := Pasta + 'planosfundo\';
   SHGetSpecialFolderPath(0, Pasta, CSIDL_DESKTOP, false);
   FPastaAreaTrabalho := Pasta + '\';
   SHGetSpecialFolderPath(0, Pasta, CSIDL_PROGRAM_FILESX86, false);
@@ -88,6 +87,7 @@ begin
   FPastaDados := FPastaApp + 'dados\';
   FPastaModelos := FPastaApp + 'modelos\';
   FPastaPrisma := FPastaConfig + 'maquinas\';
+  FPastaPlanosFundo := FPastaConfig + '\planosfundo\';
   FPastaTemas := FPastaApp + 'temas\';
 end;
 

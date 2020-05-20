@@ -24,6 +24,11 @@ const
     Mensagem: 'Não foi possível gerar as configurações de acesso a máquina Prisma. Impossível obter o arquivo modelo das configurações de acesso.';
     AjudaID: 111);
 
+  excecaoCriarDirPlanoFundo: TExcecaoDados = (
+    Mensagem: 'Não foi possível gerar as configurações de acesso a máquina Prisma. Impossível criar a pasta de imagens de plano de fundo.';
+    AjudaID: 112);
+
+
 implementation
 
 end.
