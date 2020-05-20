@@ -15,7 +15,6 @@
         <TextName Value="DouglasRAlmeida.Prisma.GeradorAtalhos"/>
         <TextDesc Value="Gerador de Atalhos do Prisma"/>
       </XPManifest>
-      <Icon Value="0"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
@@ -108,7 +107,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="11">
       <Unit0>
         <Filename Value="geratalhos.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -122,57 +121,49 @@
         <UnitName Value="formPrincipal"/>
       </Unit1>
       <Unit2>
-        <Filename Value="unidsombras.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
         <Filename Value="unidol.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidOL"/>
-      </Unit3>
-      <Unit4>
+      </Unit2>
+      <Unit3>
         <Filename Value="unidutils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidUtils"/>
-      </Unit4>
-      <Unit5>
+      </Unit3>
+      <Unit4>
         <Filename Value="unidtemas.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
+      </Unit4>
+      <Unit5>
         <Filename Value="unidzip.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidZip"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="unidprisma.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidPrisma"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="unidconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidConfig"/>
-      </Unit8>
-      <Unit9>
+      </Unit7>
+      <Unit8>
         <Filename Value="unidvariaveis.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidVariaveis"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="unidexcecoes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidExcecoes"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="unidexcecoeslista.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidExcecoesLista"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="unidvetorint.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit12>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

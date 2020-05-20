@@ -106,7 +106,7 @@ begin
   CaminhoAccuterm := WideString(Variaveis.PastaArqProgx86) + LOCAL_ACCUTERM;
   with ISLink do begin
     SetDescription(PWideChar('Abre o Prisma'));
-    SetIconLocation(PWideChar(CaminhoAccuterm), 0);
+    SetIconLocation(PWideChar(ParamStr(0)), 1);
     SetPath(PWideChar(ArquivoNome));
     ArquivoNome := WideString(ExtractFilePath(Arquivo));
     SetWorkingDirectory(PWideChar(ArquivoNome));

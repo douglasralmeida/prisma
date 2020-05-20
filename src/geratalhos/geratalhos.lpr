@@ -7,10 +7,11 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, lazcontrols, formPrincipal, unidOL, unidutils, unidtemas, unidZip,
+  Forms, lazcontrols, formPrincipal, unidOL, unidUtils, unidTemas, unidZip,
   unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista;
 
 {$R *.res}
+{$R maisrecursos.rc}
 
 begin
   RequireDerivedFormResource:=True;

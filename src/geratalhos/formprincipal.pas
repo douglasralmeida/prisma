@@ -89,6 +89,7 @@ type
     Temas: TTemas;
     function CarregarOLs: Boolean;
     function CarregarTemas: Boolean;
+    function CarregarRecursos: Boolean;
   public
 
   protected
@@ -105,7 +106,7 @@ var
 implementation
 
 uses
-  UxTheme, unidConfig, unidPrisma, unidVariaveis, unidUtils;
+  unidConfig, unidPrisma, unidVariaveis, unidUtils;
 
 {$R *.lfm}
 
@@ -293,6 +294,20 @@ begin
   EditFiltro.InvalidateFilter;
 end;
 
+function TJanelaPrincipal.CarregarRecursos: Boolean;
+var
+  Icone: TIcon;
+begin
+  Icone := TIcon.Create;
+  try
+    Icone.LoadFromResourceID(HInstance, 1002);
+    ListaImagens32.AddIcon(Icone);
+  finally
+    Icone.Free;
+  end;
+  Result := true;
+end;
+
 function TJanelaPrincipal.CarregarTemas: Boolean;
 var
   Item: TListItem;
@@ -318,6 +333,7 @@ begin
   begin
     ProgramaIniciado := true;
     Application.ProcessMessages;
+    CarregarRecursos;
     Variaveis := TVariaveis.Create;
     try
       Configuracoes := TConfiguracoes.Create;
@@ -355,6 +371,7 @@ end;
 procedure TJanelaPrincipal.FormCreate(Sender: TObject);
 begin
   ProgramaIniciado := false;
+  Icon.LoadFromResourceID(HInstance, 1001);
   Caderno.PageIndex := 2;
   RotuloCarregando.Left := Width div 2 - RotuloCarregando.Width div 2;
 end;
