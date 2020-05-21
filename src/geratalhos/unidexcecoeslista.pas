@@ -28,6 +28,21 @@ const
     Mensagem: 'Não foi possível gerar as configurações de acesso a máquina Prisma. Impossível criar a pasta de imagens de plano de fundo.';
     AjudaID: 112);
 
+  excecaoCriarDirTemasPess: TExcecaoDados = (
+    Mensagem: 'Não foi possível instalar o tema selecionado. Impossível criar a pasta de temas do usuário.';
+    AjudaID: 113);
+
+  excecaoInstalarTema: TExcecaoDados = (
+    Mensagem: 'Não foi possível instalar o tema selecionado. Impossível copiar arquivo para a coleção de temas do usuário.';
+    AjudaID: 130);
+
+  excecaoParametrosIncorretos: TExcecaoDados = (
+    Mensagem: 'Os parâmetros de inicialização estão incorretos.';
+    AjudaID: 150);
+
+  excecaoArquivoNaoExiste: TExcecaoDados = (
+    Mensagem: 'O arquivo informado não existe.';
+    AjudaID: 150);
 
 implementation
 

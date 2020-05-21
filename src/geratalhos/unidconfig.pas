@@ -28,21 +28,13 @@ var
 implementation
 
 uses
-  FileUtil, unidExcecoes, unidExcecoesLista, unidVariaveis;
+  FileUtil, unidExcecoes, unidExcecoesLista, unidVariaveis, unidUtils;
 
 constructor TConfiguracoes.Create;
-var
-  PastaConfigPai: String;
 begin
   inherited;
 
-  PastaConfigPai := ExtractFilePath(ExcludeTrailingPathDelimiter(Variaveis.PastaConfig));
-  if not DirectoryExists(PastaConfigPai) then
-    if not CreateDir(PastaConfigPai) then
-      raise EProgramaErro.Create(excecaoCriarDirConfig);
-  if not DirectoryExists(Variaveis.PastaConfig) then
-    if not CreateDir(Variaveis.PastaConfig) then
-      raise EProgramaErro.Create(excecaoCriarDirConfig);
+  PrepararPastaConfig;
   FArquivoConf := Variaveis.PastaConfig + Variaveis.ArquivoConfig;
   if not FileExists(FArquivoConf) then
     if not CopyFile(Variaveis.PastaModelos + Variaveis.ModeloConfig, FArquivoConf, true) then

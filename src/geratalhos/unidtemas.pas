@@ -1,4 +1,4 @@
-unit unidtemas;
+unit unidTemas;
 
 {$mode objfpc}{$H+}
 
@@ -54,19 +54,22 @@ type
   TTemas = class(TObject)
   private
     FLista: TListaTemas;
+    FNome: String;
     FPasta: String;
+    function GetNome: String;
+    function GetQuantidade: Integer;
   public
-    constructor Create;
+    constructor Create(ANome: String);
     destructor Destroy; override;
-    function Carregar: Boolean;
+    function Carregar(Pasta: String): Boolean;
     property Lista: TListaTemas read FLista;
+    property Nome: String read FNome;
+    property Quantidade: Integer read GetQuantidade;
   end;
 
 implementation
 
-//uses ZipFile;
-
-uses Dialogs, IniFiles, unidVariaveis, unidZip;
+uses Dialogs, IniFiles, unidVariaveis, unidUtils, unidZip;
 
 constructor TTema.Create(AArquivo: String; ANome: String);
 begin
@@ -184,12 +187,12 @@ end;
 
 { TTemas }
 
-constructor TTemas.Create;
+constructor TTemas.Create(ANome: String);
 begin
-  inherited;
+  inherited Create;
 
   FLista := TListaTemas.Create;
-  FPasta := Variaveis.PastaTemas;
+  FNome := ANome;
 end;
 
 destructor TTemas.Destroy;
@@ -200,16 +203,17 @@ begin
   inherited;
 end;
 
-function TTemas.Carregar: Boolean;
+function TTemas.Carregar(Pasta: String): Boolean;
 var
   Arquivo: String;
   ArquivoTemas: TStringList;
-  Nome: String;
+  NomeTema: String;
   NovoTema: TTema;
   Tema: String;
   NomeArquivoTemas: String;
 begin
-  NomeArquivoTemas := FPasta + Variaveis.ArquivoDescricao;
+  FPasta := Pasta;
+  NomeArquivoTemas := Pasta + Variaveis.ArquivoDescricao;
   if not FileExists(NomeArquivoTemas) then
     Exit(False);
   ArquivoTemas := TStringList.Create;
@@ -217,9 +221,9 @@ begin
     ArquivoTemas.LoadFromFile(NomeArquivoTemas);
     for Tema in ArquivoTemas do
     begin
-      Nome := LeftStr(Tema, Pos(',', Tema) - 1);
+      NomeTema := LeftStr(Tema, Pos(',', Tema) - 1);
       Arquivo := RightStr(Tema, Tema.Length - Pos(',', Tema));
-      NovoTema := TTema.Create(FPasta + Arquivo, Nome);
+      NovoTema := TTema.Create(FPasta + Arquivo, NomeTema);
       if NovoTema.Carregar then
         FLista.Add(NovoTema)
       else
@@ -229,6 +233,16 @@ begin
   finally
     ArquivoTemas.Free;
   end;
+end;
+
+function TTemas.GetNome: String;
+begin
+  Result := FNome;
+end;
+
+function TTemas.GetQuantidade: Integer;
+begin
+  Result := FLista.Count;
 end;
 
 end.

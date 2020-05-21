@@ -82,13 +82,12 @@ type
       Selected: Boolean);
     procedure ListaTemasSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-    procedure PaginaDoisBeforeShow(ASender: TObject; ANewPage: TPage;
-      ANewIndex: Integer);
   private
     ListaOLs: TOrgaosLocais;
     ListaOLAdicionadas: TListaSimplesOrgaosLocais;
     ProgramaIniciado: Boolean;
-    Temas: TTemas;
+    TemasSistema: TTemas;
+    TemasUsuario: TTemas;
     function CarregarOLs: Boolean;
     function CarregarTemas: Boolean;
     function CarregarRecursos: Boolean;
@@ -234,7 +233,7 @@ begin
       ExibirMensagemErro('Selecione um tema da lista antes de gerar.');
       Exit;
     end;
-    TemaSelecionado := Temas.Lista[ListaTemas.ItemIndex];
+    TemaSelecionado := TTema(ListaTemas.Selected.Data);
     AtalhoPrisma := TAtalhoPrisma.Create;
     try
       AtalhoPrisma.Maquinas := ListaOLAdicionadas;
@@ -315,16 +314,31 @@ var
   Item: TListItem;
   Tema: TTema;
 begin
-  Temas := TTemas.Create;
-  Result := Temas.Carregar;
-  if Result then
-    for Tema in Temas.Lista do
+  Result := false;
+  TemasSistema := TTemas.Create('Temas do Sistema');
+  TemasUsuario := TTemas.Create('Temas do Usuario');
+  if TemasSistema.Carregar(Variaveis.PastaTemasSistema) then
+  begin
+    for Tema in TemasSistema.Lista do
     begin
       Item := ListaTemas.Items.Add;
       Item.Caption := Tema.Nome;
       Item.Data :=  Tema;
       Item.ImageIndex := 0;
     end;
+    Result := true;
+  end;
+  if TemasUsuario.Carregar(Variaveis.PastaTemasPessoais) then
+  begin
+    for Tema in TemasUsuario.Lista do
+    begin
+      Item := ListaTemas.Items.Add;
+      Item.Caption := Tema.Nome;
+      Item.Data :=  Tema;
+      Item.ImageIndex := 0;
+    end;
+    Result := true;
+  end;
 end;
 
 procedure TJanelaPrincipal.FormActivate(Sender: TObject);
@@ -385,8 +399,10 @@ begin
     Configuracoes.Free;
   if Assigned(Variaveis) then
     Variaveis.Free;
-  if Assigned(Temas) then
-    Temas.Free;
+  if Assigned(TemasSistema) then
+    TemasSistema.Free;
+  if Assigned(TemasUsuario) then
+    TemasUsuario.Free;
   if Assigned(ListaOLAdicionadas) then
     ListaOLAdicionadas.Free;
   if Assigned(ListaOLs) then
@@ -446,12 +462,6 @@ begin
     Tema := TTema(Item.Data);
     ImagemTema.Picture.PNG.Assign(Tema.Demonstracao);
   end;
-end;
-
-procedure TJanelaPrincipal.PaginaDoisBeforeShow(ASender: TObject;
-  ANewPage: TPage; ANewIndex: Integer);
-begin
-
 end;
 
 end.

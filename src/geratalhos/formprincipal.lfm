@@ -181,7 +181,6 @@ object JanelaPrincipal: TJanelaPrincipal
         end
       end
       object PaginaDois: TPage
-        OnBeforeShow = PaginaDoisBeforeShow
         object Label6: TLabel
           Left = 16
           Height = 32
@@ -222,6 +221,7 @@ object JanelaPrincipal: TJanelaPrincipal
           Columns = <>
           HideSelection = False
           LargeImages = ListaImagens32
+          ReadOnly = True
           TabOrder = 0
           ViewStyle = vsIcon
           OnSelectItem = ListaTemasSelectItem

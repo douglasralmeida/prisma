@@ -9,25 +9,48 @@ uses
 
 procedure ExibirMensagemErro(const Mensagem: String; const AjudaID: Integer=0);
 function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
+function ExibirPergunta(const Mensagem: String; const Opcoes: Array of String; const Cancelar: Integer): Integer;
+procedure PrepararPastaConfig;
 
 implementation
 
-uses Controls, Dialogs;
+uses Controls, Dialogs, unidExcecoes, unidExcecoesLista, unidVariaveis;
+
+procedure PrepararPastaConfig;
+var
+  PastaConfigPai: String;
+begin
+  PastaConfigPai := ExtractFilePath(ExcludeTrailingPathDelimiter(Variaveis.PastaConfig));
+  if not DirectoryExists(PastaConfigPai) then
+    if not CreateDir(PastaConfigPai) then
+      raise EProgramaErro.Create(excecaoCriarDirConfig);
+  if not DirectoryExists(Variaveis.PastaConfig) then
+    if not CreateDir(Variaveis.PastaConfig) then
+      raise EProgramaErro.Create(excecaoCriarDirConfig);
+end;
+
+function DialogoCriar(const Mensagem: String): TTaskDialog;
+begin
+  Result := TTaskDialog.Create(nil);
+  with Result do
+  begin
+    CommonButtons := [];
+    Flags := Flags + [tfEnableHyperlinks, tfPositionRelativeToWindow];
+    Title := Mensagem;
+  end;
+end;
 
 procedure ExibirMensagemErro(const Mensagem: String; const AjudaID: Integer=0);
 begin
-  with TTaskDialog.Create(nil) do
+  with DialogoCriar(Mensagem) do
     try
-      Title := Mensagem;
       Caption := 'Erro';
-      CommonButtons := [];
-      Flags := Flags + [tfEnableHyperlinks, tfPositionRelativeToWindow];
+      MainIcon := tdiError;
       with TTaskDialogButtonItem(Buttons.Add) do
       begin
         Caption := 'OK';
         ModalResult := mrOK;
       end;
-      MainIcon := tdiError;
       if AjudaID > 0 then
       begin
         FooterIcon := tdiInformation;
@@ -41,20 +64,17 @@ end;
 
 function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
 begin
-  with TTaskDialog.Create(nil) do
+  with DialogoCriar(Mensagem) do
     try
-      Title := Mensagem;
       Caption := 'Informação';
-      CommonButtons := [];
       ExpandedText := Desc;
       ExpandButtonCaption := 'Saiba mais sobre isso';
-      Flags := Flags + [tfEnableHyperlinks, tfPositionRelativeToWindow];
+      MainIcon := tdiInformation;
       with TTaskDialogButtonItem(Buttons.Add) do
       begin
         Caption := 'OK';
         ModalResult := mrOK;
       end;
-      MainIcon := tdiInformation;
       if ExibirNaoMostrarNovamente then
         VerificationText := 'Não exibir esta mensagem novamente.';
       Execute;
@@ -62,6 +82,35 @@ begin
     finally
       Free;
     end
+end;
+
+function ExibirPergunta(const Mensagem: String; const Opcoes: Array of String; const Cancelar: Integer): Integer;
+var
+  I: Integer;
+  Opcao: String;
+begin
+  with DialogoCriar(Mensagem) do
+  begin
+    try
+      Caption := 'Pergunta';
+      Flags := [tfUseCommandLinks];
+      MainIcon := tdiQuestion;
+      I := 0;
+      for Opcao in Opcoes do
+        with TTaskDialogButtonItem(Buttons.Add) do
+        begin
+          Caption := Opcao;
+          ModalResult := I;
+          Inc(I);
+        end;
+        if Execute then
+          Result := ModalResult
+        else
+          Result := Cancelar;
+    finally
+      Free;
+    end;
+  end;
 end;
 
 end.

@@ -19,7 +19,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <RevisionNr Value="210"/>
+      <RevisionNr Value="220"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
       <Attributes pvaPreRelease="True"/>
@@ -107,7 +107,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="12">
       <Unit0>
         <Filename Value="geratalhos.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -133,6 +133,7 @@
       <Unit4>
         <Filename Value="unidtemas.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="unidTemas"/>
       </Unit4>
       <Unit5>
         <Filename Value="unidzip.pas"/>
@@ -164,6 +165,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="unidExcecoesLista"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="unidinstalatema.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unidInstalaTema"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

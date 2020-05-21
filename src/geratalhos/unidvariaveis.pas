@@ -22,7 +22,8 @@ type
     FPastaModelos: String;
     FPastaPlanosFundo: String;
     FPastaPrisma: String;
-    FPastaTemas: String;
+    FPastaTemasPessoais: String;
+    FPastaTemasSistema: String;
     function GetArquivoConfig: String;
     function GetArquivoPrisma: String;
     function GetArquivoDescricao: String;
@@ -35,7 +36,8 @@ type
     function GetPastaModelos: String;
     function GetPastaPlanosFundo: String;
     function GetPastaPrisma: String;
-    function GetPastaTemas: String;
+    function GetPastaTemasPessoais: String;
+    function GetPastaTemasSistema: String;
   public
     constructor Create;
     function GetGrupoNome: String;
@@ -52,7 +54,8 @@ type
     property PastaModelos: String read GetPastaModelos;
     property PastaPlanosFundos: String read GetPastaPlanosFundo;
     property PastaPrisma: String read GetPastaPrisma;
-    property PastaTemas: String read GetPastaTemas;
+    property PastaTemasPessoais: String read GetPastaTemasPessoais;
+    property PastaTemasSistema: String read GetPastaTemasSistema;
   end;
 
 var
@@ -88,7 +91,8 @@ begin
   FPastaModelos := FPastaApp + 'modelos\';
   FPastaPrisma := FPastaConfig + 'maquinas\';
   FPastaPlanosFundo := FPastaConfig + '\planosfundo\';
-  FPastaTemas := FPastaApp + 'temas\';
+  FPastaTemasPessoais := FPastaConfig + '\temaspessoais\';
+  FPastaTemasSistema := FPastaApp + 'temas\';
 end;
 
 function TVariaveis.GetGrupoNome: String;
@@ -161,9 +165,14 @@ begin
   Result := FPastaPrisma;
 end;
 
-function TVariaveis.GetPastaTemas: String;
+function TVariaveis.GetPastaTemasPessoais: String;
 begin
-  Result := FPastaTemas;
+  Result := FPastaTemasPessoais;
+end;
+
+function TVariaveis.GetPastaTemasSistema: String;
+begin
+  Result := FPastaTemasSistema;
 end;
 
 end.
