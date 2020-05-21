@@ -7,14 +7,30 @@ interface
 uses
   Classes, SysUtils;
 
+type
+  TTupla = record
+    Texto1: String;
+    Texto2: String;
+  end;
+
 procedure ExibirMensagemErro(const Mensagem: String; const AjudaID: Integer=0);
 function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
 function ExibirPergunta(const Mensagem: String; const Opcoes: Array of String; const Cancelar: Integer): Integer;
 procedure PrepararPastaConfig;
+function SepararTexto(Texto: String; Sep: Char): TTupla;
 
 implementation
 
 uses Controls, Dialogs, unidExcecoes, unidExcecoesLista, unidVariaveis;
+
+function SepararTexto(Texto: String; Sep: Char): TTupla;
+var
+  Posicao: Integer;
+begin
+  Posicao := Pos(Sep, Texto);
+  Result.Texto1 := LeftStr(Texto, Posicao - 1);
+  Result.Texto2 := RightStr(Texto, Texto.Length - Posicao);
+end;
 
 procedure PrepararPastaConfig;
 var

@@ -44,6 +44,10 @@ const
     Mensagem: 'O arquivo informado não existe.';
     AjudaID: 150);
 
+  excecaoTemaFormatoInvalido: TExcecaoDados = (
+    Mensagem: 'O arquivo de tema selecionado está num formato inválido.';
+    AjudaID: 151);
+
 implementation
 
 end.

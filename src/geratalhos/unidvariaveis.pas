@@ -66,8 +66,8 @@ implementation
 uses Forms, ShlObj;
 
 const
-  APP_NOME = 'Gerador de Atalhos do Prisma';
-  GRUPO_NOME = 'Aplicações do INSS';
+  APP_NOME = 'Prisma';
+  GRUPO_NOME = 'Aplicativos do INSS';
 
 constructor TVariaveis.Create;
 var

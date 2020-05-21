@@ -110,6 +110,7 @@ begin
       if Texto.Length > 0 then
       begin
         IniFile := TIniFile.Create(TStringStream.Create(Texto));
+        FNome := IniFile.ReadString('INFO', 'Nome', '');
         FCorFundo := IniFile.ReadString('CONTEUDO', 'CorFundo', '');
         FFonteCor := IniFile.ReadString('CONTEUDO', 'CorFonte', '');
         FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
@@ -205,12 +206,12 @@ end;
 
 function TTemas.Carregar(Pasta: String): Boolean;
 var
-  Arquivo: String;
   ArquivoTemas: TStringList;
+  NomeArquivoTemas: String;
   NomeTema: String;
   NovoTema: TTema;
+  DadosTema: TTupla;
   Tema: String;
-  NomeArquivoTemas: String;
 begin
   FPasta := Pasta;
   NomeArquivoTemas := Pasta + Variaveis.ArquivoDescricao;
@@ -221,9 +222,8 @@ begin
     ArquivoTemas.LoadFromFile(NomeArquivoTemas);
     for Tema in ArquivoTemas do
     begin
-      NomeTema := LeftStr(Tema, Pos(',', Tema) - 1);
-      Arquivo := RightStr(Tema, Tema.Length - Pos(',', Tema));
-      NovoTema := TTema.Create(FPasta + Arquivo, NomeTema);
+      DadosTema := SepararTexto(Tema, ',');
+      NovoTema := TTema.Create(FPasta + DadosTema.Texto2, DadosTema.Texto1);
       if NovoTema.Carregar then
         FLista.Add(NovoTema)
       else
