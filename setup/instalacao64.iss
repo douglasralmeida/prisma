@@ -1,27 +1,28 @@
 ﻿; Script para o instalador do Cliente do Prisma x64
 
-#define MyAppName "Prisma"
-#define MyAppVersion "1.0"
-#define MyAppPublisher "Instituto Nacional do Seguro Social"
-#define MyAppURL "https://github.com/douglasralmeida/prisma"
+#define AppName "Prisma"
+#define AppOrganization "Aplicativos do INSS"
+#define AppVersion "1.0"
+#define AppPublisher "Instituto Nacional do Seguro Social"
+#define AppURL "https://github.com/douglasralmeida/prisma"
 
 [Setup]
 
 AppId={{E0A55BDA-4DED-4D7A-80F1-AE76E5CC3723}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
+AppName={#AppName}
+AppVersion={#AppVersion}
+;AppVerName={#AppName} {#AppVersion}
+AppPublisher={#AppPublisher}
+AppPublisherURL={#AppURL}
+AppSupportURL={#AppURL}
+AppUpdatesURL={#AppURL}
 AllowNoIcons=yes
 ArchitecturesInstallIn64BitMode=x64
 ChangesAssociations=True
 ChangesEnvironment=true
 Compression=lzma
-DefaultDirName={pf}\Aplicativos do INSS\Prisma
-DefaultGroupName=Aplicativos do INSS\Prisma
+DefaultDirName={commonpf}\{#AppOrganization}\{#AppName}
+DefaultGroupName={#AppOrganization}\{#AppName}
 DisableDirPage=yes
 DisableReadyPage=yes
 DisableWelcomePage=no
@@ -52,10 +53,14 @@ TitleFontName=Segoe UI
 TitleFontSize=29
 CopyrightFontName=Segoe UI
 CopyrightFontSize=9
-
+                             
 [Components]
 Name: "accuterm"; Description: "Emulador Accuterm 7.3"; ExtraDiskSpaceRequired: 1024; Types: compact custom full; Flags: fixed
 Name: "geratalhos"; Description: "Gerador de Atalhos do Prisma"; Types: compact custom full; Flags: fixed
+
+[Dirs]
+Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall;
+Name: "{localappdata}\{#AppOrganization}\{#AppName}"; Flags: uninsalwaysuninstall;
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -147,6 +152,13 @@ begin
       DelTree(Diretorio, True, True, True);
 
     { Apaga o diretório UserAppData }
+    Diretorio := ExpandConstant('{userappdata}\{#SetupSetting("AppOrganization")}\{#SetupSetting("AppName")}');
+    DelTree(Diretorio, True, True, True);
+    Diretorio := ExpandConstant('{userappdata}\{#SetupSetting("AppOrganization")}');
+    if DirEstaVazio(Diretorio) then
+      DelTree(Diretorio, True, True, True);
+
+    { Versões beta usavam Aplicações do INSS\Gerador de Atalhos do Prisma }
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS\Gerador de Atalhos do Prisma');
     DelTree(Diretorio, True, True, True);
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS');
