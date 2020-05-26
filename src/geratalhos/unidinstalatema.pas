@@ -27,7 +27,7 @@ end;
 
 function ObterNomeTema(Arquivo: String): String;
 begin
-  with TTema.Create(Arquivo, 'Novo Tema') do
+  with TTema.Create(Arquivo) do
     try
       if Carregar then
         Result := Nome
@@ -49,6 +49,7 @@ var
   NomeNovoTema: String;
   I: Integer;
   EncontrouIgual: Boolean;
+  TemaExistente: String;
 begin
   //Gera as variáveis necessárias e cria as pastas de configuração
   Variaveis := TVariaveis.Create;
@@ -85,14 +86,11 @@ begin
       if FileExists(ArquivoDestino) then
         ArquivoTemas.LoadFromFile(ArquivoDestino);
       EncontrouIgual := false;
-      for I := 0 to ArquivoTemas.Count - 1 do
-        if SepararTexto(ArquivoTemas[i], ',').Texto2 = ExtractFileName(ArquivoTema) then
-        begin
-          ArquivoTemas[i] := NomeNovoTema + ',' + ExtractFileName(ArquivoTema);
+      for TemaExistente in ArquivoTemas do
+        if TemaExistente = ExtractFileName(ArquivoTema) then
           EncontrouIgual := true;
-        end;
       if not EncontrouIgual then
-        ArquivoTemas.Add(NomeNovoTema + ',' + ExtractFileName(ArquivoTema));
+        ArquivoTemas.Add(ExtractFileName(ArquivoTema));
       ArquivoTemas.SaveToFile(ArquivoDestino);
     finally
       ArquivoTemas.Free;

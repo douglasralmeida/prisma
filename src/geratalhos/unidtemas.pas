@@ -33,7 +33,7 @@ type
     function GetImagemArquivo: String;
     function GetNome: String;
   public
-    constructor Create(AArquivo: String; ANome: String);
+    constructor Create(AArquivo: String);
     destructor Destroy; override;
     function Carregar: Boolean;
     property Arquivo: String read GetArquivo;
@@ -71,13 +71,12 @@ implementation
 
 uses Dialogs, IniFiles, unidVariaveis, unidUtils, unidZip;
 
-constructor TTema.Create(AArquivo: String; ANome: String);
+constructor TTema.Create(AArquivo: String);
 begin
   inherited Create;
 
   FArquivo := AArquivo;
   FDemonstracao := TPortableNetworkGraphic.Create;
-  FNome := ANome;
 end;
 
 destructor TTema.Destroy;
@@ -209,7 +208,6 @@ var
   ArquivoTemas: TStringList;
   NomeArquivoTemas: String;
   NovoTema: TTema;
-  DadosTema: TTupla;
   Tema: String;
 begin
   FPasta := Pasta;
@@ -221,8 +219,7 @@ begin
     ArquivoTemas.LoadFromFile(NomeArquivoTemas);
     for Tema in ArquivoTemas do
     begin
-      DadosTema := SepararTexto(Tema, ',');
-      NovoTema := TTema.Create(FPasta + DadosTema.Texto2, DadosTema.Texto1);
+      NovoTema := TTema.Create(FPasta + Tema);
       if NovoTema.Carregar then
         FLista.Add(NovoTema)
       else
