@@ -52,10 +52,6 @@ Sub TC_Outros()
   Shell("http://www-sdc/menuconsulta.asp")
 End Sub
 
-Sub TC_Outros()
-  Shell("http://www-sdc/menuconsulta.asp")
-End Sub
-
 Sub ListarACPs()
   Shell("http://www-inss.prevnet/area/dirben/bmob/")
 End Sub

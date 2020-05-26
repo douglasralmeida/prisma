@@ -69,6 +69,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure ListaAdicionadasDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure ListaAdicionadasDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -351,16 +352,6 @@ begin
     ProgramaIniciado := true;
     Application.ProcessMessages;
     CarregarRecursos;
-    Variaveis := TVariaveis.Create;
-    try
-      Configuracoes := TConfiguracoes.Create;
-    except
-      on E: Exception do
-      begin
-        ExibirMensagemErro(E.Message, E.HelpContext);
-        Close;
-      end;
-    end;
     if not CarregarOLs then
     begin
       ExibirMensagemErro('Erro ao carregar o banco de dados de órgãos locais.', 0);
@@ -396,7 +387,11 @@ end;
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
 begin
   if Assigned(Configuracoes) then
+  begin
+    Configuracoes.PosicaoY := Top;
+    Configuracoes.PosicaoX := Left;
     Configuracoes.Free;
+  end;
   if Assigned(Variaveis) then
     Variaveis.Free;
   if Assigned(TemasSistema) then
@@ -407,6 +402,35 @@ begin
     ListaOLAdicionadas.Free;
   if Assigned(ListaOLs) then
     ListaOLs.Free;
+end;
+
+procedure TJanelaPrincipal.FormShow(Sender: TObject);
+var
+  PosX, PosY: Integer;
+begin
+  Variaveis := TVariaveis.Create;
+  try
+    Configuracoes := TConfiguracoes.Create;
+    PosX := Configuracoes.PosicaoX;
+    PosY := Configuracoes.PosicaoY;
+    if (PosX > -1) and (PosY > -1) then
+    begin
+      Left := PosX;
+      Top := PosY;
+      Position := poDesigned;
+    end
+    else
+      Position := poScreenCenter;
+  except
+    on E: Exception do
+    begin
+      ExibirMensagemErro(E.Message, E.HelpContext);
+      Variaveis.Free;
+      if Assigned(Configuracoes) then
+        Configuracoes.Free;
+      Halt(1);
+    end;
+  end;
 end;
 
 procedure TJanelaPrincipal.ListaAdicionadasDragDrop(Sender, Source: TObject; X,
