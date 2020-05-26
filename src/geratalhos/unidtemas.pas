@@ -208,7 +208,6 @@ function TTemas.Carregar(Pasta: String): Boolean;
 var
   ArquivoTemas: TStringList;
   NomeArquivoTemas: String;
-  NomeTema: String;
   NovoTema: TTema;
   DadosTema: TTupla;
   Tema: String;

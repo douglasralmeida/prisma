@@ -31,3 +31,10 @@ lib/
 *.app/
 
 # End
+
+
+### Projeto
+dados/
+modelos/
+temas/
+listaol.csv

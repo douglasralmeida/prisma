@@ -89,7 +89,6 @@ end;
 function TZipFile.ExtractFileToDisk(AFileName, ADest: String): boolean;
 var
   stream: TMemoryStream;
-  teste: string;
 begin
   stream := ExtractFile(AFileName);
   if stream = nil then
