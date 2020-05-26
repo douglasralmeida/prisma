@@ -13,6 +13,7 @@ type
     Texto2: String;
   end;
 
+function CriarMutex: THandle;
 procedure ExibirMensagemErro(const Mensagem: String; const AjudaID: Integer=0);
 function ExibirMensagemInfo(const Mensagem: String; const Desc: String; ExibirNaoMostrarNovamente: Boolean): Boolean;
 function ExibirPergunta(const Mensagem: String; const Opcoes: Array of String; const Cancelar: Integer): Integer;
@@ -21,7 +22,20 @@ function SepararTexto(Texto: String; Sep: Char): TTupla;
 
 implementation
 
-uses Controls, Dialogs, unidExcecoes, unidExcecoesLista, unidVariaveis;
+uses Controls, Dialogs, Windows, unidExcecoes, unidExcecoesLista, unidVariaveis;
+
+function CriarMutex: THandle;
+begin
+  Result := CreateMutex(nil, true, 'AppMutex_GeraAtalhosPrisma1');
+  if Result <> 0 then
+  begin
+    if GetLastError = ERROR_ALREADY_EXISTS then
+    begin
+      CloseHandle(Result);
+      Halt(0);
+    end;
+  end;
+end;
 
 function SepararTexto(Texto: String; Sep: Char): TTupla;
 var

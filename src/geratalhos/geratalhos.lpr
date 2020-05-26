@@ -6,12 +6,14 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Interfaces, SysUtils,
+  Interfaces, SysUtils, Windows,
   Forms, lazcontrols, formPrincipal, unidOL, unidUtils, unidTemas, unidZip,
   unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista, unidInstalaTema;
 
 {$R *.res}
 {$R maisrecursos.rc}
+var
+  Mutex: THandle;
 
 begin
   RequireDerivedFormResource:=True;
@@ -29,8 +31,10 @@ begin
   end
   else
   begin
+    Mutex := CriarMutex;
     Application.CreateForm(TJanelaPrincipal, JanelaPrincipal);
     Application.Run;
+    CloseHandle(Mutex);
   end;
 end.
 
