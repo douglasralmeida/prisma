@@ -1,5 +1,7 @@
 ﻿; Script para o instalador do Cliente do Prisma x86
 
+#include "ambiente.iss"
+
 #define AppName "Prisma"
 #define AppOrganization "Aplicativos do INSS"
 #define AppVersion "1.0"
@@ -17,12 +19,14 @@ AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#AppURL}
 AllowNoIcons=yes
+ArchitecturesAllowed=x86
 ChangesAssociations=True
 ChangesEnvironment=true
 Compression=lzma
 DefaultDirName={commonpf}\{#AppOrganization}\{#AppName}
 DefaultGroupName={#AppOrganization}\{#AppName}
 DisableDirPage=yes
+DisableProgramGroupPage=yes
 DisableReadyPage=yes
 DisableWelcomePage=no
 MinVersion=0,6.1
@@ -31,11 +35,11 @@ OutputDir=..\dist
 SetupIconFile=..\res\setup.icone.ico
 SolidCompression=yes
 ShowLanguageDialog=no
-UninstallDisplayName=Prisma
+UninstallDisplayName={#AppName}
 UninstallDisplayIcon={uninstallexe}
-UninstallDisplaySize=50000000
+UninstallDisplaySize=75497472
 VersionInfoVersion=1.0.0
-VersionInfoProductVersion=1.0
+VersionInfoProductVersion={#AppVersion}
 WizardImageFile=..\res\setup.grande.bmp
 WizardSmallImageFile=..\res\setup.pequeno.bmp
 WizardStyle=modern
@@ -54,12 +58,16 @@ CopyrightFontName=Segoe UI
 CopyrightFontSize=9
 
 [Components]
-Name: "accuterm"; Description: "Emulador Accuterm 7.3"; ExtraDiskSpaceRequired: 1024; Types: compact custom full; Flags: fixed
+Name: "accuterm"; Description: "Emulador Accuterm 7.3"; ExtraDiskSpaceRequired: 58300826; Types: compact custom full; Flags: fixed
 Name: "geratalhos"; Description: "Gerador de Atalhos do Prisma"; Types: compact custom full; Flags: fixed
+Name: "pdfprisma"; Description: "Componente Prisma PDF"; Types: compact custom full; Flags: fixed
+Name: "java"; Description: "Java 14"; Types: compact custom full; Flags: fixed
 
 [Dirs]
-Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall;
-Name: "{localappdata}\{#AppOrganization}\{#AppName}"; Flags: uninsalwaysuninstall;
+Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall; Components: geratalhos;
+Name: "{localappdata}\{#AppOrganization}\{#AppName}"; Flags: uninsalwaysuninstall; Components: geratalhos;
+Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Components: pdfprisma;
+Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Components: pdfprisma;
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -69,7 +77,11 @@ Source: "..\accuterm\menu71.ini"; DestDir: "{app}\emulador\accextra"; Flags: ign
 Source: "..\scripts\AtalhosSistemas.bas"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\scripts\ScriptManCola.bas"; DestDir: "{app}\emulador\accextra"; Flags: ignoreversion; Components: accuterm;
 Source: "..\bin\atwin71.msi"; DestDir: "{app}\emulador"; Flags: ignoreversion; AfterInstall: InstalarAccuterm(); Components: accuterm;
+Source: "..\bin\config32.exe"; DestDir: "{app}"; DestName: "config.exe"; Flags: ignoreversion; Components: pdfprisma;
 Source: "..\bin\geratalhos32.exe"; DestDir: "{app}"; DestName: "geratalhos.exe"; Flags: ignoreversion; Components: geratalhos;
+Source: "..\bin\loader32.exe"; DestDir: "{app}"; DestName: "loader.exe"; Flags: ignoreversion; Components: pdfprisma;
+Source: "..\bin\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma;
+Source: "..\bin\limparcnislinha.cmd"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma;
 Source: "..\bin\listaol.csv"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
 Source: "..\bin\modelos\*"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
 Source: "..\bin\temas\*"; DestDir: "{app}\temas"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
@@ -79,20 +91,59 @@ Source: "..\fontes\FiraCode-Medium.otf"; DestDir: "{fonts}"; FontInstall: "Fira 
 Source: "..\fontes\FiraCode-Regular.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 Source: "..\fontes\FiraCode-Retina.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code Retina"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 Source: "..\fontes\FiraCode-SemiBold.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code SemiBold"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
+Source: "..\bin\jre32\*"; DestDir: "{app}\jre"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: java;
 
 [Icons]
 Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho.";
+Name: "{group}\Manual para Geração de PDF no Prisma"; Filename: "{app}\manual.pdf"; WorkingDir: "{app}"
+Name: "{group}\Configurações do PrismaPDF"; Filename: "{app}\config.exe"; WorkingDir: "{app}"; Comment: "Configure o componente PDF do Prisma.";
 
 [Registry]
 Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletevalue
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Tema do Prisma"; Flags: uninsdeletekey
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,3"
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\geratalhos.exe"" /it ""%1"""
+Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoConfig.1"; Flags: uninsdeletevalue
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Configurações do Prisma"; Flags: uninsdeletekey
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""
 
 [Run]
-Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Primsa imediatamente."; Flags: nowait postinstall skipifsilent
+Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent
+Filename: "schtasks"; \
+  Parameters: "/Create /RU SYSTEM /F /SC DAILY /TN ""Limpeza diária do Componente PrismaPDF"" /TR ""'{app}\limparcnislinha.cmd'"" /ST 01:00"; \
+  Flags: runhidden; \
+  StatusMsg: "Definindo tarefas agendadas..."
+
+Filename: "schtasks"; \
+  Parameters: "/Create /RU SYSTEM /F /SC ONLOGON /TN ""Limpeza durante logon do Componente PrismaPDF"" /TR ""'{app}\limparcnislinha.cmd'"""; \
+  Flags: runhidden; \
+  StatusMsg: "Definindo tarefas agendadas..."
+
+[UninstallRun]
+Filename: "schtasks"; \
+  Parameters: "/Delete /F /TN ""Limpeza diária do Componente PrismaPDF"""; \
+  Flags: runhidden; \
+  StatusMsg: "Excluindo tarefas agendadas..."
+
+Filename: "schtasks"; \
+  Parameters: "/Delete /F /TN ""Limpeza durante logon do Componente PrismaPDF"""; \
+  Flags: runhidden; \
+  StatusMsg: "Excluindo tarefas agendadas..."
 
 [Code]
+function CreateSoftLink(lpSymlinkFileName, lpTargetFileName: String; dwFlags: Integer): Boolean;
+  external 'CreateSymbolicLinkW@kernel32.dll stdcall';
+
+procedure CriarJavaLink;
+var
+  ExistingFile, LinkFile: string;
+begin
+  ExistingFile := ExpandConstant('{app}\loader.exe');
+  LinkFile := ExpandConstant('{commonpf}\Java\jre6\bin\java.exe');
+  CreateSoftLink(LinkFile, ExistingFile, 0);
+end;
+
 function DirEstaVazio(DirNome: String): Boolean;
 var
   FindRec: TFindRec;
@@ -138,30 +189,58 @@ begin
   end;
 end;
 
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if CurStep = ssInstall then
+  begin
+    { Apaga o diretório C:\CNISLINHA }
+    DelTree('C:\CNISLINHA', True, True, True);
+
+    { Cria o diretório C:\cnislinha (minúsculo) }
+    CreateDir('C:\cnislinha');
+  end
+  else if CurStep = ssPostInstall then
+  begin
+    
+    { Remove o caminho do JRE 6 do systempath }
+    EnvRemovePath(ExpandConstant('{commonpf}') + '\Java\jre6\bin');
+    EnvRemovePath(ExpandConstant('{commonpf32}') + '\Java\jre6\bin');
+
+    {  Cria um link simbolico que finge ser o executavel Java  }
+    CriarJavaLink;
+  end;
+end;
+
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
   Diretorio: String;
 begin
   if CurUninstallStep = usUninstall then
   begin
-    { Apaga do diretório Aplicações INSS se estiver vazio }
+    { Apaga do diretório Aplicativos do INSS se estiver vazio }
 
-    Diretorio := ExpandConstant('{pf}\Aplicativos do INSS');
-    if DirEstaVazio(Diretorio) then
-      DelTree(Diretorio, True, True, True);
-
-    { Apaga o diretório UserAppData }
-    Diretorio := ExpandConstant('{userappdata}\{#SetupSetting("AppOrganization")}\{#SetupSetting("AppName")}');
-    DelTree(Diretorio, True, True, True);
-    Diretorio := ExpandConstant('{userappdata}\{#SetupSetting("AppOrganization")}');
+    Diretorio := ExpandConstant('{commonpf}\{#SetupSetting("AppOrganization")}');
     if DirEstaVazio(Diretorio) then
       DelTree(Diretorio, True, True, True);
 
     { Versões beta usavam Aplicações do INSS\Gerador de Atalhos do Prisma }
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS\Gerador de Atalhos do Prisma');
     DelTree(Diretorio, True, True, True);
+
+    { Versões anteriores do Componente PDF usavam Aplicações do INSS\Componente PrismaPDF }
+    Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS\Componente PrismaPDF');
+    DelTree(Diretorio, True, True, True);
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS');
     if DirEstaVazio(Diretorio) then
       DelTree(Diretorio, True, True, True);
+
+    { Apaga o softlink }
+    DeleteFile(ExpandConstant('{commonpf}\Java\jre6\bin\java.exe'));
+
+    { Apaga do diretório do softlink }
+    DelTree(ExpandConstant('{commonpf}\Java\jre6'), True, True, True);
+
+    { Apaga o diretório C:\cnislinha }
+    DelTree('C:\cnislinha', True, True, True);
   end;
 end;
