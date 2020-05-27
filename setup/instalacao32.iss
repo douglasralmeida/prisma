@@ -83,7 +83,9 @@ Source: "..\bin\loader32.exe"; DestDir: "{app}"; DestName: "loader.exe"; Flags: 
 Source: "..\bin\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma;
 Source: "..\bin\limparcnislinha.cmd"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma;
 Source: "..\bin\listaol.csv"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
-Source: "..\bin\modelos\*"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
+Source: "..\bin\modelos\config.prc"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
+Source: "..\bin\modelos\prisma.prm"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
+Source: "..\bin\modelos\prismapdf32.prc"; DestDir: "{app}\modelos"; DestName: "prismapdf.prc"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: pdfprisma;
 Source: "..\bin\temas\*"; DestDir: "{app}\temas"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
 Source: "..\fontes\FiraCode-Bold.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 Source: "..\fontes\FiraCode-Light.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code Light"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
@@ -189,6 +191,13 @@ begin
   end;
 end;
 
+procedure OtimizarJava();
+var
+  Resultado: Integer;
+begin
+  Exec('{app}\jre\bin\java.exe', '-Xshare:dump', '', SW_HIDE, ewWaitUntilTerminated, Resultado);
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
   if CurStep = ssInstall then
@@ -208,6 +217,9 @@ begin
 
     {  Cria um link simbolico que finge ser o executavel Java  }
     CriarJavaLink;
+
+    { Otimiza o subsistema Java }
+    OtimizarJava;
   end;
 end;
 
