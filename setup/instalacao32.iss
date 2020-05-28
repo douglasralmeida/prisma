@@ -32,6 +32,7 @@ DisableWelcomePage=no
 MinVersion=0,6.1
 OutputBaseFilename=prismainstala.x86
 OutputDir=..\dist
+PrivilegesRequired=admin
 SetupIconFile=..\res\setup.icone.ico
 SolidCompression=yes
 ShowLanguageDialog=no
@@ -61,13 +62,13 @@ CopyrightFontSize=9
 Name: "accuterm"; Description: "Emulador Accuterm 7.3"; ExtraDiskSpaceRequired: 58300826; Types: compact custom full; Flags: fixed
 Name: "geratalhos"; Description: "Gerador de Atalhos do Prisma"; Types: compact custom full; Flags: fixed
 Name: "pdfprisma"; Description: "Componente Prisma PDF"; Types: compact custom full; Flags: fixed
-Name: "java"; Description: "Java 14"; Types: compact custom full; Flags: fixed
+Name: "java"; Description: "Java 12"; Types: compact custom full; Flags: fixed
 
 [Dirs]
 Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall; Components: geratalhos;
 Name: "{localappdata}\{#AppOrganization}\{#AppName}"; Flags: uninsalwaysuninstall; Components: geratalhos;
 Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Components: pdfprisma;
-Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Components: pdfprisma;
+Name: "{app}\jre"; Flags: uninsalwaysuninstall; Components: java;
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -93,7 +94,10 @@ Source: "..\fontes\FiraCode-Medium.otf"; DestDir: "{fonts}"; FontInstall: "Fira 
 Source: "..\fontes\FiraCode-Regular.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 Source: "..\fontes\FiraCode-Retina.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code Retina"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
 Source: "..\fontes\FiraCode-SemiBold.otf"; DestDir: "{fonts}"; FontInstall: "Fira Code SemiBold"; Flags: onlyifdoesntexist uninsneveruninstall; Components: geratalhos;
-Source: "..\bin\jre32\*"; DestDir: "{app}\jre"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: java;
+Source: "..\bin\jre32\bin\*"; DestDir: "{app}\jre\bin"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: java;
+Source: "..\bin\jre32\conf\*"; DestDir: "{app}\jre\conf"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: java;
+Source: "..\bin\jre32\lib\*"; DestDir: "{app}\jre\lib"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: java;
+Source: "..\bin\jre32\release"; DestDir: "{app}\jre"; Flags: ignoreversion; AfterInstall: OtimizarJava(); Components: java;
 
 [Icons]
 Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho.";
@@ -111,7 +115,7 @@ Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; Value
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""
 
 [Run]
-Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent
+Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent runasoriginaluser
 Filename: "schtasks"; \
   Parameters: "/Create /RU SYSTEM /F /SC DAILY /TN ""Limpeza diária do Componente PrismaPDF"" /TR ""'{app}\limparcnislinha.cmd'"" /ST 01:00"; \
   Flags: runhidden; \
@@ -170,32 +174,45 @@ begin
   end;
 end;
 
-procedure InstalarAccuterm();
+procedure ExecutarApp(App, Param, Status: String);
 var
   TextoStatus: string;
   Resultado: Integer;
-  Config, Caminho, Parametros: string;
 begin
-  Caminho := ExpandConstant('{app}\emulador\atwin71.msi');
-  Config := ExpandConstant('"{app}\emulador\setup.ini"');
-  Parametros := '/q /i "' + Caminho + '" ALLUSERS="1" LICENSEACCEPTED="YES" SETUPINI=' + Config;
   TextoStatus := WizardForm.StatusLabel.Caption;
-  WizardForm.StatusLabel.Caption:='Instalando e configurando o emulador Accuterm 7.3. Aguarde...';
+  WizardForm.StatusLabel.Caption := Status;
   WizardForm.ProgressGauge.Style := npbstMarquee;
   try
-    if not Exec('msiexec', Parametros, '', SW_SHOW, ewWaitUntilTerminated, Resultado) then
-      MsgBox('Ocorreu um erro ao instalar o Accuterm 7.3. O Prisma não irá funcionar.', mbError, MB_OK);
+    if not Exec(App, Param, '', SW_SHOW, ewWaitUntilTerminated, Resultado) then
+      MsgBox('Ocorreu um erro na instalação. Tente executar o programa de instalação novamente.', mbError, MB_OK);
   finally
     WizardForm.StatusLabel.Caption := TextoStatus;
     WizardForm.ProgressGauge.Style := npbstNormal;
   end;
 end;
 
+procedure InstalarAccuterm();
+var
+  Config, Caminho, Parametros: string;
+  Status: String;
+begin
+  Caminho := ExpandConstant('{app}\emulador\atwin71.msi');
+  Config := ExpandConstant('"{app}\emulador\setup.ini"');
+  Parametros := '/q /i "' + Caminho + '" ALLUSERS="1" LICENSEACCEPTED="YES" SETUPINI=' + Config;
+  Status := 'Instalando e configurando o emulador Accuterm 7.3. Aguarde...';
+  ExecutarApp('msiexec', Parametros, Status);
+end;
+
 procedure OtimizarJava();
 var
-  Resultado: Integer;
+  EXE: String;
+  Parametros: string;
+  Status: String;
 begin
-  Exec('{app}\jre\bin\java.exe', '-Xshare:dump', '', SW_HIDE, ewWaitUntilTerminated, Resultado);
+  EXE := ExpandConstant('{app}\jre\bin\java.exe');
+  Parametros := '-Xshare:dump';
+  Status := 'Otimizando o Java 12. Aguarde...';
+  ExecutarApp(EXE, Parametros, Status);
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
@@ -217,9 +234,6 @@ begin
 
     {  Cria um link simbolico que finge ser o executavel Java  }
     CriarJavaLink;
-
-    { Otimiza o subsistema Java }
-    OtimizarJava;
   end;
 end;
 
