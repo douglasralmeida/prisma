@@ -69,7 +69,7 @@ type
 
 implementation
 
-uses Dialogs, IniFiles, unidVariaveis, unidUtils, unidZip;
+uses Dialogs, IniFiles, unidVariaveis, unidZip;
 
 constructor TTema.Create(AArquivo: String);
 begin

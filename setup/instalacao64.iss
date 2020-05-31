@@ -37,13 +37,13 @@ PrivilegesRequired=admin
 SetupIconFile=..\res\setup.icone.ico
 SolidCompression=yes
 ShowLanguageDialog=no
-UninstallDisplayName={#AppName}
-UninstallDisplayIcon={uninstallexe}
+UninstallDisplayName={#AppName} Cliente {#AppVersion}
+UninstallDisplayIcon={app}\geratalhos.exe,5
 UninstallDisplaySize=93323264
 VersionInfoVersion=1.0.0
 VersionInfoProductVersion={#AppVersion}
-WizardImageFile=..\res\setup.grande.bmp
-WizardSmallImageFile=..\res\setup.pequeno.bmp
+WizardImageFile=..\res\instalagrande\*.bmp
+WizardSmallImageFile=..\res\instalapequeno\*.bmp
 WizardStyle=modern
 
 [Languages]

@@ -19,7 +19,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <RevisionNr Value="300"/>
+      <RevisionNr Value="310"/>
       <BuildNr Value="1"/>
       <Language Value="0416"/>
       <Attributes pvaPreRelease="True"/>
@@ -39,6 +39,7 @@
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
             <TargetProcessor Value="ATHLON64"/>
             <TargetCPU Value="x86_64"/>
             <Optimizations>
@@ -51,6 +52,7 @@
               <DebugInfoType Value="dsDwarf2"/>
               <StripSymbols Value="True"/>
             </Debugging>
+            <LinkSmart Value="True"/>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -71,6 +73,7 @@
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
             <TargetCPU Value="i386"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
@@ -82,6 +85,7 @@
               <DebugInfoType Value="dsDwarf2"/>
               <StripSymbols Value="True"/>
             </Debugging>
+            <LinkSmart Value="True"/>
             <Options>
               <Win32>
                 <GraphicApplication Value="True"/>
@@ -182,7 +186,19 @@
       <IncludeFiles Value="$(ProjOutDir)"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
     <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
       <TargetProcessor Value="ATHLON64"/>
       <TargetCPU Value="x86_64"/>
       <Optimizations>
@@ -192,6 +208,8 @@
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf2"/>
+        <UseHeaptrc Value="True"/>
+        <TrashVariables Value="True"/>
       </Debugging>
       <Options>
         <Win32>

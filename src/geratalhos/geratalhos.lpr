@@ -3,12 +3,10 @@ program geratalhos;
 {$mode objfpc}{$H+}
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
-  Interfaces, SysUtils, Windows,
-  Forms, lazcontrols, formPrincipal, unidOL, unidUtils, unidTemas, unidZip,
-  unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista, unidInstalaTema;
+  Forms, Interfaces, SysUtils, Windows,
+  LazControls, formPrincipal, unidOL, unidUtils, unidTemas, unidZip,
+  unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista,
+  unidInstalaTema;
 
 {$R *.res}
 {$R maisrecursos.rc}

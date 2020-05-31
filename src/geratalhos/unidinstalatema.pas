@@ -47,7 +47,6 @@ var
   ArquivoDestino: String;
   ArquivoTemas: TStringList;
   NomeNovoTema: String;
-  I: Integer;
   EncontrouIgual: Boolean;
   TemaExistente: String;
 begin
