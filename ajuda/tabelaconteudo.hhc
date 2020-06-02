@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="Window Styles" value="0x800025">
+	<param name="ImageType" value="Folder">
+<param name="Font" value="Segoe UI,9,0">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Ajuda do Prisma">
+		<param name="Local" value="conteudo\inicio.htm">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="O que h&aacute; de novo no Cliente Prisma?">
+		<param name="Local" value="conteudo\oquehadenovo.htm">
+		<param name="ImageNumber" value="12">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Enviando seus coment&aacute;rios">
+		<param name="Local" value="conteudo\feedback.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Site do Projeto Prisma na Internet">
+		<param name="Local" value="https://github.com/douglasralmeida/prisma/">
+		<param name="ImageNumber" value="15">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Utilizando o Prisma">
+		<param name="Local" value="conteudo\utilizandoprisma.htm">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sobre o Prisma">
+			<param name="Local" value="conteudo\sobreprisma.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sobre o Accuterm">
+			<param name="Local" value="conteudo\sobreaccuterm.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Ativando a gera&ccedil;&atilde;o de relat&oacute;rio em PDF">
+			<param name="Local" value="conteudo\ativandopdf.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Ativando a impress&atilde;o f&iacute;sica de relat&oacute;rios">
+			<param name="Local" value="conteudo\ativandoimpressao.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Trabalhando com senhas no Prisma">
+			<param name="Local" value="conteudo\trabalhandosenhas.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Gerando atalhos do Prisma">
+		<param name="Local" value="conteudo\gerandoatalhos.htm">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Escolhendo um OL">
+			<param name="Local" value="conteudo\escolhendool.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Escolhendo um tema">
+			<param name="Local" value="conteudo\escolhendotema.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Configura&ccedil;&otilde;es da gera&ccedil;&atilde;o de PDF">
+		<param name="Local" value="conteudo\configpdf.htm">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Ativando a gera&ccedil;&atilde;o de relat&oacute;rio em PDF">
+			<param name="Local" value="conteudo\ativandopdf.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Op&ccedil;&otilde;es do relat&oacute;rio PDF">
+			<param name="Local" value="conteudo\opcoesrelpdf.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Op&ccedil;&otilde;es de automa&ccedil;&atilde;o">
+			<param name="Local" value="conteudo\opcoesauto.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Restaurar configura&ccedil;&otilde;es originais">
+			<param name="Local" value="conteudo\opcoesconfigorig.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Outros recursos do Prisma">
+		<param name="Local" value="conteudo\maisrecursos.htm">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sobre a colagem inteligente do Prisma">
+			<param name="Local" value="conteudo\sobrecolagem.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Acessando outros OLs distintos do seu cadastro">
+			<param name="Local" value="conteudo\acessandools.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Informa&ccedil;&otilde;es sobre as vers&otilde;es do Prisma">
+			<param name="Local" value="conteudo\infover.htm">
+			</OBJECT>
+	</UL>
+</UL>
+</BODY></HTML>

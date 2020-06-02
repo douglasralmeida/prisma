@@ -6,7 +6,7 @@ uses
   Forms, Interfaces, SysUtils, Windows,
   LazControls, formPrincipal, unidOL, unidUtils, unidTemas, unidZip,
   unidPrisma, unidConfig, unidVariaveis, unidExcecoes, unidExcecoesLista,
-  unidInstalaTema;
+  unidInstalaTema, unitAjuda;
 
 {$R *.res}
 {$R maisrecursos.rc}

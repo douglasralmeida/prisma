@@ -1,0 +1,42 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=..\bin\prisma.chm
+Contents file=tabelaconteudo.hhc
+Default Font=Segoe UI,9,0
+Default Window=JANELAPADRAO
+Default topic=conteudo\inicio.htm
+Display compile progress=Yes
+Full-text search=Yes
+Index file=indice.hhk
+Language=0x416 Português (Brasil)
+Title=Ajuda
+
+[WINDOWS]
+JANELAPADRAO="Ajuda do Prisma","tabelaconteudo.hhc","indice.hhk","conteudo\inicio.htm","conteudo\inicio.htm",,"Cliente Prisma na Internet",,,0x42120,,0x2044,[0,0,723,712],,0x8,,,,,0
+
+
+[FILES]
+conteudo\acessandools.htm
+conteudo\ativandoimpressao.htm
+conteudo\ativandopdf.htm
+conteudo\configpdf.htm
+conteudo\escolhendool.htm
+conteudo\escolhendotema.htm
+conteudo\gerandoatalhos.htm
+conteudo\infover.htm
+conteudo\inicio.htm
+conteudo\maisrecursos.htm
+conteudo\modelo.htm
+conteudo\opcoesauto.htm
+conteudo\opcoesconfigorig.htm
+conteudo\opcoesrelpdf.htm
+conteudo\oquehadenovo.htm
+conteudo\sobreaccuterm.htm
+conteudo\sobrecolagem.htm
+conteudo\sobreprisma.htm
+conteudo\trabalhandosenhas.htm
+conteudo\utilizandoprisma.htm
+conteudo\feedback.htm
+
+[INFOTYPES]
+

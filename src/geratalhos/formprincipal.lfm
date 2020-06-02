@@ -1,7 +1,7 @@
 object JanelaPrincipal: TJanelaPrincipal
-  Left = 309
+  Left = 311
   Height = 448
-  Top = 125
+  Top = 127
   Width = 804
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -12,9 +12,11 @@ object JanelaPrincipal: TJanelaPrincipal
   Font.Color = clBlack
   Font.Height = -12
   Font.Name = 'Segoe UI'
+  KeyPreview = True
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'

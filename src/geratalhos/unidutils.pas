@@ -22,7 +22,7 @@ function SepararTexto(Texto: String; Sep: Char): TTupla;
 
 implementation
 
-uses Controls, Dialogs, Windows, unidExcecoes, unidExcecoesLista, unidVariaveis;
+uses Controls, Dialogs, Forms, Windows, unidExcecoes, unidExcecoesLista, unidVariaveis;
 
 function CriarMutex: THandle;
 begin

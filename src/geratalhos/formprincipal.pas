@@ -69,6 +69,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure ListaAdicionadasDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure ListaAdicionadasDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -108,7 +109,7 @@ var
 implementation
 
 uses
-  unidConfig, unidPrisma, unidVariaveis, unidUtils;
+  LCLType, unitAjuda, unidConfig, unidPrisma, unidVariaveis, unidUtils;
 
 {$R *.lfm}
 
@@ -382,10 +383,12 @@ begin
   Icon.LoadFromResourceID(HInstance, 1001);
   Caderno.PageIndex := 2;
   RotuloCarregando.Left := Width div 2 - RotuloCarregando.Width div 2;
+  Application.HelpFile := ExtractFilePath(Application.ExeName) + 'prisma.chm';
 end;
 
 procedure TJanelaPrincipal.FormDestroy(Sender: TObject);
 begin
+  FecharAjuda;
   if Assigned(Configuracoes) then
   begin
     Configuracoes.PosicaoY := Top;
@@ -402,6 +405,18 @@ begin
     ListaOLAdicionadas.Free;
   if Assigned(ListaOLs) then
     ListaOLs.Free;
+end;
+
+procedure TJanelaPrincipal.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_F1 then
+  begin
+    if Caderno.ActivePage = 'PaginaUm' then
+      ExibirAjuda('escolhendool')
+    else
+      ExibirAjuda('escolhendotema');
+  end;
 end;
 
 procedure TJanelaPrincipal.FormShow(Sender: TObject);

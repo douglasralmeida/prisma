@@ -64,7 +64,7 @@ Name: "accuterm"; Description: "Emulador Accuterm 7.3"; ExtraDiskSpaceRequired: 
 Name: "geratalhos"; Description: "Gerador de Atalhos do Prisma"; Types: compact custom full; Flags: fixed
 Name: "pdfprisma"; Description: "Componente Prisma PDF"; Types: compact custom full; Flags: fixed
 Name: "java"; Description: "Java 12"; Types: compact custom full; Flags: fixed
-
+Name: "ajuda"; Description: "Ajuda e Documentação"; Types: compact custom full; Flags: fixed
 
 [Dirs]
 Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall; Components: geratalhos;
@@ -86,6 +86,7 @@ Source: "..\bin\loader64.exe"; DestDir: "{app}"; DestName: "loader.exe"; Flags: 
 Source: "..\bin\manual.pdf"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma
 Source: "..\bin\limparcnislinha.cmd"; DestDir: "{app}"; Flags: ignoreversion; Components: pdfprisma;
 Source: "..\bin\listaol.csv"; DestDir: "{app}"; Flags: ignoreversion; Components: geratalhos;
+Source: "..\bin\prisma.chm"; DestDir: "{app}"; Flags: ignoreversion; Components: ajuda;
 Source: "..\bin\modelos\config.prc"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
 Source: "..\bin\modelos\prisma.prm"; DestDir: "{app}\modelos"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: geratalhos;
 Source: "..\bin\modelos\prismapdf64.prc"; DestDir: "{app}\modelos"; DestName: "prismapdf.prc"; Flags: ignoreversion createallsubdirs recursesubdirs; Components: pdfprisma;
@@ -102,42 +103,47 @@ Source: "..\bin\jre64\lib\*"; DestDir: "{app}\jre\lib"; Flags: ignoreversion cre
 Source: "..\bin\jre64\release"; DestDir: "{app}\jre"; Flags: ignoreversion; AfterInstall: OtimizarJava(); Components: java;
 
 [Icons]
-Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho.";
-Name: "{group}\Manual para Geração de PDF no Prisma"; Filename: "{app}\manual.pdf"; WorkingDir: "{app}"
-Name: "{group}\Configurações do PrismaPDF"; Filename: "{app}\config.exe"; WorkingDir: "{app}"; Comment: "Configure o componente PDF do Prisma.";
+Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho."; Components: geratalhos;
+Name: "{group}\Manual para Geração de PDF no Prisma"; Filename: "{app}\manual.pdf"; WorkingDir: "{app}"; Components: pdfprisma;
+Name: "{group}\Configurações do PrismaPDF"; Filename: "{app}\config.exe"; WorkingDir: "{app}"; Comment: "Configure o componente PDF do Prisma."; Components: pdfprisma;
+Name: "{group}\Ajuda do Prisma"; Filename: "{app}\ajuda.chm"; WorkingDir: "{app}"; Comment: "Veja a ajuda do Prisma."; Components: ajuda;
 
 [Registry]
-Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletevalue
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Tema do Prisma"; Flags: uninsdeletekey
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,3"
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\geratalhos.exe"" /it ""%1"""
-Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoConfig.1"; Flags: uninsdeletevalue
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Configurações do Prisma"; Flags: uninsdeletekey
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"
-Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""
+Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletevalue; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Tema do Prisma"; Flags: uninsdeletekey; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,3"; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\geratalhos.exe"" /it ""%1"""; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoConfig.1"; Flags: uninsdeletevalue; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Configurações do Prisma"; Flags: uninsdeletekey; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""; Components: geratalhos;
 
 [Run]
-Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent runasoriginaluser 
+Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent runasoriginaluser; Components: geratalhos; 
 Filename: "schtasks"; \
   Parameters: "/Create /RU SYSTEM /F /SC DAILY /TN ""Limpeza diária do Componente PrismaPDF"" /TR ""'{app}\limparcnislinha.cmd'"" /ST 01:00"; \
   Flags: runhidden; \
-  StatusMsg: "Definindo tarefas agendadas..."
+  StatusMsg: "Definindo tarefas agendadas..."; \
+  Components: pdfprisma;
 
 Filename: "schtasks"; \
   Parameters: "/Create /RU SYSTEM /F /SC ONLOGON /TN ""Limpeza durante logon do Componente PrismaPDF"" /TR ""'{app}\limparcnislinha.cmd'"""; \
   Flags: runhidden; \
-  StatusMsg: "Definindo tarefas agendadas..."
+  StatusMsg: "Definindo tarefas agendadas..."; \
+  Components: pdfprisma;
 
 [UninstallRun]
 Filename: "schtasks"; \
   Parameters: "/Delete /F /TN ""Limpeza diária do Componente PrismaPDF"""; \
   Flags: runhidden; \
-  StatusMsg: "Excluindo tarefas agendadas..."
+  StatusMsg: "Excluindo tarefas agendadas..."; \
+  Components: pdfprisma;
 
 Filename: "schtasks"; \
   Parameters: "/Delete /F /TN ""Limpeza durante logon do Componente PrismaPDF"""; \
   Flags: runhidden; \
-  StatusMsg: "Excluindo tarefas agendadas..."
+  StatusMsg: "Excluindo tarefas agendadas..."; \
+  Components: pdfprisma;
 
 [Code]
 function CreateSoftLink(lpSymlinkFileName, lpTargetFileName: String; dwFlags: Integer): Boolean;
