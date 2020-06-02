@@ -64,6 +64,9 @@ Sub ListaVersoesPrisma()
   Shell("http://www-inss.prevnet/utilidade/prisma")
 End Sub
 
+Sub AjudaPrisma()
+  Shell("hh " & Chr(34) & "C:\Program Files\Aplicativos do INSS\Prisma\prisma.chm" & Chr(34))
+End Sub
 
 Sub Main()
 

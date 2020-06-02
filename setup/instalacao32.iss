@@ -105,7 +105,7 @@ Source: "..\bin\jre32\release"; DestDir: "{app}\jre"; Flags: ignoreversion; Afte
 Name: "{group}\Gerador de Atalhos do Prisma"; Filename: "{app}\geratalhos.exe"; WorkingDir: "{app}"; Comment: "Crie atalhos do Prisma na área de trabalho."; Components: geratalhos;
 Name: "{group}\Manual para Geração de PDF no Prisma"; Filename: "{app}\manual.pdf"; WorkingDir: "{app}"; Components: pdfprisma;
 Name: "{group}\Configurações do PrismaPDF"; Filename: "{app}\config.exe"; WorkingDir: "{app}"; Comment: "Configure o componente PDF do Prisma."; Components: pdfprisma;
-Name: "{group}\Ajuda do Prisma"; Filename: "{app}\ajuda.chm"; WorkingDir: "{app}"; Comment: "Veja a ajuda do Prisma."; Components: ajuda;
+Name: "{group}\Ajuda do Prisma"; Filename: "{app}\prisma.chm"; WorkingDir: "{app}"; Comment: "Veja a ajuda do Prisma."; Components: ajuda;
 
 [Registry]
 Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletevalue; Components: geratalhos;
