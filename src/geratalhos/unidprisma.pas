@@ -165,8 +165,11 @@ begin
   FArquivoIni.WriteString('Accuterm', 'ScaleFont', FTema.FonteEscala);
   FArquivoIni.WriteString('Palette', 'Color0', FTema.CorFundo);
   FArquivoIni.WriteString('Palette', 'Color1', FTema.FonteCor);
-  FArquivoIni.WriteString('Palette', 'Color2', FTema.CorFundo);
-  FArquivoIni.WriteString('Palette', 'Color3', FTema.FonteCor);
+
+  FArquivoIni.WriteString('Palette', 'Color2', FTema.CorReverso);
+  FArquivoIni.WriteString('Palette', 'Color3', FTema.FonteCorReverso);
+  FArquivoIni.WriteString('Palette', 'Color4', FTema.CorBlink);
+  FArquivoIni.WriteString('Palette', 'Color5', FTema.FonteCorBlink);
 end;
 
 function TAtalhoPrisma.SalvarArquivo(Codigo: String): Boolean;

@@ -12,8 +12,12 @@ type
   private
     FArquivo: String;
     FCorFundo: String;
+    FCorBlink: String;
+    FCorReverso: String;
     FDemonstracao: TPortableNetworkGraphic;
     FFonteCor: String;
+    FFonteCorBlink: String;
+    FFonteCorReverso: String;
     FFonteEscala: String;
     FFonteNome: String;
     FFonteTamanho: String;
@@ -23,8 +27,12 @@ type
     FNome: String;
     function GetArquivo: String;
     function GetCorFundo: String;
+    function GetCorReverso: String;
+    function GetCorBlink: String;
     function GetDemonstracao: TPortableNetworkGraphic;
     function GetFonteCor: String;
+    function GetFonteCorBlink: String;
+    function GetFonteCorReverso: String;
     function GetFonteEscala: String;
     function GetFonteNome: String;
     function GetFonteTamanho: String;
@@ -38,8 +46,12 @@ type
     function Carregar: Boolean;
     property Arquivo: String read GetArquivo;
     property CorFundo: String read GetCorFundo;
+    property CorBlink: String read GetCorBlink;
+    property CorReverso: String read GetCorReverso;
     property Demonstracao: TPortableNetworkGraphic read GetDemonstracao;
     property FonteCor: String read GetFonteCor;
+    property FonteCorBlink: String read GetFonteCorBlink;
+    property FonteCorReverso: String read GetFonteCorReverso;
     property FonteEscala: String read GetFonteEscala;
     property FonteNome: String read GetFonteNome;
     property FonteTamanho: String read GetFonteTamanho;
@@ -111,7 +123,11 @@ begin
         IniFile := TIniFile.Create(TStringStream.Create(Texto));
         FNome := IniFile.ReadString('INFO', 'Nome', '');
         FCorFundo := IniFile.ReadString('CONTEUDO', 'CorFundo', '');
+        FCorBlink := IniFile.ReadString('CONTEUDO', 'CorBlink', '');
+        FCorReverso := IniFile.ReadString('CONTEUDO', 'CorReverso', '');
         FFonteCor := IniFile.ReadString('CONTEUDO', 'CorFonte', '');
+        FFonteCorBlink := IniFile.ReadString('CONTEUDO', 'CorFonteBlink', '');
+        FFonteCorReverso := IniFile.ReadString('CONTEUDO', 'CorFonteReverso', '');
         FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
         FFonteNome := IniFile.ReadString('CONTEUDO', 'NomeFonte', '');
         FFonteTamanho := IniFile.ReadString('CONTEUDO', 'Tamanho', '');
@@ -140,6 +156,16 @@ begin
   Result := FCorFundo;
 end;
 
+function TTema.GetCorBlink: String;
+begin
+  Result := FCorBlink;
+end;
+
+function TTema.GetCorReverso: String;
+begin
+  Result := FCorReverso;
+end;
+
 function TTema.GetDemonstracao: TPortableNetworkGraphic;
 begin
   Result := FDemonstracao;
@@ -148,6 +174,16 @@ end;
 function TTema.GetFonteCor: String;
 begin
   Result := FFonteCor;
+end;
+
+function TTema.GetFonteCorBlink: String;
+begin
+  Result := FFonteCorBlink;
+end;
+
+function TTema.GetFonteCorReverso: String;
+begin
+  Result := FFonteCorReverso;
 end;
 
 function TTema.GetFonteEscala: String;
