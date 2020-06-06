@@ -88,4 +88,3 @@ finalization
   if (ModuloAjuda <> 0) then
     FreeLibrary(ModuloAjuda);
 end.
-

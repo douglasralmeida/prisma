@@ -11,8 +11,10 @@ type
   TTema = class(TObject)
   private
     FArquivo: String;
+    FAtributoE4: String;
     FCorFundo: String;
     FCorBlink: String;
+    FCorBordaSelecao: String;
     FCorReverso: String;
     FDemonstracao: TPortableNetworkGraphic;
     FFonteCor: String;
@@ -25,10 +27,13 @@ type
     FImagemTransparencia: String;
     FImagemArquivo: String;
     FNome: String;
+    FMascara: String;
     function GetArquivo: String;
+    function GetAtributoE4: String;
     function GetCorFundo: String;
     function GetCorReverso: String;
     function GetCorBlink: String;
+    function GetCorBordaSelecao: String;
     function GetDemonstracao: TPortableNetworkGraphic;
     function GetFonteCor: String;
     function GetFonteCorBlink: String;
@@ -40,13 +45,16 @@ type
     function GetImagemTransparencia: String;
     function GetImagemArquivo: String;
     function GetNome: String;
+    function GetMascara: String;
   public
     constructor Create(AArquivo: String);
     destructor Destroy; override;
     function Carregar: Boolean;
     property Arquivo: String read GetArquivo;
+    property AtributoE4: String read GetAtributoE4;
     property CorFundo: String read GetCorFundo;
     property CorBlink: String read GetCorBlink;
+    property CorBordaSelecao: String read GetCorBordaSelecao;
     property CorReverso: String read GetCorReverso;
     property Demonstracao: TPortableNetworkGraphic read GetDemonstracao;
     property FonteCor: String read GetFonteCor;
@@ -59,6 +67,7 @@ type
     property ImagemTransparencia: String read GetImagemTransparencia;
     property ImagemArquivo: String read GetImagemArquivo;
     property Nome: String read GetNome;
+    property Mascara: String read GetMascara;
   end;
 
   TListaTemas = specialize TFPGObjectList<TTema>;
@@ -99,6 +108,7 @@ end;
 
 function TTema.Carregar: Boolean;
 var
+  StringStream: TStringStream;
   IniFile: TIniFile;
   ZipFile: TZipFile;
   Texto: String;
@@ -120,10 +130,14 @@ begin
       end;
       if Texto.Length > 0 then
       begin
-        IniFile := TIniFile.Create(TStringStream.Create(Texto));
+        StringStream := TStringStream.Create(Texto);
+        IniFile := TIniFile.Create(StringStream);
+        StringStream.Free;
+        FAtributoE4 := IniFile.ReadString('CONTEUDO', 'AtributoE4', '');
         FNome := IniFile.ReadString('INFO', 'Nome', '');
         FCorFundo := IniFile.ReadString('CONTEUDO', 'CorFundo', '');
         FCorBlink := IniFile.ReadString('CONTEUDO', 'CorBlink', '');
+        FCorBordaSelecao := IniFile.ReadString('CONTEUDO', 'CorBordaSelecao', '');
         FCorReverso := IniFile.ReadString('CONTEUDO', 'CorReverso', '');
         FFonteCor := IniFile.ReadString('CONTEUDO', 'CorFonte', '');
         FFonteCorBlink := IniFile.ReadString('CONTEUDO', 'CorFonteBlink', '');
@@ -134,6 +148,7 @@ begin
         FImagemFundo := IniFile.ReadBool('CONTEUDO', 'ImagemFundo', false);
         FImagemTransparencia := IniFile.ReadString('CONTEUDO', 'ImagemTransparencia', '');
         FImagemArquivo := IniFile.ReadString('CONTEUDO', 'ImagemArquivo', '');
+        FMascara := IniFile.ReadString('CONTEUDO', 'Mascara', '');
         Result := true;
       end;
     end;
@@ -151,6 +166,11 @@ begin
   Result := FArquivo;
 end;
 
+function TTema.GetAtributoE4: String;
+begin
+  Result := FAtributoE4;
+end;
+
 function TTema.GetCorFundo: String;
 begin
   Result := FCorFundo;
@@ -159,6 +179,11 @@ end;
 function TTema.GetCorBlink: String;
 begin
   Result := FCorBlink;
+end;
+
+function TTema.GetCorBordaSelecao: String;
+begin
+  Result := FCorBordaSelecao;
 end;
 
 function TTema.GetCorReverso: String;
@@ -221,6 +246,11 @@ begin
   Result := FNome;
 end;
 
+function TTema.GetMascara: String;
+begin
+  Result := FMascara;
+end;
+
 { TTemas }
 
 constructor TTemas.Create(ANome: String);
@@ -278,4 +308,3 @@ begin
 end;
 
 end.
-
