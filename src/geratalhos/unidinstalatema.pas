@@ -74,6 +74,8 @@ begin
       Exit;
     ArquivoDestino := PastaDestino + ExtractFileName(ArquivoTema);
 
+    //TODO: Instalar fontes na pasta de Fontes do Windows
+
     //Copia o arquivo de tema para a pasta de temas
     if not CopyFile(ArquivoTema, ArquivoDestino) then
       raise EProgramaErro.Create(excecaoInstalarTema);

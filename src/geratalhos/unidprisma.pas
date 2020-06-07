@@ -164,6 +164,7 @@ begin
   FArquivoIni.WriteString('Accuterm', 'FontSize', FTema.FonteTamanho);
   FArquivoIni.WriteString('Accuterm', 'ScaleFont', FTema.FonteEscala);
   FArquivoIni.WriteString('Accuterm', 'AttributeMask', FTema.Mascara);
+  FArquivoIni.WriteString('Accuterm', 'BoldFont', FTema.FonteNegrito);
 
   FArquivoIni.WriteString('Palette', 'Color0', FTema.CorFundo);
   FArquivoIni.WriteString('Palette', 'Color1', FTema.FonteCor);

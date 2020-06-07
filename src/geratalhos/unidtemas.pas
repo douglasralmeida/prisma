@@ -21,6 +21,7 @@ type
     FFonteCorBlink: String;
     FFonteCorReverso: String;
     FFonteEscala: String;
+    FFonteNegrito: String;
     FFonteNome: String;
     FFonteTamanho: String;
     FImagemFundo: Boolean;
@@ -39,6 +40,7 @@ type
     function GetFonteCorBlink: String;
     function GetFonteCorReverso: String;
     function GetFonteEscala: String;
+    function GetFonteNegrito: String;
     function GetFonteNome: String;
     function GetFonteTamanho: String;
     function GetImagemFundo: Boolean;
@@ -61,6 +63,7 @@ type
     property FonteCorBlink: String read GetFonteCorBlink;
     property FonteCorReverso: String read GetFonteCorReverso;
     property FonteEscala: String read GetFonteEscala;
+    property FonteNegrito: String read GetFonteNegrito;
     property FonteNome: String read GetFonteNome;
     property FonteTamanho: String read GetFonteTamanho;
     property ImagemFundo: Boolean read GetImagemFundo;
@@ -143,6 +146,7 @@ begin
         FFonteCorBlink := IniFile.ReadString('CONTEUDO', 'CorFonteBlink', '');
         FFonteCorReverso := IniFile.ReadString('CONTEUDO', 'CorFonteReverso', '');
         FFonteEscala := IniFile.ReadString('CONTEUDO', 'EscalaFonte', '');
+        FFonteNegrito := IniFile.ReadString('CONTEUDO', 'FonteNegrito', 'False');
         FFonteNome := IniFile.ReadString('CONTEUDO', 'NomeFonte', '');
         FFonteTamanho := IniFile.ReadString('CONTEUDO', 'Tamanho', '');
         FImagemFundo := IniFile.ReadBool('CONTEUDO', 'ImagemFundo', false);
@@ -214,6 +218,11 @@ end;
 function TTema.GetFonteEscala: String;
 begin
   Result := FFonteEscala;
+end;
+
+function TTema.GetFonteNegrito: String;
+begin
+  Result := FFonteNegrito;
 end;
 
 function TTema.GetFonteNome: String;
