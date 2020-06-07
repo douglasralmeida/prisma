@@ -37,12 +37,13 @@ ScaleFont={}
 NormRows=25
 HistoryRows=400
 ScrollMode=0
-MessageRows=0
+MessageRows=1
 GmodeEnable=True
 MouseEnable=True
 ProtectAttr=4
-AttributeMask=74
+AttributeMask={}
 LockFKeys=0
+BackgroundPictureFile={}
 BackgroundPictureMode=0
 BackgroundTransparency={}
 CopyPasteShortcut=2
@@ -55,6 +56,8 @@ Sound=0,0
 BlockCursor=True
 PrinterFontBold=True
 PasteOptions=0
+BoldFont={}
+
 
 [Options]
 ToolBar=False
@@ -93,7 +96,7 @@ E2=0
 A3=0
 E3=0
 A4=35
-E4=0
+E4={}
 A5=102
 E5=0
 A6=50
