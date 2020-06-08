@@ -122,6 +122,7 @@ Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; V
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Configurações do Prisma"; Flags: uninsdeletekey; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""; Components: geratalhos;
+Root: HKLM; Subkey: "Software\INSS"; Flags: uninsdeletekeyifempty;
 Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Versao"; ValueData: "1.0.0"; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Pasta"; ValueData: "{app}";
 Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "accuterm"; ValueData: "1"; Components: accuterm;
