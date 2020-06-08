@@ -114,23 +114,23 @@ Name: "{group}\Configurações do PrismaPDF"; Filename: "{app}\config.exe"; Work
 Name: "{group}\Ajuda do Prisma"; Filename: "{app}\prisma.chm"; WorkingDir: "{app}"; Comment: "Veja a ajuda do Prisma."; Components: ajuda;
 
 [Registry]
-Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletevalue; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\.prt"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoTema.1"; Flags: uninsdeletekey; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Tema do Prisma"; Flags: uninsdeletekey; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,3"; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoTema.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\geratalhos.exe"" /it ""%1"""; Components: geratalhos;
-Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoConfig.1"; Flags: uninsdeletevalue; Components: geratalhos;
+Root: HKLM; Subkey: "Software\Classes\.prc"; ValueType: string; ValueName: ""; ValueData: "Prisma.ArquivoConfig.1"; Flags: uninsdeletekey; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string; ValueName: ""; ValueData: "Arquivo de Configurações do Prisma"; Flags: uninsdeletekey; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""; Components: geratalhos;
-Root: HKCU; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Versao"; ValueData: "1.0.0";
-Root: HKCU; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Pasta"; ValueData: "{app}";
-Root: HKCU; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "accuterm"; ValueData: "1"; Components: accuterm;
-Root: HKCU; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "geratalhos"; ValueData: "1"; Components: geratalhos;
-Root: HKCU; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "java"; ValueData: "1"; Components: java;
-Root: HKCU; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "pdfprisma"; ValueData: "1"; Components: pdfprisma;
-Root: HKCU; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "ajuda"; ValueData: "1"; Components: ajuda;
-Root: HKCU; Subkey: "Software\Asent\Atwin70\ScriptEditor\Settings"; ValueType: string; ValueName: "FontName"; ValueData: "Consolas"; Components: accuterm;
-Root: HKCU; Subkey: "Software\Asent\Atwin70\ScriptEditor\Settings"; ValueType: string; ValueName: "FontSize"; ValueData: "12"; Components: accuterm;
+Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Versao"; ValueData: "1.0.0"; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Pasta"; ValueData: "{app}";
+Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "accuterm"; ValueData: "1"; Components: accuterm;
+Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "geratalhos"; ValueData: "1"; Components: geratalhos;
+Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "java"; ValueData: "1"; Components: java;
+Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "pdfprisma"; ValueData: "1"; Components: pdfprisma;
+Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "ajuda"; ValueData: "1"; Components: ajuda;
+Root: HKCU; Subkey: "Software\Asent\Atwin70\ScriptEditor\Settings"; ValueType: string; ValueName: "FontName"; ValueData: "Consolas"; Flags: uninsdeletevalue; Components: accuterm;
+Root: HKCU; Subkey: "Software\Asent\Atwin70\ScriptEditor\Settings"; ValueType: string; ValueName: "FontSize"; ValueData: "12"; Flags: uninsdeletevalue; Components: accuterm;
 
 [Run]
 Filename: "{app}\geratalhos.exe"; Description: "Executar o Gerador de Atalhos do Prisma imediatamente."; Flags: nowait postinstall skipifsilent runasoriginaluser; Components: geratalhos;
@@ -158,6 +158,24 @@ Filename: "schtasks"; \
   Flags: runhidden; \
   StatusMsg: "Excluindo tarefas agendadas..."; \
   Components: pdfprisma;
+
+[UninstallDelete]
+Type: files; Name: "C:\cnislinha\*";
+Type: files; Name: "{app}\jre\bin\client\classes.jsa";
+Type: files; Name: "{commonpf}\Java\jre6\bin\java.exe";
+Type: files; Name: "{commonpf32}\Atwin71\atwin71.ini";
+Type: files; Name: "{commonpf32}\Atwin71\menu71.ini";
+Type: files; Name: "{commonpf32}\Atwin71\AtalhosSistemas.bas";
+Type: files; Name: "{commonpf32}\Atwin71\ScriptManCola.bas";
+Type: filesandordirs; Name: "{localappdata}\{#AppOrganization}\{#AppName}\*";
+Type: filesandordirs; Name: "{commonpf}\Java\jre6\*";
+Type: dirifempty; Name: "C:\cnislinha";
+Type: dirifempty; Name: "{app}\jre\bin\client";
+Type: dirifempty; Name: "{localappdata}\{#AppOrganization}\{#AppName}";
+Type: dirifempty; Name: "{localappdata}\{#AppOrganization}";
+Type: dirifempty; Name: "{commonpf}\Java\jre6";
+Type: dirifempty; Name: "{commonpf}\Java";
+Type: dirifempty; Name: "{commonpf32}\Atwin71";
 
 [Code]
 function CreateSoftLink(lpSymlinkFileName, lpTargetFileName: String; dwFlags: Integer): Boolean;
@@ -265,12 +283,6 @@ var
 begin
   if CurUninstallStep = usUninstall then
   begin
-    { Apaga do diretório Aplicativos do INSS se estiver vazio }
-
-    Diretorio := ExpandConstant('{commonpf}\{#SetupSetting("AppOrganization")}');
-    if DirEstaVazio(Diretorio) then
-      DelTree(Diretorio, True, True, True);
-
     { Versões beta usavam Aplicações do INSS\Gerador de Atalhos do Prisma }
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS\Gerador de Atalhos do Prisma');
     DelTree(Diretorio, True, True, True);
@@ -281,14 +293,5 @@ begin
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS');
     if DirEstaVazio(Diretorio) then
       DelTree(Diretorio, True, True, True);
-
-    { Apaga o softlink }
-    DeleteFile(ExpandConstant('{commonpf}\Java\jre6\bin\java.exe'));
-
-    { Apaga do diretório do softlink }
-    DelTree(ExpandConstant('{commonpf}\Java\jre6'), True, True, True);
-
-    { Apaga o diretório C:\cnislinha }
-    DelTree('C:\cnislinha', True, True, True);
   end;
 end;
