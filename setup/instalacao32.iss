@@ -4,7 +4,7 @@
 
 #define AppName "Prisma"
 #define AppOrganization "Aplicativos do INSS"
-#define AppVersion "1.0"
+#define AppVersion "1.0.1"
 #define AppPublisher "Instituto Nacional do Seguro Social"
 #define AppURL "https://github.com/douglasralmeida/prisma"
 
@@ -41,7 +41,7 @@ ShowLanguageDialog=no
 UninstallDisplayName={#AppName} Cliente {#AppVersion}
 UninstallDisplayIcon={app}\geratalhos.exe,5
 UninstallDisplaySize=75497472
-VersionInfoVersion=1.0.0
+VersionInfoVersion={#AppVersion}
 VersionInfoProductVersion={#AppVersion}
 WizardImageFile=..\res\instalagrande\*.bmp
 WizardSmallImageFile=..\res\instalapequeno\*.bmp
@@ -70,8 +70,13 @@ Name: "ajuda"; Description: "Ajuda e Documentação"; Types: compact custom full
 [Dirs]
 Name: "{localappdata}\{#AppOrganization}"; Flags: uninsalwaysuninstall; Components: geratalhos;
 Name: "{localappdata}\{#AppOrganization}\{#AppName}"; Flags: uninsalwaysuninstall; Components: geratalhos;
-Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Components: pdfprisma;
 Name: "{app}\jre"; Flags: uninsalwaysuninstall; Components: java;
+; O diretório abaixo é uma gambiarra para SO em idioma diferente da lingua portuguesa
+; pois o Prisma chama o componente lePdf com o comando C:\Arquiv~1... que só existe
+; no Windows em portugues.
+Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: IdiomaSOPortugues; Components: pdfprisma;
+Name: "C:\Arquiv~1\"; Flags: uninsalwaysuninstall; Check: not IdiomaSOPortugues; Components: pdfprisma;
+Name: "C:\Arquiv~1\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: not IdiomaSOPortugues; Components: pdfprisma;
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -123,7 +128,7 @@ Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1"; ValueType: string
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\geratalhos.exe,4"; Components: geratalhos;
 Root: HKLM; Subkey: "Software\Classes\Prisma.ArquivoConfig.1\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """%SystemRoot%\system32\NOTEPAD.EXE %1"""; Components: geratalhos;
 Root: HKLM; Subkey: "Software\INSS"; Flags: uninsdeletekeyifempty;
-Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Versao"; ValueData: "1.0.0"; Flags: uninsdeletekey;
+Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Versao"; ValueData: "{#AppVersion}"; Flags: uninsdeletekey;
 Root: HKLM; Subkey: "Software\INSS\Prisma"; ValueType: string; ValueName: "Pasta"; ValueData: "{app}";
 Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "accuterm"; ValueData: "1"; Components: accuterm;
 Root: HKLM; Subkey: "Software\INSS\Prisma\Componentes"; ValueType: string; ValueName: "geratalhos"; ValueData: "1"; Components: geratalhos;
@@ -162,14 +167,16 @@ Filename: "schtasks"; \
 
 [UninstallDelete]
 Type: files; Name: "C:\cnislinha\*";
-Type: files; Name: "{app}\jre\bin\client\classes.jsa";
-Type: files; Name: "{commonpf}\Java\jre6\bin\java.exe";
+Type: files; Name: "{app}\jre\bin\server\classes.jsa";
+Type: files; Name: "{commonpf}\Java\jre6\bin\java.exe"; Check: IdiomaSOPortugues;
 Type: files; Name: "{commonpf32}\Atwin71\atwin71.ini";
 Type: files; Name: "{commonpf32}\Atwin71\menu71.ini";
 Type: files; Name: "{commonpf32}\Atwin71\AtalhosSistemas.bas";
 Type: files; Name: "{commonpf32}\Atwin71\ScriptManCola.bas";
+Type: files; Name: "C:\Arquiv~1\Java\jre6\bin\java.exe"; Check: not IdiomaSOPortugues;
 Type: filesandordirs; Name: "{localappdata}\{#AppOrganization}\{#AppName}\*";
 Type: filesandordirs; Name: "{commonpf}\Java\jre6\*";
+Type: filesandordirs; Name: "C:\Arquiv~1\Java"; Check: not IdiomaSOPortugues;
 Type: dirifempty; Name: "C:\cnislinha";
 Type: dirifempty; Name: "{app}\jre\bin\client";
 Type: dirifempty; Name: "{localappdata}\{#AppOrganization}\{#AppName}";
@@ -177,18 +184,31 @@ Type: dirifempty; Name: "{localappdata}\{#AppOrganization}";
 Type: dirifempty; Name: "{commonpf}\Java\jre6";
 Type: dirifempty; Name: "{commonpf}\Java";
 Type: dirifempty; Name: "{commonpf32}\Atwin71";
+Type: dirifempty; Name: "C:\Arquiv~1"; Check: not IdiomaSOPortugues;
 
 [Code]
 function CreateSoftLink(lpSymlinkFileName, lpTargetFileName: String; dwFlags: Integer): Boolean;
   external 'CreateSymbolicLinkW@kernel32.dll stdcall';
 
+function IdiomaSOPortugues: Boolean;
+begin
+  Result := GetUILanguage and $3FF = $16;
+end;
+
 procedure CriarJavaLink;
 var
-  ExistingFile, LinkFile: string;
+  ArquivoReal, ArquivoFantasma: string;
 begin
-  ExistingFile := ExpandConstant('{app}\loader.exe');
-  LinkFile := ExpandConstant('{commonpf}\Java\jre6\bin\java.exe');
-  CreateSoftLink(LinkFile, ExistingFile, 0);
+  ArquivoReal := ExpandConstant('{app}\loader.exe');
+  ArquivoFantasma := ExpandConstant('{commonpf}\Java\jre6\bin\java.exe');
+  CreateSoftLink(ArquivoFantasma, ArquivoReal, 0);
+
+  //Gambiarra para SO diferente do Portugues (veja comentarios em [Dirs])
+  if not IdiomaSOPortugues then
+  begin
+    ArquivoFantasma := 'C:\Arquiv~1\Java\jre6\bin\java.exe';
+    CreateSoftLink(ArquivoFantasma, ArquivoReal, 0);
+  end;
 end;
 
 function DirEstaVazio(DirNome: String): Boolean;
@@ -280,7 +300,7 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
-  Diretorio: String;
+  ArquivoFantasma, Diretorio: String;
 begin
   if CurUninstallStep = usUninstall then
   begin
@@ -294,5 +314,12 @@ begin
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS');
     if DirEstaVazio(Diretorio) then
       DelTree(Diretorio, True, True, True);
+
+    { Apaga a gambiarra criada em SO diferente da lingua portuguesa (veja comentarios em [Dirs] }
+    if not IdiomaSOPortugues then
+    begin
+      ArquivoFantasma := 'C:\Arquiv~1\Java\jre6\bin\java.exe';
+      DeleteFile(ArquivoFantasma);
+    end;
   end;
 end;
