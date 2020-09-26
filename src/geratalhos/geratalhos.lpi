@@ -20,7 +20,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="310"/>
-      <BuildNr Value="1"/>
+      <BuildNr Value="2"/>
       <Language Value="0416"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Douglas R. Almeida" FileDescription="Gerador de Atalhos do Prisma" InternalName="GERATALHOS" LegalCopyright="Programa sem direitos autorais. Uso livre." OriginalFilename="geratalhos.exe" ProductName="Cliente Prisma" ProductVersion="1.0"/>
