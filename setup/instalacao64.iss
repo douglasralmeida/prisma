@@ -75,9 +75,9 @@ Name: "{app}\jre"; Flags: uninsalwaysuninstall; Components: java;
 ; O diretório abaixo é uma gambiarra para SO em idioma diferente da lingua portuguesa
 ; pois o Prisma chama o componente lePdf com o comando C:\Arquiv~1... que só existe
 ; no Windows em portugues.
-Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: IdiomaSOPortugues; Components: pdfprisma;
-Name: "C:\Arquiv~1\"; Flags: uninsalwaysuninstall; Check: not IdiomaSOPortugues; Components: pdfprisma;
-Name: "C:\Arquiv~1\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: not IdiomaSOPortugues; Components: pdfprisma;
+Name: "{pf}\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: ArquivosProgramaExiste; Components: pdfprisma;
+Name: "C:\Arquiv~1\"; Flags: uninsalwaysuninstall; Check: not ArquivosProgramaExiste; Components: pdfprisma;
+Name: "C:\Arquiv~1\Java\jre6\bin"; Flags: uninsalwaysuninstall; Check: not ArquivosProgramaExiste; Components: pdfprisma;
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -169,15 +169,15 @@ Filename: "schtasks"; \
 [UninstallDelete]
 Type: files; Name: "C:\cnislinha\*";
 Type: files; Name: "{app}\jre\bin\server\classes.jsa";
-Type: files; Name: "{commonpf}\Java\jre6\bin\java.exe"; Check: IdiomaSOPortugues;
+Type: files; Name: "{commonpf}\Java\jre6\bin\java.exe"; Check: ArquivosProgramaExiste;
 Type: files; Name: "{commonpf32}\Atwin71\atwin71.ini";
 Type: files; Name: "{commonpf32}\Atwin71\menu71.ini";
 Type: files; Name: "{commonpf32}\Atwin71\AtalhosSistemas.bas";
 Type: files; Name: "{commonpf32}\Atwin71\ScriptManCola.bas";
-Type: files; Name: "C:\Arquiv~1\Java\jre6\bin\java.exe"; Check: not IdiomaSOPortugues;
+Type: files; Name: "C:\Arquiv~1\Java\jre6\bin\java.exe"; Check: not ArquivosProgramaExiste;
 Type: filesandordirs; Name: "{localappdata}\{#AppOrganization}\{#AppName}\*";
 Type: filesandordirs; Name: "{commonpf}\Java\jre6\*";
-Type: filesandordirs; Name: "C:\Arquiv~1\Java"; Check: not IdiomaSOPortugues;
+Type: filesandordirs; Name: "C:\Arquiv~1\Java"; Check: not ArquivosProgramaExiste;
 Type: dirifempty; Name: "C:\cnislinha";
 Type: dirifempty; Name: "{app}\jre\bin\client";
 Type: dirifempty; Name: "{localappdata}\{#AppOrganization}\{#AppName}";
@@ -185,15 +185,19 @@ Type: dirifempty; Name: "{localappdata}\{#AppOrganization}";
 Type: dirifempty; Name: "{commonpf}\Java\jre6";
 Type: dirifempty; Name: "{commonpf}\Java";
 Type: dirifempty; Name: "{commonpf32}\Atwin71";
-Type: dirifempty; Name: "C:\Arquiv~1"; Check: not IdiomaSOPortugues;
+Type: dirifempty; Name: "C:\Arquiv~1"; Check: not ArquivosProgramaExiste;
 
 [Code]
 function CreateSoftLink(lpSymlinkFileName, lpTargetFileName: String; dwFlags: Integer): Boolean;
   external 'CreateSymbolicLinkW@kernel32.dll stdcall';
 
-function IdiomaSOPortugues: Boolean;
+function PathIsDirectory(pszPath: String): Boolean;
+  external 'PathIsDirectoryW@shlwapi.dll stdcall';
+
+function ArquivosProgramaExiste: Boolean;
 begin
-  Result := GetUILanguage and $3FF = $16;
+  //Result := GetUILanguage and $3FF = $16;
+  Result := PathIsDirectory('C:\Arquiv~1');
 end;
 
 procedure CriarJavaLink;
@@ -205,7 +209,7 @@ begin
   CreateSoftLink(ArquivoFantasma, ArquivoReal, 0);
 
   //Gambiarra para SO diferente do Portugues (veja comentarios em [Dirs])
-  if not IdiomaSOPortugues then
+  if not ArquivosProgramaExiste then
   begin
     ArquivoFantasma := 'C:\Arquiv~1\Java\jre6\bin\java.exe';
     CreateSoftLink(ArquivoFantasma, ArquivoReal, 0);
@@ -301,7 +305,7 @@ end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 var
-  ArquivoFantasma, Diretorio: String;
+  Diretorio: String;
 begin
   if CurUninstallStep = usUninstall then
   begin
@@ -315,12 +319,5 @@ begin
     Diretorio := ExpandConstant('{userappdata}\Aplicações do INSS');
     if DirEstaVazio(Diretorio) then
       DelTree(Diretorio, True, True, True);
-
-    { Apaga a gambiarra criada em SO diferente da lingua portuguesa (veja comentarios em [Dirs] }
-    if not IdiomaSOPortugues then
-    begin
-      ArquivoFantasma := 'C:\Arquiv~1\Java\jre6\bin\java.exe';
-      DeleteFile(ArquivoFantasma);
-    end;
   end;
 end;
